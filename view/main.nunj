@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+{% import "utils.nunj" as util %}
+
+{{ util.head('title') }}
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+    {{ util.header("username","/asset/AdminLTE/img/user2-160x160.jpg","user description") }}
+    {{ util.sidebar(
+    [
+    {
+        header:"MENU HEADER",
+        items:[{
+            active:true,
+            name:"menu1",
+            herf:"##"
+        }]
+    }
+    ]) }}
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        {{ util.content_header("Page title","desrciption",["main","test"]) }}
+        <!-- Main content -->
+        <section class="content">
+
+            <!-- Your Page Content Here -->
+
+        </section>
+        <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+    {{ util.footer() }}
+</div>
+{{ util.js() }}
+</body>
+</html>
