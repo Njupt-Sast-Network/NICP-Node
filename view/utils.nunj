@@ -98,7 +98,7 @@
                     {% for item in menu.items %}
                         <li class="{{ "active" if item.active }}">
                             <a href="{{ item.herf }}">
-                                <i class="fa fa-link"></i>
+                                <i class="fa {{ item.icon }}"></i>
                                 <span>{{ item.name }}</span>
                             </a>
                         </li>

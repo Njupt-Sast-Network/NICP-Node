@@ -18,7 +18,7 @@ router.use(session());
 //路由
 router.post("/logout",logout);
 router.all("/team/login/*", team.login.routes(), team.login.allowedMethods());
-router.all("/team/*", verifyAuth(Roles.team), team.routes(), team.allowedMethods());
+router.all("/team/*", /*verifyAuth(Roles.team),*/ team.routes(), team.allowedMethods());
 
 
 module.exports = router;

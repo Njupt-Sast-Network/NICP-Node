@@ -12,6 +12,18 @@ Team.sync({force:true})
             password:"wxy"
         });
     });
+
+const News =  require("./news");
+db.News=News;
+News.sync({force:true})
+    .then(function () {
+        db.News.create({
+            title:"test123123",
+            content:"testtesttest",
+            author:"wxy",
+            role:0,
+        });
+    });
 // init
 
 
