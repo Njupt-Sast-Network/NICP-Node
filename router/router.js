@@ -3,7 +3,7 @@ const session = require('koa-generic-session');
 const views = require('koa-view');
 const path = require('path');
 const team = require('../controller/team');
-
+const admin = require('../controller/admin');
 const {Roles, verifyAuth ,logout} = require('./auth');
 
 //模版
@@ -17,9 +17,12 @@ router.use(session());
 
 //路由
 router.post("/logout",logout);
+
 router.all("/team/login/*", team.login.routes(), team.login.allowedMethods());
 router.all("/team/*", /*verifyAuth(Roles.team),*/ team.routes(), team.allowedMethods());
 
+router.all("/admin/login/*", admin.login.routes(), admin.login.allowedMethods());
+router.all("/admin/*", /*verifyAuth(Roles.admin),*/ admin.routes(), admin.allowedMethods());
 
 module.exports = router;
 

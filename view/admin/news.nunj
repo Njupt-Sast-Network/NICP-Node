@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+{% import "../utils.nunj" as util %}
+
+{{ util.head("通知公告管理") }}
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+    {{ util.header("username","/asset/AdminLTE/img/user2-160x160.jpg","user description") }}
+    {{ util.sidebar(
+    [
+    {
+        header:"后台管理",
+        items:[{
+        active:true,
+        name:"通知公告管理",
+        icon:"fa-newspaper-o",
+        herf:"##"
+    },{
+        active:false,
+        name:"队伍信息管理",
+        icon:"fa-link",
+        herf:"##"
+    },{
+        active:false,
+        name:"评委信息管理",
+        icon:"fa-link",
+        herf:"##"
+    },{
+        active:false,
+        name:"文件上传管理",
+        icon:"fa-link",
+        herf:"##"
+    },{
+        active:false,
+        name:"密码修改",
+        icon:"fa-link",
+        herf:"##"
+    }]
+    }
+    ]) }}
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        {{ util.content_header("通知公告管理","关于公告的一切",["后台管理","通知公告管理"]) }}
+        <!-- Main content -->
+        <section class="content">
+
+            <!-- Your Page Content Here -->
+                <div class="box">
+                    <!-- /.box-header -->
+                    <div class="box-body table-responsive no-padding">
+                        <table class="table table-hover">
+                            <tbody>
+                            <tr>
+                                <th>序号</th>
+                                <th>标题</th>
+                                <th>作者</th>
+                                <th>添加日期</th>
+                                <th>阅读量</th>
+                                <th>操作</th>
+                            </tr>
+                            {% for news in newsList %}
+                                <tr>
+                                    <th>{{ news.id }}</th>
+                                    <th>{{ news.title }}</th>
+                                    <th>{{ news.author }}</th>
+                                    <th>{{ news.createdAt }}</th>
+                                    <th>{{ news.viewCount }}</th>
+                                    <th>
+                                        <div class="btn-group">
+                                            <a type="button" class="btn btn-warning btn-sm" href="news/edit/{{ news.id }}">编辑</a>
+                                            <a type="button" class="btn btn-danger btn-sm" href="news/delete/{{ news.id }}">删除</a>
+                                        </div>
+                                    </th>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+
+        </section>
+        <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+    {{ util.footer() }}
+</div>
+{{ util.js() }}
+</body>
+</html>

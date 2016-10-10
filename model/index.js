@@ -2,14 +2,14 @@ const sequelize = require('./db');
 
 
 let db = {};
-
+// init
 const Team =  require("./team");
 db.Team=Team;
 Team.sync({force:true})
     .then(function () {
         db.Team.create({
             username:"wxy",
-            password:"wxy"
+            password:"123wxy"
         });
     });
 
@@ -24,8 +24,16 @@ News.sync({force:true})
             role:0,
         });
     });
-// init
 
+const Admin =  require("./admin");
+db.Admin=Admin;
+Admin.sync({force:true})
+    .then(function (database) {
+        database.create({
+            username:"wxy",
+            password:"123wxy"
+        });
+    });
 
 module.exports=db;
 
