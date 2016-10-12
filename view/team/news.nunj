@@ -54,7 +54,7 @@
                     </div>
                 </div>
                 <div class="box-body">
-                    {{ news.content }}
+                    {{ news.content | safe  }}
                 </div>
                 <!-- /.box-body -->
                 <div class="box-footer">

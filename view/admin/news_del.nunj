@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+{% import "../utils.nunj" as util %}
+
+{{ util.head("通知公告管理") }}
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+    {{ util.header("username","/asset/AdminLTE/img/user2-160x160.jpg","user description") }}
+    {{ util.sidebar(
+    [
+    {
+        header:"后台管理",
+        items:[{
+        active:true,
+        name:"通知公告管理",
+        icon:"fa-newspaper-o",
+        herf:"##"
+    },{
+        active:false,
+        name:"队伍信息管理",
+        icon:"fa-link",
+        herf:"##"
+    },{
+        active:false,
+        name:"评委信息管理",
+        icon:"fa-link",
+        herf:"##"
+    },{
+        active:false,
+        name:"文件上传管理",
+        icon:"fa-link",
+        herf:"##"
+    },{
+        active:false,
+        name:"密码修改",
+        icon:"fa-link",
+        herf:"##"
+    }]
+    }
+    ]) }}
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        {{ util.content_header("通知公告管理","关于公告的一切",["后台管理","通知公告管理","删除通知公告"]) }}
+        <!-- Main content -->
+        <section class="content">
+            <!-- Your Page Content Here -->
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">删除通知公告</h3>
+                </div>
+                <form class="form-horizontal" method="POST" action="">
+                    <div class="box-body">
+                            <h2>你确认要删除 {{ news.title }} 么。</h2>
+                        <input type="hidden" value="{{ news.id }}" name="id"  />
+                    </div>
+
+                    <div class="box-footer">
+                        <button type="submit" class="btn btn-danger">确认</button>
+                    </div>
+                </form>
+            </div>
+            <!-- /.box -->
+        </section>
+        <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+    {{ util.footer() }}
+</div>
+{{ util.js() }}
+</body>
+</html>

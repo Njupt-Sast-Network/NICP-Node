@@ -34,7 +34,11 @@ let team = require('koa-router')();
 //     yield this.render('team/news');
 // });
 team.get('*/news', function *(next) {
-    let newsList = yield this.db.News.findAll();
+    let newsList = yield this.db.News.findAll({
+        where:{
+            role:Roles.team,
+        }
+    });
     console.log(newsList);
     yield this.render('team/news',{
         title: "通知公告",

@@ -24,7 +24,7 @@ login.post('*/', function *(next) {
     if (userInfo.username === username) {
         this.session.id = userInfo.id;
         this.session.name = userInfo.username;
-        this.session.role = Roles.Admin;
+        this.session.role = Roles.admin;
     }
 });
 
@@ -33,14 +33,53 @@ let admin = require('koa-router')();
 // admin.get('*/', function *(next) {
 //     yield this.render('team/news');
 // });
-admin.get('*/news', function *(next) {
+admin.get('*/news/', function *(next) {
     let newsList = yield this.db.News.findAll();
-    yield this.render('admin/news',{
-        title: "通知公告",
-        name: "通知公告",
-        newsList:newsList
+    yield this.render('admin/news', {
+        newsList: newsList,
+        roles:Roles,
     });
 });
+admin.get('*/news/add/', function *(next) {
+    yield this.render('admin/news_add',{
+        roles: Roles,
+    });
+});
+admin.post('*/news/add/', function *(next) {
+    yield this.db.News.create(this.request.fields);
+    this.redirect('../');
+});
 
+admin.get('*/news/edit/:id/', function *(next) {
+    let news = yield this.db.News.findById(this.params.id);
+    yield this.render('admin/news_edit', {
+        news: news,
+        roles: Roles,
+    });
+});
+admin.post('*/news/edit/:id/', function *(next) {
+    yield this.db.News.update(this.request.fields, {
+        where: {
+            id: this.params.id,
+        }
+    });
+    this.redirect('../../');
+});
+
+admin.get('*/news/del/:id/', function *(next) {
+    let news = yield this.db.News.findById(this.params.id);
+    yield this.render('admin/news_del', {
+        news: news,
+        roles: Roles,
+    });
+});
+admin.post('*/news/del/:id/', function *(next) {
+    yield this.db.News.destroy({
+        where: {
+            id: this.params.id,
+        }
+    });
+    this.redirect('../../');
+});
 admin.login = login;
 module.exports = admin;

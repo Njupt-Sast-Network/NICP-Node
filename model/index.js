@@ -21,7 +21,7 @@ News.sync({force:true})
             title:"test123123",
             content:"testtesttest",
             author:"wxy",
-            role:0,
+            role:1,
         });
     });
 
