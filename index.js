@@ -15,7 +15,7 @@ app.context.jsonModel = jsonModel;
 // Config
 app.keys = ['www', 'hhh'];
 app.context.cfg = {
-    siteName: "NICP"
+    siteName: "“创新杯”",
 };
 
 
