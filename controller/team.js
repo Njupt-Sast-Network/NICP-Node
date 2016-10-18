@@ -64,6 +64,7 @@ team.post('*/info/first_author/', function *(next) {
     let result = this.jsonModel.validate(this.request.fields,this.jsonModel.first_author);
     if(result===undefined){
         infoData.set("firstAuthor",this.request.fields);
+        infoData.set("firstAuthorId",this.request.fields.studentID);
         yield infoData.save();
         this.body={status:"success"};
     }else{
