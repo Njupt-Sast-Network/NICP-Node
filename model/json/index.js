@@ -18,6 +18,9 @@ models.validate = function (data, model) {
     validate.validators.type = function (value, options, key, attributes) {
         return undefined;
     };
+    validate.validators.showInList = function (value, options, key, attributes) {
+        return undefined;
+    };
 
     validate.extend(validate.validators.datetime, {
         // The value is guaranteed not to be null or undefined but otherwise it

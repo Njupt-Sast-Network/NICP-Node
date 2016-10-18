@@ -291,6 +291,10 @@
 {% endmacro %}
 
 {% macro makeFormJS() %}
+    <!-- bootstrap datepicker -->
+    <script src="/asset/plugins/datepicker/bootstrap-datepicker.js"></script>
+    <script src="/asset/plugins/jQuery-form/jquery.form.min.js"></script>
+    <!-- Page script -->
     <script>
         $(function () {
             //Date picker
@@ -306,7 +310,7 @@
                     if (resp.status == "success") {
                         alert("保存成功");
                     } else if (resp.status == "error") {
-                        alert("保存失败，相关信息：" + resp.data);
+                        alert("保存失败，相关信息：" + JSON.stringify(resp.data));
                     } else {
                         alert("未知错误");
                     }
@@ -331,7 +335,7 @@
             <tbody>
             <tr>
                 {% for key,value in validateData %}
-                    {% if value.showInList %}
+                    {% if ("showInList" in value) and value.showInList %}
                         <th>{{ value.title }}</th>
                     {% endif %}
                 {% endfor %}
@@ -340,15 +344,15 @@
                 <tr>
                     {% for key,value1 in validateData %}
                         {% if value1.showInList %}
-                            <th>{{ data[key] }}</th>
+                            <td>{{ data[key] }}</td>
                         {% endif %}
                     {% endfor %}
-                    <th>
+                    <td>
                         <div class="btn-group">
                             <a type="button" class="btn btn-warning btn-sm" href="edit/{{ value.id }}/">编辑</a>
                             <a type="button" class="btn btn-danger btn-sm" href="del/{{ value.id }}/">删除</a>
                         </div>
-                    </th>
+                    </td>
                 </tr>
             {% endfor %}
             </tbody>
