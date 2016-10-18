@@ -167,5 +167,25 @@ admin.post('*/team/edit/:team_id/teacher/:id/', function *(next) {
 
 });
 
+admin.get('*/team/edit_project/:id/', function *(next) {
+    let infoData=yield this.db.Team.findById(this.params.id);
+    yield this.render('team/project',{
+        jsonModel:this.jsonModel,
+        projectData:infoData.project,
+    });
+});
+admin.post('*/team/edit_project/:id/', function *(next) {
+    let infoData=yield this.db.Team.findById(this.params.id);
+    let result = this.jsonModel.validate(this.request.fields,this.jsonModel.project);
+    if(result===undefined){
+        infoData.set("project",this.request.fields);
+        yield infoData.save();
+        this.body={status:"success"};
+    }else{
+        this.body={status:"error",data:result};
+    }
+
+});
+
 admin.login = login;
 module.exports = admin;

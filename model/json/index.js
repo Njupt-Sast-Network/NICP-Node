@@ -7,7 +7,7 @@ let moment = require("moment");
 models.first_author = require('./first_author');
 models.other_author = require('./other_author');
 models.teacher = require('./teacher');
-
+models.project = require('./project');
 
 models.validate = function (data, model) {
 
@@ -19,6 +19,9 @@ models.validate = function (data, model) {
         return undefined;
     };
     validate.validators.showInList = function (value, options, key, attributes) {
+        return undefined;
+    };
+    validate.validators.placeHolder = function (value, options, key, attributes) {
         return undefined;
     };
 

@@ -67,7 +67,8 @@
                                     <td>{{ team.firstAuthorId }}</td>
                                     <td>
                                         <div class="btn-group">
-                                            <a type="button" class="btn btn-warning btn-sm" href="edit/{{ team.id }}/">编辑</a>
+                                            <a type="button" class="btn btn-warning btn-sm" href="edit/{{ team.id }}/">编辑队伍信息</a>
+                                            <a type="button" class="btn btn-warning btn-sm" href="edit_project/{{ team.id }}/">编辑项目信息</a>
                                             <a type="button" class="btn btn-danger btn-sm" href="del/{{ team.id }}/">删除</a>
                                         </div>
                                     </td>

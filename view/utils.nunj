@@ -208,10 +208,9 @@
                         <!-- textarea -->
                         <div class="form-group">
                             <label class="col-sm-4 control-label">{{ field.title }}</label>
-                            <textarea class="col-sm-5 form-control" name="{{ id }}" rows="3"
+                            <textarea class="col-sm-5 form-control" name="{{ id }}" rows="30"
                                       maxlength={{ field.length.maximum }}
-                                      value="{{ data[id] }}"
-                                      placeholder="{{ field.placeHolder }}"></textarea>
+                                      placeholder="{{ field.placeHolder }}">{{ data[id] }}</textarea>
                         </div>
                     {% endif %}
 
