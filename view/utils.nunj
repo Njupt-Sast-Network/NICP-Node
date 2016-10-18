@@ -18,12 +18,7 @@
     -->
     <link rel="stylesheet" href="/asset/AdminLTE/css/skins/skin-blue.min.css">
 
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]-->
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <!--[endif]-->
+
 {% endmacro %}
 
 
@@ -105,15 +100,15 @@
                     {% endfor %}
                 {% endfor %}
                 {#<li class="treeview">#}
-                    {#<a href="#"><i class="fa fa-link"></i> <span>Multilevel</span>#}
-                        {#<span class="pull-right-container">#}
-                            {#<i class="fa fa-angle-left pull-right"></i>#}
-                        {#</span>#}
-                    {#</a>#}
-                    {#<ul class="treeview-menu">#}
-                        {#<li><a href="#">Link in level 2</a></li>#}
-                        {#<li><a href="#">Link in level 2</a></li>#}
-                    {#</ul>#}
+                {#<a href="#"><i class="fa fa-link"></i> <span>Multilevel</span>#}
+                {#<span class="pull-right-container">#}
+                {#<i class="fa fa-angle-left pull-right"></i>#}
+                {#</span>#}
+                {#</a>#}
+                {#<ul class="treeview-menu">#}
+                {#<li><a href="#">Link in level 2</a></li>#}
+                {#<li><a href="#">Link in level 2</a></li>#}
+                {#</ul>#}
                 {#</li>#}
             </ul>
             <!-- /.sidebar-menu -->
@@ -152,19 +147,212 @@
 {% endmacro %}
 
 {% macro js() %}
-<!-- ./wrapper -->
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]-->
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <!--[endif]-->
+    <!-- REQUIRED JS SCRIPTS -->
 
-<!-- REQUIRED JS SCRIPTS -->
+    <!-- jQuery 2.2.3 -->
+    <script src="/asset/plugins/jQuery/jquery-2.2.3.min.js"></script>
+    <!-- Bootstrap 3.3.6 -->
+    <script src="/asset/bootstrap/js/bootstrap.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="/asset/AdminLTE/js/app.min.js"></script>
 
-<!-- jQuery 2.2.3 -->
-<script src="/asset/plugins/jQuery/jquery-2.2.3.min.js"></script>
-<!-- Bootstrap 3.3.6 -->
-<script src="/asset/bootstrap/js/bootstrap.min.js"></script>
-<!-- AdminLTE App -->
-<script src="/asset/AdminLTE/js/app.min.js"></script>
+    <!-- Optionally, you can add Slimscroll and FastClick plugins.
+         Both of these plugins are recommended to enhance the
+         user experience. Slimscroll is required when using the
+         fixed layout. -->
+{% endmacro %}
 
-<!-- Optionally, you can add Slimscroll and FastClick plugins.
-     Both of these plugins are recommended to enhance the
-     user experience. Slimscroll is required when using the
-     fixed layout. -->
+{% macro makeForm(title,address,validateData,data) %}
+    <div class="box">
+        {#{{ data |dump }}#}
+        {#{{ validateData |dump }}#}
+        <div class="box-header with-border">
+            <h3 class="box-title">{{ title }}</h3>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body">
+            <form role="form" method="post" action="{{ address }}" class="auto-make-form form-horizontal">
+                {% for id,field in validateData %}
+                    {#{{ id }}---{{ field.type }}#}
+                    {% if field.type=="text" %}
+                        <!-- text input -->
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">{{ field.title }}</label>
+                            <div class="col-sm-5">
+                                <input type="text" name="{{ id }}"
+                                       class="form-control" maxlength="{{ field.length.maximum }}"
+                                       size="{{ field.length.maximum }}"
+                                       placeholder="{{ field.placeHolder }}"
+                                       value="{{ data[id] }}"
+                                >
+                            </div>
+                        </div>
+                    {% endif %}
+                    {% if field.type=="date" %}
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">{{ field.title }}</label>
+                            <div class="col-sm-5 date">
+                                <input type="text" name="{{ id }}" class="form-control pull-right datepicker"
+                                       value="{{ data[id] }}">
+                            </div>
+                            <!-- /.input group -->
+                        </div>
+                    {% endif %}
+                    {% if field.type=="textarea" %}
+                        <!-- textarea -->
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">{{ field.title }}</label>
+                            <textarea class="col-sm-5 form-control" name="{{ id }}" rows="3"
+                                      maxlength={{ field.length.maximum }}
+                                      value="{{ data[id] }}"
+                                      placeholder="{{ field.placeHolder }}"></textarea>
+                        </div>
+                    {% endif %}
+
+                    {% if field.type=="checkbox" %}
+                        {#TODO:实现 checkbox#}
+                        <!-- checkbox -->
+                        <div class="form-group">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox">
+                                    Checkbox 1
+                                </label>
+                            </div>
+
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox">
+                                    Checkbox 2
+                                </label>
+                            </div>
+
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" disabled>
+                                    Checkbox disabled
+                                </label>
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    {% if field.type=="radio" %}
+                        <!-- radio -->
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">{{ field.title }}</label>
+                            <div class="col-sm-5 ">
+                                {% for option,value in field.inclusion.within %}
+                                    <div class="radio">
+                                        <label>
+                                            <input type="radio" name="{{ id }}"
+                                                   id="{{ field.title }}-{{ option }}"
+                                                   value="{{ option }}"
+                                                    {{ "checked" if data[id]==option }}>
+                                            {{ value }}
+                                        </label>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    {% if field.type=="select" %}
+                        {#TODO:实现 select#}
+                        <!-- select -->
+                        <div class="form-group">
+                            <label>Select</label>
+                            <select class="form-control">
+                                <option>option 1</option>
+                                <option>option 2</option>
+                                <option>option 3</option>
+                                <option>option 4</option>
+                                <option>option 5</option>
+                            </select>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+                <div class="box-footer">
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary">保存</button>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+        <!-- /.box-body -->
+    </div>
+    <!-- /.box -->
+{% endmacro %}
+
+{% macro makeFormJS() %}
+    <script>
+        $(function () {
+            //Date picker
+            $('.datepicker').datepicker({
+                format: 'yyyy-mm-dd'
+            });
+            $('.auto-make-form').submit(function (event) {
+                event.preventDefault();
+                //TODO:前端验证表单
+                $(this).find('button').addClass("disabled").prop("disabled", true);
+                var that = this;
+                $(this).ajaxSubmit(function (resp) {
+                    if (resp.status == "success") {
+                        alert("保存成功");
+                    } else if (resp.status == "error") {
+                        alert("保存失败，相关信息：" + resp.data);
+                    } else {
+                        alert("未知错误");
+                    }
+                    $(that).find('button').removeClass("disabled").prop("disabled", false);
+                });
+                return false;
+            });
+        });
+
+    </script>
+{% endmacro %}
+
+{% macro makeTable(title,validateData,data) %}
+    <div class="box">
+    <div class="box-header with-border">
+        <a type="button" class="btn pull-right btn-success" href="add/">添加</a>
+    </div>
+
+    <!-- /.box-header -->
+    <div class="box-body table-responsive no-padding">
+        <table class="table table-hover">
+            <tbody>
+            <tr>
+                {% for key,value in validateData %}
+                    {% if value.showInList %}
+                        <th>{{ value.title }}</th>
+                    {% endif %}
+                {% endfor %}
+            </tr>
+            {% for value in data %}
+                <tr>
+                    {% for key,value1 in validateData %}
+                        {% if value1.showInList %}
+                            <th>{{ data[key] }}</th>
+                        {% endif %}
+                    {% endfor %}
+                    <th>
+                        <div class="btn-group">
+                            <a type="button" class="btn btn-warning btn-sm" href="edit/{{ value.id }}/">编辑</a>
+                            <a type="button" class="btn btn-danger btn-sm" href="del/{{ value.id }}/">删除</a>
+                        </div>
+                    </th>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <!-- /.box-body -->
 {% endmacro %}

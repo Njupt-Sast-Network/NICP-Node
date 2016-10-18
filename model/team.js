@@ -18,15 +18,19 @@ var Team = sequelize.define('team', {
     },
     firstAuthor: {
         type: Sequelize.JSONB,
+        defaultValue: {}
     },
     otherAuthors: {
         type: Sequelize.JSONB,
+        defaultValue: [{}, {}, {}],
     },
     project: {
         type: Sequelize.JSONB,
+        defaultValue: {}
     },
     teachers: {
         type: Sequelize.JSONB,
+        defaultValue: [{}, {}]
     }
 }, {
     indexes: [
