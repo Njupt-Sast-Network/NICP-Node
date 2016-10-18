@@ -65,18 +65,18 @@
                             </tr>
                             {% for news in newsList %}
                                 <tr>
-                                    <th>{{ news.id }}</th>
-                                    <th>{{ news.title }}</th>
-                                    <th>{{ news.author }}</th>
-                                    <th>{{ "评委" if news.role==roles.judger else "参赛队伍"}}</th>
-                                    <th>{{ news.createdAt }}</th>
-                                    <th>{{ news.viewCount }}</th>
-                                    <th>
+                                    <td>{{ news.id }}</td>
+                                    <td>{{ news.title }}</td>
+                                    <td>{{ news.author }}</td>
+                                    <td>{{ "评委" if news.role==roles.judger else "参赛队伍"}}</td>
+                                    <td>{{ news.createdAt }}</td>
+                                    <td>{{ news.viewCount }}</td>
+                                    <td>
                                         <div class="btn-group">
                                             <a type="button" class="btn btn-warning btn-sm" href="edit/{{ news.id }}/">编辑</a>
                                             <a type="button" class="btn btn-danger btn-sm" href="del/{{ news.id }}/">删除</a>
                                         </div>
-                                    </th>
+                                    </td>
                                 </tr>
                             {% endfor %}
                             </tbody>
