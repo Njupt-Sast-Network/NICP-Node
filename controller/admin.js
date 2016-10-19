@@ -35,13 +35,13 @@ let admin = require('koa-router')();
 // });
 admin.get('*/news/', function *(next) {
     let newsList = yield this.db.News.findAll();
-    yield this.render('admin/news', {
+    yield this.render('admin/news/index', {
         newsList: newsList,
         roles:Roles,
     });
 });
 admin.get('*/news/add/', function *(next) {
-    yield this.render('admin/news_add',{
+    yield this.render('admin/news/add',{
         roles: Roles,
     });
 });
@@ -52,7 +52,7 @@ admin.post('*/news/add/', function *(next) {
 
 admin.get('*/news/edit/:id/', function *(next) {
     let news = yield this.db.News.findById(this.params.id);
-    yield this.render('admin/news_edit', {
+    yield this.render('admin/news/edit', {
         news: news,
         roles: Roles,
     });
@@ -68,7 +68,7 @@ admin.post('*/news/edit/:id/', function *(next) {
 
 admin.get('*/news/del/:id/', function *(next) {
     let news = yield this.db.News.findById(this.params.id);
-    yield this.render('admin/news_del', {
+    yield this.render('admin/news/del', {
         news: news,
         roles: Roles,
     });
@@ -85,12 +85,12 @@ admin.post('*/news/del/:id/', function *(next) {
 //team
 admin.get('*/team/',function *(next) {
     let teamList = yield this.db.Team.findAll();
-    yield this.render('admin/team', {
+    yield this.render('admin/team/index', {
         teamList: teamList,
     });
 });
 admin.get('*/team/add/', function *(next) {
-    yield this.render('admin/team_add');
+    yield this.render('admin/team/add');
 });
 admin.post('*/team/add/', function *(next) {
     yield this.db.Team.create(this.request.fields);
@@ -101,7 +101,7 @@ admin.post('*/team/add/', function *(next) {
 
 admin.get('*/team/del/:id/', function *(next) {
     let team = yield this.db.Team.findById(this.params.id);
-    yield this.render('admin/team_del', {
+    yield this.render('admin/team/del', {
         team: team,
     });
 });
@@ -116,7 +116,7 @@ admin.post('*/team/del/:id/', function *(next) {
 
 admin.get('*/team/edit/:team_id/', function *(next) {
     let team = yield this.db.Team.findById(this.params.team_id);
-    yield this.render('admin/team_edit', {
+    yield this.render('admin/team/edit', {
         jsonModel:this.jsonModel,
         firstAuthorData:team.firstAuthor,
         otherAuthorData:team.otherAuthors,
@@ -169,7 +169,7 @@ admin.post('*/team/edit/:team_id/teacher/:id/', function *(next) {
 
 admin.get('*/team/edit_project/:id/', function *(next) {
     let infoData=yield this.db.Team.findById(this.params.id);
-    yield this.render('team/project',{
+    yield this.render('admin/team/edit_project',{
         jsonModel:this.jsonModel,
         projectData:infoData.project,
     });

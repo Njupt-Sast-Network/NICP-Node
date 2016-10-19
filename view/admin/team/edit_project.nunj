@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+{% import "../../utils.nunj" as util %}
+{% import "../main.nunj" as main %}
+{{ util.head("队伍信息管理") }}
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+    {{ main.header(1) }}
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        {{ util.content_header("队伍信息管理","所有队伍都这里了",["后台管理","队伍信息管理","编辑项目信息"]) }}
+        <!-- Main content -->
+        <section class="content">
+            <!-- Your Page Content Here -->
+            {{ util.makeForm("第一作者信息","./",jsonModel.project,projectData) }}
+
+        <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+    {{ util.footer() }}
+</div>
+{{ util.js() }}
+{{ util.makeFormJS() }}
+</body>
+</html>

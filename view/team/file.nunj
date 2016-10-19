@@ -3,14 +3,14 @@
 {% import "../utils.nunj" as util %}
 {% import "./main.nunj" as main %}
 <head>
-    {{ util.head('项目信息') }}
+    {{ util.head('文件上传') }}
     <!-- bootstrap datepicker -->
     <link rel="stylesheet" href="/asset/plugins/datepicker/datepicker3.css">
 </head>
 
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
-    {{ main.header(2) }}
+    {{ main.header(3) }}
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         {{ util.content_header("项目信息","请认真填写",["队伍管理","项目信息"]) }}
@@ -18,7 +18,7 @@
         <section class="content">
             <!-- Your Page Content Here -->
 
-            {{ util.makeForm("项目信息","./",jsonModel.project,projectData) }}
+
 
         </section>
         <!-- /.content -->

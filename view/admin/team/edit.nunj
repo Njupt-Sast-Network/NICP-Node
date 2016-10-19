@@ -1,43 +1,11 @@
 <!DOCTYPE html>
 <html>
-{% import "../utils.nunj" as util %}
-
+{% import "../../utils.nunj" as util %}
+{% import "../main.nunj" as main %}
 {{ util.head("队伍信息管理") }}
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
-    {{ util.header("username","/asset/AdminLTE/img/user2-160x160.jpg","user description") }}
-    {{ util.sidebar(
-    [
-    {
-        header:"后台管理",
-        items:[{
-        active:false,
-        name:"通知公告管理",
-        icon:"fa-newspaper-o",
-        herf:"##"
-    },{
-        active:active,
-        name:"队伍信息管理",
-        icon:"fa-link",
-        herf:"##"
-    },{
-        active:false,
-        name:"评委信息管理",
-        icon:"fa-link",
-        herf:"##"
-    },{
-        active:false,
-        name:"文件上传管理",
-        icon:"fa-link",
-        herf:"##"
-    },{
-        active:false,
-        name:"密码修改",
-        icon:"fa-link",
-        herf:"##"
-    }]
-    }
-    ]) }}
+    {{ main.header(1) }}
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         {{ util.content_header("队伍信息管理","所有队伍都这里了",["后台管理","队伍信息管理","编辑队伍信息"]) }}

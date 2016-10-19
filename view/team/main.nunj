@@ -1,52 +1,36 @@
-<!DOCTYPE html>
-<html>
 {% import "../utils.nunj" as util %}
-
-{{ util.head("通知公告") }}
-<body class="hold-transition skin-blue sidebar-mini">
-<div class="wrapper">
+{% macro header(no) %}
     {{ util.header("username","/asset/AdminLTE/img/user2-160x160.jpg","user description") }}
     {{ util.sidebar(
     [
     {
-        header:"队伍信息管理",
+        header:"项目信息管理",
         items:[{
-        active:true,
+        active:(no==0),
         name:"通知公告",
-        icon:"fa-link",
-        herf:"##"
-        },{
-        active:false,
+        icon:"fa-newspaper-o",
+        herf:"/team/news/"
+    },{
+        active:(no==1),
         name:"队伍信息",
         icon:"fa-link",
-        herf:"##"
-        },{
-        active:false,
+        herf:"/team/info/"
+    },{
+        active:(no==2),
         name:"项目信息",
         icon:"fa-link",
-        herf:"##"
+        herf:"/team/project/"
     },{
-        active:false,
+        active:(no==3),
         name:"文件上传",
+        icon:"fa-link",
+        herf:"/team/upload/"
+    },{
+        active:(no==4),
+        name:"密码修改",
         icon:"fa-link",
         herf:"##"
     }]
     }
     ]) }}
-    <!-- Content Wrapper. Contains page content -->
-    <div class="content-wrapper">
-        {{ util.content_header("通知公告","desrciption",["main","test"]) }}
-        <!-- Main content -->
-        <section class="content">
-
-            <!-- Your Page Content Here -->
-
-        </section>
-        <!-- /.content -->
-    </div>
-    <!-- /.content-wrapper -->
-    {{ util.footer() }}
-</div>
-{{ util.js() }}
-</body>
-</html>
+{% endmacro %}
