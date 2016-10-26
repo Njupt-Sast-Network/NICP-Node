@@ -4,6 +4,8 @@
 let Roles = require("../router/auth").Roles;
 // Login
 let login = require('koa-router')();
+const fs = require('fs-promise');
+const path = require('path');
 login.get('*/', function *(next) {
     yield this.render('login', {
         title: this.cfg.siteName + "管理员登陆",
@@ -185,6 +187,87 @@ admin.post('*/team/edit_project/:id/', function *(next) {
         this.body={status:"error",data:result};
     }
 
+});
+
+//file
+admin.get('*/file/',function *(next) {
+    let fileList = yield this.db.File.findAll();
+    yield this.render('admin/file/index', {
+        fileList: fileList,
+    });
+});
+admin.get('*/file/add/',function *(next) {
+    yield this.render('admin/file/add',{
+        roles:Roles
+    });
+});
+admin.post('*/file/add/',function *(next) {
+    if ("file" in this.request.fields) {
+        let fileName =  this.request.fields.fileName;
+        let filePath = path.join("./", this.request.fields.savePath);
+        let absoluteFilePath = path.join(this.cfg.uploadPath, filePath);
+
+        yield fs.copy(this.request.fields.file[0].path,
+            absoluteFilePath,
+            {clobber: true}
+        );
+
+        yield this.db.File.create({
+            fileName: fileName,
+            savePath: filePath,
+            size: this.request.fields.file[0].size,
+            uploaderRole: Roles.admin,
+            uploaderId: this.session.id,
+            role:  this.request.fields.role,
+        });
+        this.body = {status: "success"};
+    } else {
+        this.body = {status: "error", data: "未发现文件"};
+    }
+});
+
+admin.get('*/file/del/:id/',function *(next) {
+    let fileInfo = yield this.db.File.findById(this.params.id);
+    yield this.render('admin/file/del', {
+        file: fileInfo
+    });
+});
+admin.post('*/file/del/:id/',function *(next) {
+    let fileInfo = yield this.db.File.findById(this.params.id);
+    let filePath =  path.resolve(this.cfg.uploadPath,fileInfo.savePath);
+    let newFilePath = path.join(this.cfg.uploadPath,"/deleted/",fileInfo.fileName);
+    yield fs.rename(filePath,newFilePath);
+    yield this.db.File.destroy({
+        where: {
+            id: this.params.id,
+        }
+    });
+    this.redirect('../../');
+});
+
+admin.get('*/file/download/:id/',function *(next) {
+    let fileInfo = yield this.db.File.findById(this.params.id);
+
+
+    try{
+        let filePath = path.resolve(this.cfg.uploadPath,fileInfo.savePath);
+        let fd = yield fs.open(filePath,'r');
+        this.response.attachment(fileInfo.fileName);
+        this.body = yield fs.readFile(fd);
+    }catch (err) {
+        if(err.code=='ENOENT'){
+            yield this.render('fail',{
+                title:"文件不存在",
+                message:"该文件不存在"
+            });
+        }else{
+            console.error(err);
+            yield this.render('fail',{
+                title:"未知错误",
+                message:"请通知管理人员"
+            });
+        }
+    }
 });
 
 admin.login = login;

@@ -35,5 +35,9 @@ Admin.sync({force:true})
         });
     });
 
+const File =  require("./file");
+db.File = File;
+File.sync({force:true});
+
 module.exports=db;
 

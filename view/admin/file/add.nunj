@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+{% import "../../utils.nunj" as util %}
+{% import "../main.nunj" as main %}
+{{ util.head("文件上传管理") }}
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+    {{ main.header(3) }}
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        {{ util.content_header("文件上传管理","好多文件。。",["后台管理","文件上传管理"]) }}
+        <!-- Main content -->
+        <section class="content">
+            <div class="box">
+                <div class="box-header with-border">
+                    <h3 class="box-title">文件上传</h3>
+                </div>
+                <form role="form" method="post" action="./" class="form-horizontal" enctype='multipart/form-data'>
+                    <div class="box-body">
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">文件名称</label>
+                            <div class="col-sm-5">
+                                <input type="text" name="fileName" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">文件相对路径</label>
+                            <div class="col-sm-5">
+                                <input type="text" name="savePath" class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="form-group" >
+                            <label class="col-sm-4 control-label">目标受众</label>
+                            <div class="col-sm-5 ">
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="role"
+                                               id="role-admin"
+                                               value="{{ roles.judger }}">
+                                        评委
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="role"
+                                               id="role-admin"
+                                               value="{{ roles.team }}"
+                                               checked>
+                                        参赛队伍
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="role"
+                                               id="role-admin"
+                                               value="{{ roles.all }}"
+                                               checked>
+                                        所有人
+                                    </label>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputFile">File input</label>
+                            <input type="file" name="file">
+                            <p class="help-block">需要上传的文件</p>
+                        </div>
+                    </div>
+                    <!-- /.box-body -->
+                    <div class="box-footer">
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary">保存</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </section>
+        <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+    {{ util.footer() }}
+</div>
+{{ util.js() }}
+</body>
+</html>

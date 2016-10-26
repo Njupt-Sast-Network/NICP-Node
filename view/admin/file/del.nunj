@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+{% import "../../utils.nunj" as util %}
+{% import "../main.nunj" as main %}
+{{ util.head("文件上传管理") }}
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+    {{ main.header(3) }}
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        {{ util.content_header("文件上传管理","好多文件。。",["后台管理","文件上传管理"]) }}
+        <!-- Main content -->
+        <section class="content">
+            <!-- Your Page Content Here -->
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">删除文件</h3>
+                </div>
+                <form class="form-horizontal" method="POST" action="">
+                    <div class="box-body">
+                        <h2>你确认要删除 {{ file.fileName }} 么。</h2>
+                        <input type="hidden" value="{{ file.id }}" name="id"  />
+                    </div>
+
+                    <div class="box-footer">
+                        <button type="submit" class="btn btn-danger">确认</button>
+                    </div>
+                </form>
+            </div>
+
+        </section>
+        <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+    {{ util.footer() }}
+</div>
+{{ util.js() }}
+</body>
+</html>

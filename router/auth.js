@@ -3,6 +3,7 @@
  */
 `use strict`;
 const Roles={
+    all:-1,
     team:1,
     judger:2,
     admin:3

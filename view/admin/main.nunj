@@ -24,7 +24,7 @@
         active:(no==3),
         name:"文件上传管理",
         icon:"fa-link",
-        herf:"##"
+        herf:"/admin/file/"
     },{
         active:(no==4),
         name:"密码修改",

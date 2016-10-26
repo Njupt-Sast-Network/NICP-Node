@@ -16,6 +16,7 @@ app.context.jsonModel = jsonModel;
 app.keys = ['www', 'hhh'];
 app.context.cfg = {
     siteName: "“创新杯”",
+    uploadPath: path.resolve(__dirname,"./upload/"),
 };
 
 

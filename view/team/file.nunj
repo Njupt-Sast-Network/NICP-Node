@@ -2,10 +2,33 @@
 <html>
 {% import "../utils.nunj" as util %}
 {% import "./main.nunj" as main %}
+{% macro upload_box(title,address,name,description) %}
+
+    <div class="box">
+        <div class="box-header with-border">
+            <h3 class="box-title">{{ title }}</h3>
+        </div>
+        <form role="form" method="post" action="{{ address }}" class="form-horizontal" enctype='multipart/form-data'>
+            <div class="box-body">
+
+                <div class="form-group">
+                    <label for="exampleInputFile">File input</label>
+                    <input type="file" name="{{ name }}">
+                    <p class="help-block">{{ description }}</p>
+                </div>
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer">
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary">保存</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+{% endmacro %}
 <head>
     {{ util.head('文件上传') }}
-    <!-- bootstrap datepicker -->
-    <link rel="stylesheet" href="/asset/plugins/datepicker/datepicker3.css">
 </head>
 
 <body class="hold-transition skin-blue sidebar-mini">
@@ -16,17 +39,20 @@
         {{ util.content_header("项目信息","请认真填写",["队伍管理","项目信息"]) }}
         <!-- Main content -->
         <section class="content">
-            <!-- Your Page Content Here -->
-
-
-
-        </section>
-        <!-- /.content -->
+            {{ upload_box("申报表上传","./upload/rfp/","file","申报表上传") }}
+            {{ upload_box("研究报告上传","./upload/report/","file","研究报告") }}
+            {{ upload_box("作品简介书上传","./upload/brief/","file","作品简介书") }}
+            {{ upload_box("作品照片上传","./upload/photo/","file","作品照片") }}
+            <!-- /.box-footer-->
     </div>
-    <!-- /.content-wrapper -->
-    {{ util.footer() }}
+    </section>
+    <!-- /.content -->
 </div>
+<!-- /.content-wrapper -->
+{{ util.footer() }}
+
 {{ util.js() }}
-{{ util.makeFormJS() }}
+<script>
+</script>
 </body>
 </html>
