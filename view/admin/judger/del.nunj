@@ -2,24 +2,24 @@
 <html>
 {% import "../../utils.nunj" as util %}
 {% import "../main.nunj" as main %}
-{{ util.head("队伍信息管理") }}
+{{ util.head("评委信息管理") }}
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
-    {{ main.header(1) }}
+    {{ main.header(2) }}
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
-        {{ util.content_header("队伍信息管理","所有队伍都这里了",["后台管理","队伍信息管理","删除队伍"]) }}
+        {{ util.content_header("评委信息管理","",["后台管理","评委信息管理"]) }}
         <!-- Main content -->
         <section class="content">
             <!-- Your Page Content Here -->
             <div class="box box-info">
                 <div class="box-header with-border">
-                    <h3 class="box-title">删除队伍</h3>
+                    <h3 class="box-title">删除通知公告</h3>
                 </div>
                 <form class="form-horizontal" method="POST" action="">
                     <div class="box-body">
-                            <h2>你确认要删除 {{ team.username }} 么。</h2>
-                        <input type="hidden" value="{{ team.id }}" name="id"  />
+                            <h2>你确认要删除 {{ judger.username }} 么。</h2>
+                        <input type="hidden" value="{{ judger.id }}" name="id"  />
                     </div>
 
                     <div class="box-footer">

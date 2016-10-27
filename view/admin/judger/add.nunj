@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+{% import "../../utils.nunj" as util %}
+{% import "../main.nunj" as main %}
+{{ util.head("评委信息管理") }}
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+    {{ main.header(2) }}
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        {{ util.content_header("评委信息管理","",["后台管理","评委信息管理"]) }}
+        <!-- Main content -->
+        <section class="content">
+
+            <!-- Your Page Content Here -->
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">添加评委</h3>
+                </div>
+                <div class="box-body">
+
+                    <form class="form-horizontal"  method="POST" action="./">
+                        <div class="form-group">
+                            <label for="username" class="col-sm-1 control-label">用户名</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="username" class="form-control" id="title" placeholder="用户名">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="password" class="col-sm-1 control-label">密码</label>
+                            <div class="col-sm-10">
+                                <input type="password" name="password" class="form-control" id="author" placeholder="密码">
+                            </div>
+                        </div>
+                        <div class="box-footer">
+                            <button type="submit" class="btn btn-primary pull-right">提交</button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+            <!-- /.box -->
+
+        </section>
+        <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+    {{ util.footer() }}
+</div>
+{{ util.js() }}
+</body>
+</html>

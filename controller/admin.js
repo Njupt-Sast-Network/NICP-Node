@@ -268,5 +268,51 @@ admin.get('*/file/download/:id/',function *(next) {
     }
 });
 
+//team
+admin.get('*/judger/',function *(next) {
+    let judgerList = yield this.db.Judger.findAll();
+    yield this.render('admin/judger/index', {
+        judgerList: judgerList,
+    });
+});
+admin.get('*/judger/add/', function *(next) {
+    yield this.render('admin/judger/add');
+});
+
+admin.post('*/judger/add/', function *(next) {
+    yield this.db.Judger.create(this.request.fields);
+    this.redirect('../');
+});
+
+
+admin.get('*/judger/del/:id/', function *(next) {
+    let judger = yield this.db.Judger.findById(this.params.id);
+    yield this.render('admin/judger/del', {
+        judger: judger,
+    });
+});
+admin.post('*/judger/del/:id/', function *(next) {
+    yield this.db.Judger.destroy({
+        where: {
+            id: this.params.id,
+        }
+    });
+    this.redirect('../../');
+});
+
+admin.get('*/judger/edit/:id/', function *(next) {
+    let judger= yield this.db.Judger.findById(this.params.id);
+    yield this.render('admin/judger/edit', {
+        judger:judger,
+    });
+});
+admin.post('*/judger/edit/:id/', function *(next) {
+    yield this.db.Judger.update(this.request.fields, {
+        where: {
+            id: this.params.id,
+        }
+    });
+    this.redirect('../../');
+});
 admin.login = login;
 module.exports = admin;

@@ -19,7 +19,7 @@
         active:(no==2),
         name:"评委信息管理",
         icon:"fa-link",
-        herf:"##"
+        herf:"/admin/judger/"
     },{
         active:(no==3),
         name:"文件上传管理",
