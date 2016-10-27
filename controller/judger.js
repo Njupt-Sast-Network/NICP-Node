@@ -55,6 +55,20 @@ judger.get('*/rate/', function *(next) {
         teamList:teamList
     });
 });
+
+judger.post('*/rate/save/:id/', function *(next) {
+    let rate=Number.parseInt(this.request.fields.rate);
+
+    if(Number.isInteger(rate)===false || rate<1 || rate > 10){
+        this.body={status:"error",data:"评分必须是整数并且在1到10之间"};
+        return;
+    }
+    let teamInfo = yield this.db.Team.findById(this.params.id);
+    teamInfo.addJudgers(this.session.id,{rate : this.request.fields.rate});
+    this.body={status:"success"};
+});
+
+
 judger.get('*/rate/download/:id/', function *(next) {
 
     let fileName = this.params.id + '_report_cutted.pdf' ;

@@ -28,12 +28,15 @@
                         {% for team in teamList %}
                             <tr>
                                 <td>{{ team.id }}</td>
-                                <td><a type="button" class="btn btn-info btn-sm" href="download/{{ team.id }}/">下载</a></td>
+                                <td><a type="button" class="btn btn-info btn-sm" href="download/{{ team.id }}/">下载</a>
+                                </td>
                                 <td>
-                                    <div class="btn-group">
-                                        <input name="rate"/>
-                                        <a type="button" class="btn btn-info btn-sm" href="edit/{{ news.id }}/">编辑</a>
-                                    </div>
+                                    <form class="input-group input-group-sm rate-form"  method="POST" action="./save/{{ team.id }}/">
+                                        <input name="rate" type="number" max="10" min="1" step="1" pattern="\d*" class="form-control">
+                                        <span class="input-group-btn">
+                                            <button type="submit"  class="btn btn-info btn-flat">保存评分</button>
+                                        </span>
+                                    </form>
                                 </td>
                             </tr>
                         {% endfor %}
@@ -49,5 +52,27 @@
     {{ util.footer() }}
 </div>
 {{ util.js() }}
+<script src="/asset/plugins/jQuery-form/jquery.form.min.js"></script>
+<!-- Page script -->
+<script>
+    $('.rate-form').submit(function (event) {
+        event.preventDefault();
+        //TODO:前端验证表单
+        $(this).find('button').addClass("disabled").prop("disabled", true);
+        var that = this;
+        $(this).ajaxSubmit(function (resp) {
+            if (resp.status == "success") {
+                alert("保存成功");
+            } else if (resp.status == "error") {
+                alert("保存失败，相关信息：" + JSON.stringify(resp.data));
+            } else {
+                alert("未知错误");
+            }
+            $(that).find('button').removeClass("disabled").prop("disabled", false);
+        });
+        return false;
+    });
+
+</script>
 </body>
 </html>
