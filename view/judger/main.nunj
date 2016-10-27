@@ -1,0 +1,26 @@
+{% import "../utils.nunj" as util %}
+{% macro header(no) %}
+    {{ util.header("username","/asset/AdminLTE/img/user2-160x160.jpg","user description") }}
+    {{ util.sidebar(
+    [
+    {
+        header:"后台管理",
+        items:[{
+        active:(no==0),
+        name:"通知公告",
+        icon:"fa-newspaper-o",
+        herf:"/judger/news/"
+    },{
+        active:(no==1),
+        name:"评分管理",
+        icon:"fa-newspaper-o",
+        herf:"/judger/rate/"
+    },{
+        active:(no==2),
+        name:"密码修改",
+        icon:"fa-link",
+        herf:"##"
+    }]
+    }
+    ]) }}
+{% endmacro %}

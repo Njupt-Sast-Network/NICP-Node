@@ -4,6 +4,7 @@ const views = require('koa-view');
 const path = require('path');
 const team = require('../controller/team');
 const admin = require('../controller/admin');
+const judger = require('../controller/judger');
 const {Roles, verifyAuth ,logout} = require('./auth');
 
 //模版
@@ -23,6 +24,9 @@ router.all("/team/*", /*verifyAuth(Roles.team),*/ team.routes(), team.allowedMet
 
 router.all("/admin/login/*", admin.login.routes(), admin.login.allowedMethods());
 router.all("/admin/*", /*verifyAuth(Roles.admin),*/ admin.routes(), admin.allowedMethods());
+
+router.all("/judger/login/*", judger.login.routes(), judger.login.allowedMethods());
+router.all("/judger/*", /*verifyAuth(Roles.judger),*/ judger.routes(), judger.allowedMethods());
 
 module.exports = router;
 

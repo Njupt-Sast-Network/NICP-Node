@@ -247,8 +247,6 @@ admin.post('*/file/del/:id/',function *(next) {
 
 admin.get('*/file/download/:id/',function *(next) {
     let fileInfo = yield this.db.File.findById(this.params.id);
-
-
     try{
         let filePath = path.resolve(this.cfg.uploadPath,fileInfo.savePath);
         let fd = yield fs.open(filePath,'r');

@@ -233,6 +233,7 @@ team.get('*/file/download/:name', function *(next) {
     try {
         let filePath = path.join(this.cfg.uploadPath,fileInfo.savePath);
         let fd = yield fs.open(filePath, 'r');
+        this.response.attachment(fileInfo.fileName);
         this.body = yield fs.readFile(fd);
     } catch (err) {
         if (err.code == 'ENOENT') {

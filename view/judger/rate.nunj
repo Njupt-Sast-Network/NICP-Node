@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+{% import "../utils.nunj" as util %}
+{% import "./main.nunj" as main %}
+{{ util.head("评分管理") }}
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+    {{ main.header(1) }}
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        {{ util.content_header("评分管理","请打分",["后台管理","评分管理"]) }}
+        <!-- Main content -->
+        <section class="content">
+            <!-- Your Page Content Here -->
+            <div class="box">
+                <div class="box-header with-border">
+                </div>
+
+                <!-- /.box-header -->
+                <div class="box-body table-responsive no-padding">
+                    <table class="table table-hover">
+                        <tbody>
+                        <tr>
+                            <th>序号</th>
+                            <th>研究报告下载</th>
+                            <th>评分</th>
+                        </tr>
+                        {% for team in teamList %}
+                            <tr>
+                                <td>{{ team.id }}</td>
+                                <td><a type="button" class="btn btn-info btn-sm" href="download/{{ team.id }}/">下载</a></td>
+                                <td>
+                                    <div class="btn-group">
+                                        <input name="rate"/>
+                                        <a type="button" class="btn btn-info btn-sm" href="edit/{{ news.id }}/">编辑</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.box-body -->
+            </div>
+        </section>
+        <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+    {{ util.footer() }}
+</div>
+{{ util.js() }}
+</body>
+</html>

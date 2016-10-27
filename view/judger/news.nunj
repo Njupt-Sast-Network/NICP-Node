@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+{% import "../utils.nunj" as util %}
+{% import "./main.nunj" as main %}
+
+{{ util.head('通知公告') }}
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+    {{ main.header(0) }}
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        {{ util.content_header("通知公告","请注意及时查阅",["队伍管理","通知公告"]) }}
+        <!-- Main content -->
+        <section class="content">
+            <!-- Your Page Content Here -->
+        {% for news in newsList %}
+            <div class="box">
+                <div class="box-header with-border">
+                    <h3 class="box-title">{{ news.title }}</h3>
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                            <i class="fa fa-minus"></i></button>
+                    </div>
+                </div>
+                <div class="box-body">
+                    {{ news.content | safe  }}
+                </div>
+                <!-- /.box-body -->
+                <div class="box-footer">
+                    <i class="fa fa-eye"></i> {{ news.viewCount }}  由 {{ news.author }} 发布于 {{ news.createdAt }}
+                </div>
+                <!-- /.box-footer-->
+            </div>
+        {% endfor %}
+        </section>
+        <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+    {{ util.footer() }}
+</div>
+{{ util.js() }}
+</body>
+</html>
