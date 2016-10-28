@@ -15,7 +15,18 @@ function verifyAuth(need_role) {
         if (role === need_role) {
             yield next;
         } else {
-            this.body = "no";
+            switch (need_role){
+                case Roles.team:
+                    this.redirect('/team/login/');
+                    break;
+                case Roles.judger:
+                    this.redirect('/judger/login/');
+                    break;
+                case Roles.admin:
+                    this.redirect('/admin/login/');
+                    break;
+            }
+
         }
     }
 }

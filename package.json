@@ -26,6 +26,7 @@
   },
   "devDependencies": {},
   "scripts": {
+    "start": "node index.js",
     "test": "echo \"no test now\";"
   },
   "author": "",

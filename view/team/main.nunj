@@ -29,7 +29,7 @@
         active:(no==4),
         name:"密码修改",
         icon:"fa-link",
-        herf:"/judger/password/"
+        herf:"/team/password/"
     }]
     }
     ]) }}

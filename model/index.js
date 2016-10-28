@@ -1,5 +1,5 @@
 const sequelize = require('./db');
-
+const config = require('../config');
 
 let db = {};
 // init
@@ -14,7 +14,7 @@ Team.belongsToMany(Judger, {through: Judgement});
 Judger.belongsToMany(Team, {through: Judgement});
 
 db.Team = Team;
-Team.sync({force: true})
+Team.sync({force: config.debug})
     .then(function () {
         db.Team.create({
             username: "wxy",
@@ -24,7 +24,7 @@ Team.sync({force: true})
 
 
 db.News = News;
-News.sync({force: true})
+News.sync({force: config.debug})
     .then(function () {
         db.News.create({
             title: "test123123",
@@ -36,7 +36,7 @@ News.sync({force: true})
 
 
 db.Admin = Admin;
-Admin.sync({force: true})
+Admin.sync({force: config.debug})
     .then(function (database) {
         database.create({
             username: "wxy",
@@ -46,10 +46,10 @@ Admin.sync({force: true})
 
 
 db.File = File;
-File.sync({force: true});
+File.sync({force: config.debug});
 
 db.Judger = Judger;
-Judger.sync({force: true})
+Judger.sync({force: config.debug})
     .then(function (database) {
         database.create({
             username: "wxy",
@@ -57,10 +57,11 @@ Judger.sync({force: true})
         });
     })
     .then(function () {
-        Judgement.sync({force: true});
+        Judgement.sync({force: config.debug});
     });
 
 db.Judgement = Judgement;
+
 
 module.exports = db;
 

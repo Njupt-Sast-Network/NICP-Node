@@ -29,6 +29,7 @@ login.post('*/', function *(next) {
         this.session.id = userInfo.id;
         this.session.name = userInfo.username;
         this.session.role = Roles.team;
+        this.redirect('../news/');
     } else {
         yield this.render('fail', {
             title: "登陆错误",
