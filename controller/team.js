@@ -29,7 +29,7 @@ login.post('*/', function *(next) {
         this.session.id = userInfo.id;
         this.session.name = userInfo.username;
         this.session.role = Roles.team;
-    }else{
+    } else {
         yield this.render('fail', {
             title: "登陆错误",
             message: "用户名或密码错误"
@@ -49,19 +49,19 @@ team.get('*/password/', function *(next) {
 team.post('*/password/', function *(next) {
     let oldPassword = this.request.fields.old_password.toString();
     let newPassword = this.request.fields.new_password.toString();
-    if(newPassword != this.request.fields.again_password.toString()){
-        this.body={status:"error",data:"两次新密码不符"};
-        return ;
+    if (newPassword != this.request.fields.again_password.toString()) {
+        this.body = {status: "error", data: "两次新密码不符"};
+        return;
     }
     let userInfo = yield this.db.Team.findById(this.session.id);
-    if(userInfo.password != oldPassword){
-        this.body={status:"error",data:"旧密码错误"};
-        return ;
+    if (userInfo.password != oldPassword) {
+        this.body = {status: "error", data: "旧密码错误"};
+        return;
     }
 
-    userInfo.set('password',newPassword);
+    userInfo.set('password', newPassword);
     userInfo.save();
-    this.body={status:"success",data:"修改成功"};
+    this.body = {status: "success", data: "修改成功"};
 });
 team.get('*/news/', function *(next) {
     let newsList = yield this.db.News.findAll({
@@ -169,7 +169,7 @@ team.post('*/file/upload/report/', function *(next) {
             size: this.request.fields.file[0].size,
             uploaderRole: Roles.team,
             uploaderId: this.session.id,
-            role:  Roles.team,
+            role: Roles.team,
         });
 
         //第一页切掉
@@ -188,7 +188,7 @@ team.post('*/file/upload/report/', function *(next) {
             size: cuttedFileStat.size,
             uploaderRole: Roles.team,
             uploaderId: this.session.id,
-            role:  Roles.team,
+            role: Roles.team,
         });
         this.body = {status: "success"};
     } else {
@@ -221,7 +221,7 @@ team.post('*/file/upload/:name/', function *(next) {
             size: this.request.fields.file[0].size,
             uploaderRole: Roles.team,
             uploaderId: this.session.id,
-            role:  Roles.team,
+            role: Roles.team,
         });
         this.body = {status: "success"};
     } else {
@@ -241,14 +241,14 @@ team.get('*/file/download/:name', function *(next) {
 
     let fileName = this.session.id.toString() + "_" + this.params.name;
     let fileInfo = yield this.db.File.findOne({
-        where:{
-            fileName:fileName,
+        where: {
+            fileName: fileName,
             uploaderRole: Roles.team,
             uploaderId: this.session.id,
-            role:  Roles.team,
+            role: Roles.team,
         }
     });
-    if(fileInfo === null){
+    if (fileInfo === null) {
         yield this.render('fail', {
             title: "未上传该文件",
             message: "相关文件未上传"
@@ -257,7 +257,7 @@ team.get('*/file/download/:name', function *(next) {
     }
 
     try {
-        let filePath = path.join(this.cfg.uploadPath,fileInfo.savePath);
+        let filePath = path.join(this.cfg.uploadPath, fileInfo.savePath);
         let fd = yield fs.open(filePath, 'r');
         this.response.attachment(fileInfo.fileName);
         this.body = yield fs.readFile(fd);

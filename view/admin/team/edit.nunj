@@ -19,7 +19,7 @@
             {{ util.makeForm("第一指导老师信息","./teacher/0/",jsonModel.teacher,teacherData[0]) }}
             {{ util.makeForm("第二指导老师信息","./teacher/1/",jsonModel.teacher,teacherData[1]) }}
 
-        <!-- /.content -->
+            <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->
     {{ util.footer() }}

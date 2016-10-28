@@ -11,10 +11,10 @@
     {
         header:"MENU HEADER",
         items:[{
-            active:true,
-            name:"menu1",
-            herf:"##"
-        }]
+        active:true,
+        name:"menu1",
+        herf:"##"
+    }]
     }
     ]) }}
     <!-- Content Wrapper. Contains page content -->

@@ -7,7 +7,7 @@ let login = require('koa-router')();
 const fs = require('fs-promise');
 const path = require('path');
 const xls = require('../util/xls/xls');
-const moment =require('moment');
+const moment = require('moment');
 
 login.get('*/', function *(next) {
     yield this.render('login', {
@@ -30,7 +30,7 @@ login.post('*/', function *(next) {
         this.session.id = userInfo.id;
         this.session.name = userInfo.username;
         this.session.role = Roles.admin;
-    }else{
+    } else {
         yield this.render('fail', {
             title: "登陆错误",
             message: "用户名或密码错误"
@@ -50,29 +50,29 @@ admin.get('*/password/', function *(next) {
 admin.post('*/password/', function *(next) {
     let oldPassword = this.request.fields.old_password.toString();
     let newPassword = this.request.fields.new_password.toString();
-    if(newPassword != this.request.fields.again_password.toString()){
-        this.body={status:"error",data:"两次新密码不符"};
-        return ;
+    if (newPassword != this.request.fields.again_password.toString()) {
+        this.body = {status: "error", data: "两次新密码不符"};
+        return;
     }
     let userInfo = yield this.db.Admin.findById(this.session.id);
-    if(userInfo.password != oldPassword){
-        this.body={status:"error",data:"旧密码错误"};
-        return ;
+    if (userInfo.password != oldPassword) {
+        this.body = {status: "error", data: "旧密码错误"};
+        return;
     }
 
-    userInfo.set('password',newPassword);
+    userInfo.set('password', newPassword);
     userInfo.save();
-    this.body={status:"success",data:"修改成功"};
+    this.body = {status: "success", data: "修改成功"};
 });
 admin.get('*/news/', function *(next) {
     let newsList = yield this.db.News.findAll();
     yield this.render('admin/news/index', {
         newsList: newsList,
-        roles:Roles,
+        roles: Roles,
     });
 });
 admin.get('*/news/add/', function *(next) {
-    yield this.render('admin/news/add',{
+    yield this.render('admin/news/add', {
         roles: Roles,
     });
 });
@@ -88,6 +88,7 @@ admin.get('*/news/edit/:id/', function *(next) {
         roles: Roles,
     });
 });
+
 admin.post('*/news/edit/:id/', function *(next) {
     yield this.db.News.update(this.request.fields, {
         where: {
@@ -114,7 +115,7 @@ admin.post('*/news/del/:id/', function *(next) {
 });
 
 //team
-admin.get('*/team/',function *(next) {
+admin.get('*/team/', function *(next) {
     let teamList = yield this.db.Team.findAll();
     yield this.render('admin/team/index', {
         teamList: teamList,
@@ -127,7 +128,6 @@ admin.post('*/team/add/', function *(next) {
     yield this.db.Team.create(this.request.fields);
     this.redirect('../');
 });
-
 
 
 admin.get('*/team/del/:id/', function *(next) {
@@ -148,91 +148,91 @@ admin.post('*/team/del/:id/', function *(next) {
 admin.get('*/team/edit/:team_id/', function *(next) {
     let team = yield this.db.Team.findById(this.params.team_id);
     yield this.render('admin/team/edit', {
-        jsonModel:this.jsonModel,
-        firstAuthorData:team.firstAuthor,
-        otherAuthorData:team.otherAuthors,
-        teacherData:team.teachers,
+        jsonModel: this.jsonModel,
+        firstAuthorData: team.firstAuthor,
+        otherAuthorData: team.otherAuthors,
+        teacherData: team.teachers,
         team: team,
     });
 });
 
 admin.post('*/team/edit/:team_id/first_author/', function *(next) {
-    let infoData=yield this.db.Team.findById(this.params.team_id);
-    let result = this.jsonModel.validate(this.request.fields,this.jsonModel.first_author);
-    if(result===undefined){
-        infoData.set("firstAuthor",this.request.fields);
-        infoData.set("firstAuthorId",this.request.fields.studentID);
+    let infoData = yield this.db.Team.findById(this.params.team_id);
+    let result = this.jsonModel.validate(this.request.fields, this.jsonModel.first_author);
+    if (result === undefined) {
+        infoData.set("firstAuthor", this.request.fields);
+        infoData.set("firstAuthorId", this.request.fields.studentID);
         yield infoData.save();
-        this.body={status:"success"};
-    }else{
-        this.body={status:"error",data:result};
+        this.body = {status: "success"};
+    } else {
+        this.body = {status: "error", data: result};
     }
 
 });
 admin.post('*/team/edit/:team_id/other_author/:id/', function *(next) {
-    let infoData=yield this.db.Team.findById(this.params.team_id);
-    let result = this.jsonModel.validate(this.request.fields,this.jsonModel.other_author);
-    if(result===undefined) {
-        let otherAuthorsData=infoData.otherAuthors;
-        otherAuthorsData[this.params.id]=this.request.fields;
-        infoData.set("otherAuthors",otherAuthorsData);
+    let infoData = yield this.db.Team.findById(this.params.team_id);
+    let result = this.jsonModel.validate(this.request.fields, this.jsonModel.other_author);
+    if (result === undefined) {
+        let otherAuthorsData = infoData.otherAuthors;
+        otherAuthorsData[this.params.id] = this.request.fields;
+        infoData.set("otherAuthors", otherAuthorsData);
         yield infoData.save();
-        this.body={status:"success"};
-    }else{
-        this.body={status:"error",data:result};
+        this.body = {status: "success"};
+    } else {
+        this.body = {status: "error", data: result};
     }
 
 });
 admin.post('*/team/edit/:team_id/teacher/:id/', function *(next) {
-    let infoData=yield this.db.Team.findById(this.params.team_id);
-    let result = this.jsonModel.validate(this.request.fields,this.jsonModel.teacher);
-    if(result===undefined) {
-        let teacherData=infoData.teachers;
-        teacherData[this.params.id]=this.request.fields;
-        infoData.set("teachers",teacherData);
+    let infoData = yield this.db.Team.findById(this.params.team_id);
+    let result = this.jsonModel.validate(this.request.fields, this.jsonModel.teacher);
+    if (result === undefined) {
+        let teacherData = infoData.teachers;
+        teacherData[this.params.id] = this.request.fields;
+        infoData.set("teachers", teacherData);
         yield infoData.save();
-        this.body={status:"success"};
-    }else{
-        this.body={status:"error",data:result};
+        this.body = {status: "success"};
+    } else {
+        this.body = {status: "error", data: result};
     }
 
 });
 
 admin.get('*/team/edit_project/:id/', function *(next) {
-    let infoData=yield this.db.Team.findById(this.params.id);
-    yield this.render('admin/team/edit_project',{
-        jsonModel:this.jsonModel,
-        projectData:infoData.project,
+    let infoData = yield this.db.Team.findById(this.params.id);
+    yield this.render('admin/team/edit_project', {
+        jsonModel: this.jsonModel,
+        projectData: infoData.project,
     });
 });
 admin.post('*/team/edit_project/:id/', function *(next) {
-    let infoData=yield this.db.Team.findById(this.params.id);
-    let result = this.jsonModel.validate(this.request.fields,this.jsonModel.project);
-    if(result===undefined){
-        infoData.set("project",this.request.fields);
+    let infoData = yield this.db.Team.findById(this.params.id);
+    let result = this.jsonModel.validate(this.request.fields, this.jsonModel.project);
+    if (result === undefined) {
+        infoData.set("project", this.request.fields);
         yield infoData.save();
-        this.body={status:"success"};
-    }else{
-        this.body={status:"error",data:result};
+        this.body = {status: "success"};
+    } else {
+        this.body = {status: "error", data: result};
     }
 
 });
 
 //file
-admin.get('*/file/',function *(next) {
+admin.get('*/file/', function *(next) {
     let fileList = yield this.db.File.findAll();
     yield this.render('admin/file/index', {
         fileList: fileList,
     });
 });
-admin.get('*/file/add/',function *(next) {
-    yield this.render('admin/file/add',{
-        roles:Roles
+admin.get('*/file/add/', function *(next) {
+    yield this.render('admin/file/add', {
+        roles: Roles
     });
 });
-admin.post('*/file/add/',function *(next) {
+admin.post('*/file/add/', function *(next) {
     if ("file" in this.request.fields) {
-        let fileName =  this.request.fields.fileName;
+        let fileName = this.request.fields.fileName;
         let filePath = path.join("./", this.request.fields.savePath);
         let absoluteFilePath = path.join(this.cfg.uploadPath, filePath);
 
@@ -247,7 +247,7 @@ admin.post('*/file/add/',function *(next) {
             size: this.request.fields.file[0].size,
             uploaderRole: Roles.admin,
             uploaderId: this.session.id,
-            role:  this.request.fields.role,
+            role: this.request.fields.role,
         });
         this.body = {status: "success"};
     } else {
@@ -255,17 +255,17 @@ admin.post('*/file/add/',function *(next) {
     }
 });
 
-admin.get('*/file/del/:id/',function *(next) {
+admin.get('*/file/del/:id/', function *(next) {
     let fileInfo = yield this.db.File.findById(this.params.id);
     yield this.render('admin/file/del', {
         file: fileInfo
     });
 });
-admin.post('*/file/del/:id/',function *(next) {
+admin.post('*/file/del/:id/', function *(next) {
     let fileInfo = yield this.db.File.findById(this.params.id);
-    let filePath =  path.resolve(this.cfg.uploadPath,fileInfo.savePath);
-    let newFilePath = path.join(this.cfg.uploadPath,"/deleted/",fileInfo.fileName);
-    yield fs.rename(filePath,newFilePath);
+    let filePath = path.resolve(this.cfg.uploadPath, fileInfo.savePath);
+    let newFilePath = path.join(this.cfg.uploadPath, "/deleted/", fileInfo.fileName);
+    yield fs.rename(filePath, newFilePath);
     yield this.db.File.destroy({
         where: {
             id: this.params.id,
@@ -274,31 +274,31 @@ admin.post('*/file/del/:id/',function *(next) {
     this.redirect('../../');
 });
 
-admin.get('*/file/download/:id/',function *(next) {
+admin.get('*/file/download/:id/', function *(next) {
     let fileInfo = yield this.db.File.findById(this.params.id);
-    try{
-        let filePath = path.resolve(this.cfg.uploadPath,fileInfo.savePath);
-        let fd = yield fs.open(filePath,'r');
+    try {
+        let filePath = path.resolve(this.cfg.uploadPath, fileInfo.savePath);
+        let fd = yield fs.open(filePath, 'r');
         this.response.attachment(fileInfo.fileName);
         this.body = yield fs.readFile(fd);
-    }catch (err) {
-        if(err.code=='ENOENT'){
-            yield this.render('fail',{
-                title:"文件不存在",
-                message:"该文件不存在"
+    } catch (err) {
+        if (err.code == 'ENOENT') {
+            yield this.render('fail', {
+                title: "文件不存在",
+                message: "该文件不存在"
             });
-        }else{
+        } else {
             console.error(err);
-            yield this.render('fail',{
-                title:"未知错误",
-                message:"请通知管理人员"
+            yield this.render('fail', {
+                title: "未知错误",
+                message: "请通知管理人员"
             });
         }
     }
 });
 
 //team
-admin.get('*/judger/',function *(next) {
+admin.get('*/judger/', function *(next) {
     let judgerList = yield this.db.Judger.findAll();
     yield this.render('admin/judger/index', {
         judgerList: judgerList,
@@ -330,9 +330,9 @@ admin.post('*/judger/del/:id/', function *(next) {
 });
 
 admin.get('*/judger/edit/:id/', function *(next) {
-    let judger= yield this.db.Judger.findById(this.params.id);
+    let judger = yield this.db.Judger.findById(this.params.id);
     yield this.render('admin/judger/edit', {
-        judger:judger,
+        judger: judger,
     });
 });
 admin.post('*/judger/edit/:id/', function *(next) {
@@ -352,55 +352,55 @@ admin.get('*/export/do_export/', function *(next) {
     let judgements = yield this.db.Judgement.findAll();
     let teams = yield this.db.Team.findAll();
     let judgers = yield this.db.Judger.findAll();
-    let result=[];
-    let teamMap={};
+    let result = [];
+    let teamMap = {};
 
-    let i=1;
-    for(let team of teams){
-        teamMap[team.id]=i;
+    let i = 1;
+    for (let team of teams) {
+        teamMap[team.id] = i;
         result.push({
-            x:0,
-            y:i,
-            value:team.username
+            x: 0,
+            y: i,
+            value: team.username
         });
         i++;
     }
 
-    let judgerMap={};
+    let judgerMap = {};
 
-    i=1;
-    for(let judger of judgers){
-        judgerMap[judger.id]=i;
+    i = 1;
+    for (let judger of judgers) {
+        judgerMap[judger.id] = i;
         result.push({
-            x:i,
-            y:0,
-            value:judger.username
+            x: i,
+            y: 0,
+            value: judger.username
         });
         i++;
     }
-    for(let judgement of judgements){
+    for (let judgement of judgements) {
         result.push({
-            x:teamMap[judgement.teamId],
-            y:judgerMap[judgement.judgerId],
-            value:judgement.rate,
+            x: teamMap[judgement.teamId],
+            y: judgerMap[judgement.judgerId],
+            value: judgement.rate,
         });
     }
-    let fileName = "export_"+Date.now().toString()+".xls";
-    let filePath = path.join("export",fileName);
-    let absoluteFilePath = path.resolve(this.cfg.uploadPath,filePath);
+    let fileName = "export_" + Date.now().toString() + ".xls";
+    let filePath = path.join("export", fileName);
+    let absoluteFilePath = path.resolve(this.cfg.uploadPath, filePath);
 
-    yield xls.writeXLS(absoluteFilePath,result,true);
+    yield xls.writeXLS(absoluteFilePath, result, true);
     let fileStat = yield fs.stat(absoluteFilePath);
 
-    let fileInfo= yield this.db.File.create({
-        fileName:fileName,
-        savePath:filePath,
-        uploaderId:this.session.id,
-        uploaderRole:Roles.admin,
-        role:Roles.admin,
-        size:fileStat.size,
+    let fileInfo = yield this.db.File.create({
+        fileName: fileName,
+        savePath: filePath,
+        uploaderId: this.session.id,
+        uploaderRole: Roles.admin,
+        role: Roles.admin,
+        size: fileStat.size,
     });
-    this.redirect("/admin/file/download/"+fileInfo.id.toString()+"/");
+    this.redirect("/admin/file/download/" + fileInfo.id.toString() + "/");
 });
 
 admin.login = login;

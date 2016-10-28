@@ -19,10 +19,10 @@ var News = sequelize.define('new', {
     },
     viewCount: {
         type: Sequelize.INTEGER,
-        defaultValue:0,
+        defaultValue: 0,
         allowNull: false,
     },
-    role:{
+    role: {
         type: Sequelize.INTEGER,
         allowNull: false,
     }

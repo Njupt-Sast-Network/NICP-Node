@@ -19,7 +19,7 @@
                 <form class="form-horizontal" method="POST" action="">
                     <div class="box-body">
                         <h2>你确认要删除 {{ file.fileName }} 么。</h2>
-                        <input type="hidden" value="{{ file.id }}" name="id"  />
+                        <input type="hidden" value="{{ file.id }}" name="id"/>
                     </div>
 
                     <div class="box-footer">

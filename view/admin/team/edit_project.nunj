@@ -14,7 +14,7 @@
             <!-- Your Page Content Here -->
             {{ util.makeForm("第一作者信息","./",jsonModel.project,projectData) }}
 
-        <!-- /.content -->
+            <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->
     {{ util.footer() }}

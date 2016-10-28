@@ -34,7 +34,7 @@
                                     <input type="radio" name="role"
                                            id="role-admin"
                                            value="{{ roles.judger }}"
-                                           {{ "checked" if roles.judger==news.role}}>
+                                            {{ "checked" if roles.judger==news.role }}>
                                     评委
                                 </label>
                             </div>
@@ -43,7 +43,7 @@
                                     <input type="radio" name="role"
                                            id="role-admin"
                                            value="{{ roles.team }}"
-                                            {{ "checked" if roles.team==news.role}}>
+                                            {{ "checked" if roles.team==news.role }}>
                                     参赛队伍
                                 </label>
                             </div>
@@ -51,8 +51,9 @@
                         <div class="form-group">
                             <label for="author" class="col-sm-1 control-label">作者</label>
                             <div class="col-sm-10">
-                                <input type="text" name="author" class="form-control" id="author" value={{ news.author }}
-                                placeholder="作者">
+                                <input type="text" name="author" class="form-control" id="author"
+                                       value={{ news.author }}
+                                       placeholder="作者">
                             </div>
                         </div>
                         <textarea id="editor" name="content" rows="10" cols="80">

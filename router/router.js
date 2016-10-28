@@ -5,7 +5,7 @@ const path = require('path');
 const team = require('../controller/team');
 const admin = require('../controller/admin');
 const judger = require('../controller/judger');
-const {Roles, verifyAuth ,logout} = require('./auth');
+const {Roles, verifyAuth, logout} = require('./auth');
 
 //模版
 router.use(views(path.join(__dirname, '..', 'view'), {
@@ -17,7 +17,7 @@ router.use(views(path.join(__dirname, '..', 'view'), {
 router.use(session());
 
 //路由
-router.post("/logout",logout);
+router.post("/logout", logout);
 
 router.all("/team/login/*", team.login.routes(), team.login.allowedMethods());
 router.all("/team/*", /*verifyAuth(Roles.team),*/ team.routes(), team.allowedMethods());

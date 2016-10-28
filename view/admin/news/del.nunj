@@ -19,8 +19,8 @@
                 </div>
                 <form class="form-horizontal" method="POST" action="">
                     <div class="box-body">
-                            <h2>你确认要删除 {{ news.title }} 么。</h2>
-                        <input type="hidden" value="{{ news.id }}" name="id"  />
+                        <h2>你确认要删除 {{ news.title }} 么。</h2>
+                        <input type="hidden" value="{{ news.id }}" name="id"/>
                     </div>
 
                     <div class="box-footer">

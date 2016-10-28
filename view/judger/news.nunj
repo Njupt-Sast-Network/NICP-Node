@@ -13,25 +13,26 @@
         <!-- Main content -->
         <section class="content">
             <!-- Your Page Content Here -->
-        {% for news in newsList %}
-            <div class="box">
-                <div class="box-header with-border">
-                    <h3 class="box-title">{{ news.title }}</h3>
-                    <div class="box-tools pull-right">
-                        <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
-                            <i class="fa fa-minus"></i></button>
+            {% for news in newsList %}
+                <div class="box">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">{{ news.title }}</h3>
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
+                                    title="Collapse">
+                                <i class="fa fa-minus"></i></button>
+                        </div>
                     </div>
+                    <div class="box-body">
+                        {{ news.content | safe }}
+                    </div>
+                    <!-- /.box-body -->
+                    <div class="box-footer">
+                        <i class="fa fa-eye"></i> {{ news.viewCount }} 由 {{ news.author }} 发布于 {{ news.createdAt }}
+                    </div>
+                    <!-- /.box-footer-->
                 </div>
-                <div class="box-body">
-                    {{ news.content | safe  }}
-                </div>
-                <!-- /.box-body -->
-                <div class="box-footer">
-                    <i class="fa fa-eye"></i> {{ news.viewCount }}  由 {{ news.author }} 发布于 {{ news.createdAt }}
-                </div>
-                <!-- /.box-footer-->
-            </div>
-        {% endfor %}
+            {% endfor %}
         </section>
         <!-- /.content -->
     </div>

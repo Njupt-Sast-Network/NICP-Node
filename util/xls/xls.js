@@ -63,13 +63,13 @@ function ReadXLS(filePath) {
  *      }
  *   );
  * */
-function WriteXLS(filePath,data,is_list=false) {
+function WriteXLS(filePath, data, is_list = false) {
     let deferred = Q.defer();
     let xlswtPath;
-    if(is_list){
-        xlswtPath="python3 util/xls/xlswt_list.py";
-    }else{
-        xlswtPath="python3 util/xls/xlswt_.py";
+    if (is_list) {
+        xlswtPath = "python3 util/xls/xlswt_list.py";
+    } else {
+        xlswtPath = "python3 util/xls/xlswt_.py";
     }
     let child = child_process.exec(
         xlswtPath + ' \'' + filePath + '\'',
@@ -86,7 +86,7 @@ function WriteXLS(filePath,data,is_list=false) {
             deferred.resolve(stdout);
         }
     );
-    child.stdin.write(JSON.stringify(data),'utf8');
+    child.stdin.write(JSON.stringify(data), 'utf8');
     child.stdin.end();
     return deferred.promise;
 }
@@ -98,11 +98,11 @@ function WriteXLS(filePath,data,is_list=false) {
  * @returns {Array}
  */
 const E_TitleMisMatch = new Error('列标题不符');
-function Title2Key (data, format) {
+function Title2Key(data, format) {
 
     for (let i = 0; i < format.length; i++) {
         if (data[0][i] != format[i][0]) {
-            console.error(data[0][i],format[i][0]);
+            console.error(data[0][i], format[i][0]);
             throw E_TitleMisMatch;
         }
     }
@@ -125,12 +125,12 @@ function Title2Key (data, format) {
  * @returns {Array}
  */
 const E_MissKey = new Error('数据缺失key');
-function Key2Title (data, format) {
+function Key2Title(data, format) {
     let result = [];
     for (let i = 0; i < data.length; i++) {
         let one = {};
         for (let j = 0; j < format.length; j++) {
-            if(!data.hasOwnProperty(format[j][1])){
+            if (!data.hasOwnProperty(format[j][1])) {
                 throw E_MissKey
             }
             one[i][j] = data[format[j][1]];

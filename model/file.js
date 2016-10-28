@@ -13,19 +13,19 @@ var File = sequelize.define('file', {
         type: Sequelize.STRING,
         allowNull: false,
     },
-    size:{
+    size: {
         type: Sequelize.INTEGER,
         allowNull: false,
     },
-    uploaderRole:{
+    uploaderRole: {
         type: Sequelize.INTEGER,
         allowNull: false,
     },
-    uploaderId:{
+    uploaderId: {
         type: Sequelize.INTEGER,
         allowNull: false,
     },
-    role:{
+    role: {
         type: Sequelize.INTEGER,
         allowNull: false,
     }

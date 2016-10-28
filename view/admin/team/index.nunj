@@ -13,40 +13,41 @@
         <section class="content">
 
             <!-- Your Page Content Here -->
-                <div class="box">
-                    <div class="box-header with-border">
-                        <a type="button" class="btn pull-right btn-success" href="add/">添加</a>
-                    </div>
-
-                    <!-- /.box-header -->
-                    <div class="box-body table-responsive no-padding">
-                        <table class="table table-hover">
-                            <tbody>
-                            <tr>
-                                <th>序号</th>
-                                <th>用户名</th>
-                                <th>第一作者学号</th>
-                                <th>操作</th>
-                            </tr>
-                            {% for team in teamList %}
-                                <tr>
-                                    <td>{{ team.id }}</td>
-                                    <td>{{ team.username }}</td>
-                                    <td>{{ team.firstAuthorId }}</td>
-                                    <td>
-                                        <div class="btn-group">
-                                            <a type="button" class="btn btn-warning btn-sm" href="edit/{{ team.id }}/">编辑队伍信息</a>
-                                            <a type="button" class="btn btn-warning btn-sm" href="edit_project/{{ team.id }}/">编辑项目信息</a>
-                                            <a type="button" class="btn btn-danger btn-sm" href="del/{{ team.id }}/">删除</a>
-                                        </div>
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-                    <!-- /.box-body -->
+            <div class="box">
+                <div class="box-header with-border">
+                    <a type="button" class="btn pull-right btn-success" href="add/">添加</a>
                 </div>
+
+                <!-- /.box-header -->
+                <div class="box-body table-responsive no-padding">
+                    <table class="table table-hover">
+                        <tbody>
+                        <tr>
+                            <th>序号</th>
+                            <th>用户名</th>
+                            <th>第一作者学号</th>
+                            <th>操作</th>
+                        </tr>
+                        {% for team in teamList %}
+                            <tr>
+                                <td>{{ team.id }}</td>
+                                <td>{{ team.username }}</td>
+                                <td>{{ team.firstAuthorId }}</td>
+                                <td>
+                                    <div class="btn-group">
+                                        <a type="button" class="btn btn-warning btn-sm" href="edit/{{ team.id }}/">编辑队伍信息</a>
+                                        <a type="button" class="btn btn-warning btn-sm"
+                                           href="edit_project/{{ team.id }}/">编辑项目信息</a>
+                                        <a type="button" class="btn btn-danger btn-sm" href="del/{{ team.id }}/">删除</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.box-body -->
+            </div>
 
         </section>
         <!-- /.content -->

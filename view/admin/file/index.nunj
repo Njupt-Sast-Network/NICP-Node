@@ -45,7 +45,8 @@
                                 <td>{{ file.savePath }}</td>
                                 <td>
                                     <div class="btn-group">
-                                        <a type="button" class="btn btn-info btn-sm" href="download/{{ file.id }}/">下载</a>
+                                        <a type="button" class="btn btn-info btn-sm"
+                                           href="download/{{ file.id }}/">下载</a>
                                         <a type="button" class="btn btn-danger btn-sm" href="del/{{ file.id }}/">删除</a>
                                     </div>
                                 </td>

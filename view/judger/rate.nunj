@@ -31,10 +31,12 @@
                                 <td><a type="button" class="btn btn-info btn-sm" href="download/{{ team.id }}/">下载</a>
                                 </td>
                                 <td>
-                                    <form class="input-group input-group-sm rate-form"  method="POST" action="./save/{{ team.id }}/">
-                                        <input name="rate" type="number" max="10" min="1" step="1" pattern="\d*" class="form-control">
+                                    <form class="input-group input-group-sm rate-form" method="POST"
+                                          action="./save/{{ team.id }}/">
+                                        <input name="rate" type="number" max="10" min="1" step="1" pattern="\d*"
+                                               class="form-control">
                                         <span class="input-group-btn">
-                                            <button type="submit"  class="btn btn-info btn-flat">保存评分</button>
+                                            <button type="submit" class="btn btn-info btn-flat">保存评分</button>
                                         </span>
                                     </form>
                                 </td>
