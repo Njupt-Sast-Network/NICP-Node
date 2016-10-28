@@ -25,11 +25,38 @@ login.post('*/', function *(next) {
             password: password,
         }
     });
-    if (userInfo.username === username) {
+    if ("username" in userInfo && userInfo.username === username) {
         this.session.id = userInfo.id;
         this.session.name = userInfo.username;
         this.session.role = Roles.judger;
+    }else{
+        yield this.render('fail', {
+            title: "登陆错误",
+            message: "用户名或密码错误"
+        });
     }
+});
+
+judger.get('*/password/', function *(next) {
+    yield this.render('judger/password');
+});
+
+judger.post('*/password/', function *(next) {
+    let oldPassword = this.request.fields.old_password.toString();
+    let newPassword = this.request.fields.new_password.toString();
+    if(newPassword != this.request.fields.again_password.toString()){
+        this.body={status:"error",data:"两次新密码不符"};
+        return ;
+    }
+    let userInfo = yield this.db.Judger.findById(this.session.id);
+    if(userInfo.password != oldPassword){
+        this.body={status:"error",data:"旧密码错误"};
+        return ;
+    }
+
+    userInfo.set('password',newPassword);
+    userInfo.save();
+    this.body={status:"success",data:"修改成功"};
 });
 
 judger.get('*/news/', function *(next) {

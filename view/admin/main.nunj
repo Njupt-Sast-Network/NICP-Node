@@ -34,7 +34,7 @@
         active:(no==5),
         name:"密码修改",
         icon:"fa-link",
-        herf:"##"
+        herf:"/admin/password/"
     }]
     }
     ]) }}
