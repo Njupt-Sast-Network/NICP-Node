@@ -6,6 +6,9 @@ let Roles = require("../router/auth").Roles;
 let login = require('koa-router')();
 const fs = require('fs-promise');
 const path = require('path');
+const xls = require('../util/xls/xls');
+const moment =require('moment');
+
 login.get('*/', function *(next) {
     yield this.render('login', {
         title: this.cfg.siteName + "管理员登陆",
@@ -314,5 +317,65 @@ admin.post('*/judger/edit/:id/', function *(next) {
     });
     this.redirect('../../');
 });
+
+admin.get('*/export/', function *(next) {
+    yield this.render('admin/export/index');
+});
+
+admin.get('*/export/do_export/', function *(next) {
+    let judgements = yield this.db.Judgement.findAll();
+    let teams = yield this.db.Team.findAll();
+    let judgers = yield this.db.Judger.findAll();
+    let result=[];
+    let teamMap={};
+
+    let i=1;
+    for(let team of teams){
+        teamMap[team.id]=i;
+        result.push({
+            x:0,
+            y:i,
+            value:team.username
+        });
+        i++;
+    }
+
+    let judgerMap={};
+
+    i=1;
+    for(let judger of judgers){
+        judgerMap[judger.id]=i;
+        result.push({
+            x:i,
+            y:0,
+            value:judger.username
+        });
+        i++;
+    }
+    for(let judgement of judgements){
+        result.push({
+            x:teamMap[judgement.teamId],
+            y:judgerMap[judgement.judgerId],
+            value:judgement.rate,
+        });
+    }
+    let fileName = "export_"+Date.now().toString()+".xls";
+    let filePath = path.join("export",fileName);
+    let absoluteFilePath = path.resolve(this.cfg.uploadPath,filePath);
+
+    yield xls.writeXLS(absoluteFilePath,result,true);
+    let fileStat = yield fs.stat(absoluteFilePath);
+
+    let fileInfo= yield this.db.File.create({
+        fileName:fileName,
+        savePath:filePath,
+        uploaderId:this.session.id,
+        uploaderRole:Roles.admin,
+        role:Roles.admin,
+        size:fileStat.size,
+    });
+    this.redirect("/admin/file/download/"+fileInfo.id.toString()+"/");
+});
+
 admin.login = login;
 module.exports = admin;

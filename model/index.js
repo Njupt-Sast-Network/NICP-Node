@@ -60,7 +60,7 @@ Judger.sync({force:true})
         Judgement.sync({force:true});
     });
 
-
+db.Judgement=Judgement;
 
 module.exports=db;
 

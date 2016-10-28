@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+{% import "../../utils.nunj" as util %}
+{% import "../main.nunj" as main %}
+{{ util.head("数据导出管理") }}
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+    {{ main.header(3) }}
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        {{ util.content_header("数据导出管理","终究是要导出的",["后台管理","数据导出管理"]) }}
+        <!-- Main content -->
+        <section class="content">
+            <!-- Your Page Content Here -->
+            <div class="box">
+                <div class="box-header with-border">
+                    <a type="button" class="btn pull-right btn-success" href="do_export/">导出</a>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body table-responsive no-padding">
+
+                </div>
+                <!-- /.box-body -->
+            </div>
+
+        </section>
+        <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+    {{ util.footer() }}
+</div>
+{{ util.js() }}
+</body>
+</html>

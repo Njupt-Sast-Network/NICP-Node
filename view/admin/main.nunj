@@ -27,6 +27,11 @@
         herf:"/admin/file/"
     },{
         active:(no==4),
+        name:"数据导出管理",
+        icon:"fa-link",
+        herf:"/admin/export/"
+    },{
+        active:(no==5),
         name:"密码修改",
         icon:"fa-link",
         herf:"##"
