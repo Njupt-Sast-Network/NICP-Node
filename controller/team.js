@@ -199,10 +199,7 @@ team.post('*/file/upload/report/', function *(next) {
 team.post('*/file/upload/:name/', function *(next) {
     const fileNameList = ['brief', 'report', 'rfp'];
     if (fileNameList.indexOf(this.params.name) == -1) {
-        yield this.render('fail', {
-            title: "文件类型错误",
-            message: "不存在该类文件"
-        });
+        this.body={status: "error", data: "不存在该类文件"};
         return;
     }
 

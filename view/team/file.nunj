@@ -2,19 +2,19 @@
 <html>
 {% import "../utils.nunj" as util %}
 {% import "./main.nunj" as main %}
-{% macro upload_box(title,address,name,description) %}
+{% macro upload_box(title,upload_url,download_url,name,description) %}
 
     <div class="box">
         <div class="box-header with-border">
-            <h3 class="box-title">{{ title }}</h3>
+            <h3 class="box-title">{{ title }}上传</h3>
         </div>
-        <form role="form" method="post" action="{{ address }}" class="form-horizontal" enctype='multipart/form-data'>
+        <form role="form" method="post" action="{{ upload_url }}" class="file-upload-form form-horizontal" enctype='multipart/form-data'>
             <div class="box-body">
 
                 <div class="form-group">
-                    <label for="exampleInputFile">File input</label>
-                    <input type="file" name="{{ name }}">
-                    <p class="help-block">{{ description }}</p>
+                    <label class="col-sm-4 control-label" for="exampleInputFile">{{ title }}</label>
+                    <input class="col-sm-5" type="file" name="{{ name }}">
+                    <a type="button" class="btn btn-info btn-sm" href="{{ download_url }}">下载上次上传的{{ title }}</a>
                 </div>
             </div>
             <!-- /.box-body -->
@@ -39,10 +39,10 @@
         {{ util.content_header("项目信息","请认真填写",["队伍管理","项目信息"]) }}
         <!-- Main content -->
         <section class="content">
-            {{ upload_box("申报表上传","./upload/rfp/","file","申报表上传") }}
-            {{ upload_box("研究报告上传","./upload/report/","file","研究报告") }}
-            {{ upload_box("作品简介书上传","./upload/brief/","file","作品简介书") }}
-            {{ upload_box("作品照片上传","./upload/photo/","file","作品照片") }}
+            {{ upload_box("申报表","./upload/rfp/","./download/rfp.pdf/","file","申报表") }}
+            {{ upload_box("研究报告","./upload/report/","./download/report.pdf/","file","研究报告") }}
+            {{ upload_box("作品简介书","./upload/brief/","./download/brief.pdf/","file","作品简介书") }}
+            {{ upload_box("作品照片","./upload/photo/","./download/photo/","file","作品照片") }}
             <!-- /.box-footer-->
     </div>
     </section>
@@ -52,7 +52,28 @@
 {{ util.footer() }}
 
 {{ util.js() }}
+<script src="/asset/plugins/jQuery-form/jquery.form.min.js"></script>
 <script>
+    $(function () {
+        $('.file-upload-form').submit(function (event) {
+            event.preventDefault();
+            //TODO:前端验证表单
+            $(this).find('button').addClass("disabled").prop("disabled", true);
+            var that = this;
+            $(this).ajaxSubmit(function (resp) {
+                if (resp.status == "success") {
+                    alert("保存成功");
+                } else if (resp.status == "error") {
+                    alert("保存失败，相关信息：" + JSON.stringify(resp.data));
+                } else {
+                    alert("未知错误");
+                }
+                $(that).find('button').removeClass("disabled").prop("disabled", false);
+            });
+            return false;
+        });
+    });
+
 </script>
 </body>
 </html>
