@@ -33,7 +33,9 @@
                                 <td>
                                     <form class="input-group input-group-sm rate-form" method="POST"
                                           action="./save/{{ team.id }}/">
-                                        <input name="rate" type="number" max="10" min="1" step="1" pattern="\d*"
+                                        <input name="rate" type="number" max="10" min="1" step="1"
+                                               value="{{ team.judgers[0].judgement.rate if team.judgers.length>0 }}"
+                                               pattern="\d*"
                                                class="form-control">
                                         <span class="input-group-btn">
                                             <button type="submit" class="btn btn-info btn-flat">保存评分</button>
