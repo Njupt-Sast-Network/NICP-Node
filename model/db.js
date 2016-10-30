@@ -3,8 +3,10 @@
  */
 'use strict';
 var Sequelize = require('sequelize');
-module.exports = new Sequelize('nicp', 'nicp', 'sastnicp', {
-    host: '127.0.0.1',
+const config = require('../config');
+module.exports = new Sequelize(config.db.name, config.db.user, config.db.password, {
+    host: config.db.host,
+    port: config.db.port,
     dialect: 'postgres',
     pool: {
         max: 10,
