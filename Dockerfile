@@ -9,7 +9,7 @@ WORKDIR /usr/src/app
 COPY . /usr/src/app
 
 # Install app dependencies
-RUN apt-get update && apt-get install -y python3-pip && pip3 install -r requirement.txt && npm install
+RUN apt-get update && apt-get install -y python3-pip pdftk && pip3 install -r requirement.txt && npm install
 
 EXPOSE 3000
 CMD [ "npm", "start" ]
