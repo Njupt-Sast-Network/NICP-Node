@@ -13,22 +13,22 @@
     },{
         active:(no==1),
         name:"队伍信息",
-        icon:"fa-link",
+        icon:"fa-group",
         herf:"/team/info/"
     },{
         active:(no==2),
         name:"项目信息",
-        icon:"fa-link",
+        icon:"fa-archive",
         herf:"/team/project/"
     },{
         active:(no==3),
         name:"文件上传",
-        icon:"fa-link",
+        icon:"fa-upload",
         herf:"/team/file/"
     },{
         active:(no==4),
         name:"密码修改",
-        icon:"fa-link",
+        icon:"fa-key",
         herf:"/team/password/"
     }]
     }

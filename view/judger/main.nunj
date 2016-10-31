@@ -13,12 +13,12 @@
     },{
         active:(no==1),
         name:"评分管理",
-        icon:"fa-newspaper-o",
+        icon:"fa-star",
         herf:"/judger/rate/"
     },{
         active:(no==2),
         name:"密码修改",
-        icon:"fa-link",
+        icon:"fa-key",
         herf:"/judger/password/"
     }]
     }

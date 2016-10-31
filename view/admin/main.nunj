@@ -13,27 +13,27 @@
     },{
         active:(no==1),
         name:"队伍信息管理",
-        icon:"fa-link",
+        icon:"fa-group",
         herf:"/admin/team/"
     },{
         active:(no==2),
         name:"评委信息管理",
-        icon:"fa-link",
+        icon:"fa-graduation-cap",
         herf:"/admin/judger/"
     },{
         active:(no==3),
         name:"文件上传管理",
-        icon:"fa-link",
+        icon:"fa-upload",
         herf:"/admin/file/"
     },{
         active:(no==4),
         name:"数据导出管理",
-        icon:"fa-link",
+        icon:"fa-archive",
         herf:"/admin/export/"
     },{
         active:(no==5),
         name:"密码修改",
-        icon:"fa-link",
+        icon:"fa-key",
         herf:"/admin/password/"
     }]
     }
