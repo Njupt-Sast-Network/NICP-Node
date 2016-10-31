@@ -19,23 +19,20 @@ login.get('*/', function *(next) {
 login.post('*/', function *(next) {
     let username = this.request.fields.username.toString();
     let password = this.request.fields.password.toString();
-    console.log(username, password);
+
     let userInfo = yield this.db.Admin.findOne({
         where: {
             username: username,
             password: password,
         }
     });
-    if ("username" in userInfo && userInfo.username === username) {
+    if (userInfo && "username" in userInfo && userInfo.username === username) {
         this.session.id = userInfo.id;
         this.session.name = userInfo.username;
         this.session.role = Roles.admin;
-        this.redirect('../news/');
+        this.body={status:"success"};
     } else {
-        yield this.render('fail', {
-            title: "登陆错误",
-            message: "用户名或密码错误"
-        });
+        this.body={status:"error",data:"用户名或密码错误"};
     }
 });
 

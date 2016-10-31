@@ -25,16 +25,13 @@ login.post('*/', function *(next) {
             password: password,
         }
     });
-    if ("username" in userInfo && userInfo.username === username) {
+    if (userInfo && "username" in userInfo && userInfo.username === username) {
         this.session.id = userInfo.id;
         this.session.name = userInfo.username;
         this.session.role = Roles.team;
-        this.redirect('../news/');
+        this.body={status:"success"};
     } else {
-        yield this.render('fail', {
-            title: "登陆错误",
-            message: "用户名或密码错误"
-        });
+        this.body={status:"error",data:"用户名或密码错误"};
     }
 });
 

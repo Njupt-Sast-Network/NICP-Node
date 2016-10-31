@@ -15,7 +15,7 @@
     <div class="login-box-body">
         <p class="login-box-msg">Sign in to start your session</p>
 
-        <form action="./" method="post">
+        <form action="./" method="post" class="login-form">
             <div class="form-group has-feedback">
                 <input type="text" name="username" class="form-control" placeholder="Username">
                 <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
@@ -49,7 +49,29 @@
 <!-- /.login-box -->
 {{ util.js() }}
 <script src="/asset/plugins/iCheck/icheck.min.js"></script>
+<script src="/asset/plugins/jQuery-form/jquery.form.min.js"></script>
+<!-- Page script -->
 <script>
+    $(function () {
+        //Date picker
+        $('.login-form').submit(function (event) {
+            event.preventDefault();
+            //TODO:前端验证表单
+            $(this).find('button').addClass("disabled").prop("disabled", true);
+            var that = this;
+            $(this).ajaxSubmit(function (resp) {
+                if (resp.status == "success") {
+                    window.location.href='../news/'
+                } else if (resp.status == "error") {
+                    alert("登陆失败，" + JSON.stringify(resp.data));
+                } else {
+                    alert("未知错误");
+                }
+                $(that).find('button').removeClass("disabled").prop("disabled", false);
+            });
+            return false;
+        });
+    });
     $(function () {
         $('input').iCheck({
             checkboxClass: 'icheckbox_square-blue',
@@ -57,6 +79,8 @@
             increaseArea: '20%' // optional
         });
     });
+
 </script>
+
 </body>
 </html>
