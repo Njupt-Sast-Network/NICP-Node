@@ -5,7 +5,7 @@
 {{ util.head("评委信息管理") }}
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
-    {{ main.header(2) }}
+    {{ main.header(2,username) }}
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         {{ util.content_header("评委信息管理","",["后台管理","评委信息管理"]) }}

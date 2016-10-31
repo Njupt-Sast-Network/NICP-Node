@@ -5,7 +5,7 @@
 {{ util.head("评分管理") }}
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
-    {{ main.header(1) }}
+    {{ main.header(1,username) }}
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         {{ util.content_header("评分管理","请打分",["后台管理","评分管理"]) }}

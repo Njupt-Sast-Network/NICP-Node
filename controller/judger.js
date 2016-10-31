@@ -39,7 +39,9 @@ login.post('*/', function *(next) {
 });
 
 judger.get('*/password/', function *(next) {
-    yield this.render('judger/password');
+    yield this.render('judger/password',{
+        username:this.session.name,
+    });
 });
 
 judger.post('*/password/', function *(next) {
@@ -67,6 +69,7 @@ judger.get('*/news/', function *(next) {
         }
     });
     yield this.render('judger/news', {
+        username:this.session.name,
         title: "通知公告",
         name: "通知公告",
         newsList: newsList
@@ -93,6 +96,7 @@ judger.get('*/rate/', function *(next) {
     //     console.log(teamList[0].judgers[0].judgement);
     // }
     yield this.render('judger/rate', {
+        username:this.session.name,
         teamList: teamList
     });
 });

@@ -5,7 +5,7 @@
 {{ util.head("队伍信息管理") }}
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
-    {{ main.header(1) }}
+    {{ main.header(1,username) }}
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         {{ util.content_header("队伍信息管理","所有队伍都这里了",["后台管理","队伍信息管理"]) }}

@@ -33,6 +33,7 @@ function verifyAuth(need_role) {
 
 function *logout(next) {
     yield this.regenerateSession();
+    this.redirect('/');
 }
 
 exports.Roles = Roles;

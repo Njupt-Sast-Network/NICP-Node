@@ -5,7 +5,7 @@
 {{ util.head("文件上传管理") }}
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
-    {{ main.header(3) }}
+    {{ main.header(3,username) }}
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         {{ util.content_header("文件上传管理","好多文件。。",["后台管理","文件上传管理"]) }}

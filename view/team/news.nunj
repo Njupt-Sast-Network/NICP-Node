@@ -6,7 +6,7 @@
 {{ util.head('通知公告') }}
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
-    {{ main.header(0) }}
+    {{ main.header(0,username) }}
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         {{ util.content_header("通知公告","请注意及时查阅",["队伍管理","通知公告"]) }}

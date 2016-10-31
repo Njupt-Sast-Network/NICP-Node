@@ -44,7 +44,9 @@ let team = require('koa-router')();
 //     yield this.render('team/news');
 // });
 team.get('*/password/', function *(next) {
-    yield this.render('team/password');
+    yield this.render('team/password',{
+        username:this.session.name,
+    });
 });
 
 team.post('*/password/', function *(next) {
@@ -71,6 +73,7 @@ team.get('*/news/', function *(next) {
         }
     });
     yield this.render('team/news', {
+        username:this.session.name,
         title: "通知公告",
         name: "通知公告",
         newsList: newsList
@@ -83,6 +86,7 @@ team.get('*/news/', function *(next) {
 team.get('*/info/', function *(next) {
     let infoData = yield this.db.Team.findById(this.session.id);
     yield this.render('team/info', {
+        username:this.session.name,
         jsonModel: this.jsonModel,
         firstAuthorData: infoData.firstAuthor,
         otherAuthorData: infoData.otherAuthors,
@@ -133,6 +137,7 @@ team.post('*/info/teacher/:id/', function *(next) {
 team.get('*/project/', function *(next) {
     let infoData = yield this.db.Team.findById(this.session.id);
     yield this.render('team/project', {
+        username:this.session.name,
         jsonModel: this.jsonModel,
         projectData: infoData.project,
     });
@@ -151,7 +156,9 @@ team.post('*/project/', function *(next) {
 });
 
 team.get('*/file/', function *(next) {
-    yield this.render('team/file');
+    yield this.render('team/file',{
+        username:this.session.name,
+    });
 });
 
 team.post('*/file/upload/report/', function *(next) {

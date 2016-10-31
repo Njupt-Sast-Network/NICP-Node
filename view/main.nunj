@@ -5,7 +5,7 @@
 {{ util.head('title') }}
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
-    {{ util.header("username","/asset/AdminLTE/img/user2-160x160.jpg","user description") }}
+    {{ util.header(username,"/asset/AdminLTE/img/user2-160x160.jpg","user description") }}
     {{ util.sidebar(
     [
     {

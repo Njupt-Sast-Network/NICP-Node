@@ -45,7 +45,9 @@ let admin = require('koa-router')();
 //     yield this.render('team/news');
 // });
 admin.get('*/password/', function *(next) {
-    yield this.render('admin/password');
+    yield this.render('admin/password',{
+        username:this.session.name,
+    });
 });
 
 admin.post('*/password/', function *(next) {
@@ -68,12 +70,14 @@ admin.post('*/password/', function *(next) {
 admin.get('*/news/', function *(next) {
     let newsList = yield this.db.News.findAll();
     yield this.render('admin/news/index', {
+        username:this.session.name,
         newsList: newsList,
         roles: Roles,
     });
 });
 admin.get('*/news/add/', function *(next) {
     yield this.render('admin/news/add', {
+        username:this.session.name,
         roles: Roles,
     });
 });
@@ -85,6 +89,7 @@ admin.post('*/news/add/', function *(next) {
 admin.get('*/news/edit/:id/', function *(next) {
     let news = yield this.db.News.findById(this.params.id);
     yield this.render('admin/news/edit', {
+        username:this.session.name,
         news: news,
         roles: Roles,
     });
@@ -102,6 +107,7 @@ admin.post('*/news/edit/:id/', function *(next) {
 admin.get('*/news/del/:id/', function *(next) {
     let news = yield this.db.News.findById(this.params.id);
     yield this.render('admin/news/del', {
+        username:this.session.name,
         news: news,
         roles: Roles,
     });
@@ -119,11 +125,14 @@ admin.post('*/news/del/:id/', function *(next) {
 admin.get('*/team/', function *(next) {
     let teamList = yield this.db.Team.findAll();
     yield this.render('admin/team/index', {
+        username:this.session.name,
         teamList: teamList,
     });
 });
 admin.get('*/team/add/', function *(next) {
-    yield this.render('admin/team/add');
+    yield this.render('admin/team/add',{
+        username:this.session.name,
+    });
 });
 admin.post('*/team/add/', function *(next) {
     yield this.db.Team.create(this.request.fields);
@@ -134,6 +143,7 @@ admin.post('*/team/add/', function *(next) {
 admin.get('*/team/del/:id/', function *(next) {
     let team = yield this.db.Team.findById(this.params.id);
     yield this.render('admin/team/del', {
+        username:this.session.name,
         team: team,
     });
 });
@@ -149,6 +159,7 @@ admin.post('*/team/del/:id/', function *(next) {
 admin.get('*/team/edit/:team_id/', function *(next) {
     let team = yield this.db.Team.findById(this.params.team_id);
     yield this.render('admin/team/edit', {
+        username:this.session.name,
         jsonModel: this.jsonModel,
         firstAuthorData: team.firstAuthor,
         otherAuthorData: team.otherAuthors,
@@ -202,6 +213,7 @@ admin.post('*/team/edit/:team_id/teacher/:id/', function *(next) {
 admin.get('*/team/edit_project/:id/', function *(next) {
     let infoData = yield this.db.Team.findById(this.params.id);
     yield this.render('admin/team/edit_project', {
+        username:this.session.name,
         jsonModel: this.jsonModel,
         projectData: infoData.project,
     });
@@ -223,11 +235,13 @@ admin.post('*/team/edit_project/:id/', function *(next) {
 admin.get('*/file/', function *(next) {
     let fileList = yield this.db.File.findAll();
     yield this.render('admin/file/index', {
+        username:this.session.name,
         fileList: fileList,
     });
 });
 admin.get('*/file/add/', function *(next) {
     yield this.render('admin/file/add', {
+        username:this.session.name,
         roles: Roles
     });
 });
@@ -259,6 +273,7 @@ admin.post('*/file/add/', function *(next) {
 admin.get('*/file/del/:id/', function *(next) {
     let fileInfo = yield this.db.File.findById(this.params.id);
     yield this.render('admin/file/del', {
+        username:this.session.name,
         file: fileInfo
     });
 });
@@ -302,11 +317,14 @@ admin.get('*/file/download/:id/', function *(next) {
 admin.get('*/judger/', function *(next) {
     let judgerList = yield this.db.Judger.findAll();
     yield this.render('admin/judger/index', {
+        username:this.session.name,
         judgerList: judgerList,
     });
 });
 admin.get('*/judger/add/', function *(next) {
-    yield this.render('admin/judger/add');
+    yield this.render('admin/judger/add',{
+        username:this.session.name,
+    });
 });
 
 admin.post('*/judger/add/', function *(next) {
@@ -318,6 +336,7 @@ admin.post('*/judger/add/', function *(next) {
 admin.get('*/judger/del/:id/', function *(next) {
     let judger = yield this.db.Judger.findById(this.params.id);
     yield this.render('admin/judger/del', {
+        username:this.session.name,
         judger: judger,
     });
 });
@@ -333,6 +352,7 @@ admin.post('*/judger/del/:id/', function *(next) {
 admin.get('*/judger/edit/:id/', function *(next) {
     let judger = yield this.db.Judger.findById(this.params.id);
     yield this.render('admin/judger/edit', {
+        username:this.session.name,
         judger: judger,
     });
 });
@@ -346,7 +366,9 @@ admin.post('*/judger/edit/:id/', function *(next) {
 });
 
 admin.get('*/export/', function *(next) {
-    yield this.render('admin/export/index');
+    yield this.render('admin/export/index',{
+        username:this.session.name,
+    });
 });
 
 admin.get('*/export/do_export/', function *(next) {

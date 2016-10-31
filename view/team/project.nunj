@@ -10,7 +10,7 @@
 
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
-    {{ main.header(2) }}
+    {{ main.header(2,username) }}
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         {{ util.content_header("项目信息","请认真填写",["队伍管理","项目信息"]) }}
