@@ -98,6 +98,15 @@ judger.get('*/rate/', function *(next) {
     });
 });
 
+judger.get('*/rate/show_project/:id/',function *() {
+    let projectInfo = yield this.db.Team.findById(this.params.id);
+    yield this.render('judger/show_project', {
+        username:this.session.name,
+        jsonModel: this.jsonModel,
+        projectData: projectInfo.project,
+    });
+});
+
 judger.post('*/rate/save/:id/', function *(next) {
     let rate = Number.parseInt(this.request.fields.rate);
 

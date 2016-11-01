@@ -67,11 +67,12 @@
                             <!-- Menu Footer-->
                             <li class="user-footer">
                                 {#<div class="pull-left">#}
-                                    {#<a href="#" class="btn btn-default btn-flat">修改密码</a>#}
+                                {#<a href="#" class="btn btn-default btn-flat">修改密码</a>#}
                                 {#</div>#}
                                 <div class="pull-right">
                                     <form method="POST" action="/logout">
-                                        <button href="/logout" class="btn btn-default btn-flat">退出账号</>
+                                        <button href="/logout" class="btn btn-default btn-flat">退出账号</
+                                        >
                                     </form>
 
                                 </div>
@@ -285,6 +286,112 @@
                     </div>
                 </div>
             </form>
+
+        </div>
+        <!-- /.box-body -->
+    </div>
+    <!-- /.box -->
+{% endmacro %}
+
+{% macro makeShow(title,validateData,data) %}
+    <div class="box">
+        {#{{ data |dump }}#}
+        {#{{ validateData |dump }}#}
+        <div class="box-header with-border">
+            <h3 class="box-title">{{ title }}</h3>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body form-horizontal">
+            {% for id,field in validateData %}
+                {#{{ id }}---{{ field.type }}#}
+                {% if field.type=="text" %}
+                    <!-- text input -->
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">{{ field.title }}</label>
+                        <div class="col-sm-5 ">
+                            {{ data[id] }}
+                        </div>
+                    </div>
+                {% endif %}
+                {% if field.type=="date" %}
+                    <div class="form-group">
+                        <label class="col-sm-4">{{ field.title }}</label>
+                        <div class="col-sm-5 date">
+                            <input type="text" name="{{ id }}" class="form-control pull-right datepicker"
+                                   value="{{ data[id] }}">
+                        </div>
+                        <!-- /.input group -->
+                    </div>
+                {% endif %}
+                {% if field.type=="textarea" %}
+                    <!-- textarea -->
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">{{ field.title }}</label>
+                        <div class="col-sm-5 ">
+                            {{ data[id] }}
+                        </div>
+                    </div>
+                {% endif %}
+
+                {% if field.type=="checkbox" %}
+                    {#TODO:实现 checkbox#}
+                    <!-- checkbox -->
+                    <div class="form-group">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox">
+                                Checkbox 1
+                            </label>
+                        </div>
+
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox">
+                                Checkbox 2
+                            </label>
+                        </div>
+
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" disabled>
+                                Checkbox disabled
+                            </label>
+                        </div>
+                    </div>
+                {% endif %}
+
+                {% if field.type=="radio" %}
+                    <!-- radio -->
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">{{ field.title }}</label>
+                        <div class="col-sm-5">
+                            {% for option,value in field.inclusion.within %}
+                                {{ value  if data[id]==option }}
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endif %}
+
+                {% if field.type=="select" %}
+                    {#TODO:实现 select#}
+                    <!-- select -->
+                    <div class="form-group">
+                        <label>Select</label>
+                        <select class="form-control">
+                            <option>option 1</option>
+                            <option>option 2</option>
+                            <option>option 3</option>
+                            <option>option 4</option>
+                            <option>option 5</option>
+                        </select>
+                    </div>
+                {% endif %}
+            {% endfor %}
+            <div class="box-footer">
+                <div class="text-center">
+                    <a href="../../" class="btn btn-primary">返回</a>
+                </div>
+            </div>
 
         </div>
         <!-- /.box-body -->

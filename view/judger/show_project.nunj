@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+{% import "../utils.nunj" as util %}
+{% import "./main.nunj" as main %}
+{{ util.head("评分管理") }}
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+    {{ main.header(1,username) }}
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        {{ util.content_header("队伍申报书查阅","请打分",["后台管理","评分管理","队伍申报书查阅"]) }}
+        <!-- Main content -->
+        <section class="content">
+            <!-- Your Page Content Here -->
+            {{ util.makeShow("队伍申报书",jsonModel.project,projectData) }}
+            <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+    {{ util.footer() }}
+</div>
+{{ util.js() }}
+{{ util.makeFormJS() }}
+</body>
+</html>

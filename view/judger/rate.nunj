@@ -22,12 +22,14 @@
                         <tbody>
                         <tr>
                             <th>序号</th>
+                            <th>查看申报书</th>
                             <th>研究报告下载</th>
                             <th>评分</th>
                         </tr>
                         {% for team in teamList %}
                             <tr>
                                 <td>{{ team.id }}</td>
+                                <td><a type="button" class="btn btn-info btn-sm" href="show_project/{{ team.id }}/">查看</a>
                                 <td><a type="button" class="btn btn-info btn-sm" href="download/{{ team.id }}/">下载</a>
                                 </td>
                                 <td>
