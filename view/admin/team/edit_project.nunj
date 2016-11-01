@@ -12,8 +12,7 @@
         <!-- Main content -->
         <section class="content">
             <!-- Your Page Content Here -->
-            {{ util.makeForm("第一作者信息","./",jsonModel.project,projectData) }}
-
+            {{ util.makeForm("项目信息","./",jsonModel.project,projectData) }}
             <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->
