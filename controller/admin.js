@@ -19,7 +19,7 @@ login.get('*/', function *(next) {
 login.post('*/', function *(next) {
     let username = this.request.fields.username.toString();
     let password = this.request.fields.password.toString();
-
+    let rememberMe = (this.request.fields.remember_me.toString() === 'on');
     let userInfo = yield this.db.Admin.findOne({
         where: {
             username: username,
@@ -30,6 +30,11 @@ login.post('*/', function *(next) {
         this.session.id = userInfo.id;
         this.session.name = userInfo.username;
         this.session.role = Roles.admin;
+        if(rememberMe){
+            this.session.cookie.maxage=7*24*60*60*1000;//一周
+        }else{
+            this.session.cookie.maxage=null;//关闭浏览器马上失效
+        }
         this.body={status:"success"};
     } else {
         this.body={status:"error",data:"用户名或密码错误"};
