@@ -38,10 +38,6 @@ var Team = sequelize.define('team', {
             unique: true,
             fields: ['username']
         },
-        {
-            unique: true,
-            fields: ['firstAuthorId']
-        },
     ]
 });
 module.exports = Team;
