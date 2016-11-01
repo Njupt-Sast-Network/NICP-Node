@@ -85,7 +85,8 @@ judger.get('*/rate/', function *(next) {
             where: {id: this.session.id},
             through: {
                 attributes: ['rate'],
-            }
+            },
+            order: 'id DESC'
         }]
     });
     // console.log(teamList);
