@@ -379,8 +379,8 @@ admin.get('*/export/do_export/', function *(next) {
     for (let team of teams) {
         teamMap[team.id] = i;
         result.push({
-            x: 0,
-            y: i,
+            x: i,
+            y: 0,
             value: team.username
         });
         i++;
@@ -392,8 +392,8 @@ admin.get('*/export/do_export/', function *(next) {
     for (let judger of judgers) {
         judgerMap[judger.id] = i;
         result.push({
-            x: i,
-            y: 0,
+            x: 0,
+            y: i,
             value: judger.username
         });
         i++;
