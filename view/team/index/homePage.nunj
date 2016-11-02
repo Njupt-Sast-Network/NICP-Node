@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <style>
+    *{
+      transition: all .3s;
+    }
+    @font-face {
+      font-family: 'iconfont';
+      src: url('https://at.alicdn.com/t/font_1476275380_1158147.eot'); /* IE9*/
+      src: url('https://at.alicdn.com/t/font_1476275380_1158147.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+      url('https://at.alicdn.com/t/font_1476275380_1158147.woff') format('woff'), /* chrome、firefox */
+      url('https://at.alicdn.com/t/font_1476275380_1158147.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+      url('https://at.alicdn.com/t/font_1476275380_1158147.svg#iconfont') format('svg'); /* iOS 4.1- */
+    }
+
+    .iconfont{
+      font-family:"iconfont";
+      font-size:3em;font-style:normal;
+    }
+
+    .header-top span,footer .container>div, footer .container>div>*, footer .container li{
+      display: inline-block;
+      font-family: "Microsoft YaHei",Arial,Helvetica,sans-serifsans-serif;
+    }
+    body{margin: 0;}
+    li{list-style: none;}
+    a{text-decoration: none;}
+    @media screen and (min-width:760px){
+      .container {
+        width: 960px;
+      }
+
+      .header-top{min-height: 2.1em;height: 1vw;}
+      .header-top span{
+        padding: .8em 1em;
+        background: #e45c6e;
+        margin-top: -7px;
+        position: absolute;
+        border-radius: 6px;
+        color: #fff;
+        box-shadow: 0 1px #564a4a;
+      }
+      footer .foot-list{
+        width: 60%;
+        border-right: 1px solid #eee;
+      }
+    }
+    @media screen and (max-width:760px){
+      .container{
+        width: 100%;
+      }
+      header, .container .content-box .hr-top, .container .content-box .logo {
+        display: none;
+      }
+      .container .content-box .form{
+        width: 100%;
+      }
+      .header-top span {
+      padding: .8em 1em;
+      background: #00a7de;
+      color: #fff;
+      display: block;
+      margin-bottom: 5vw;
+      }
+      footer .foot-list{
+        width: 100%;
+        margin-left: 1.5em;
+      }
+    }
+    .container{
+      margin: auto;
+    }
+    header{
+      height: 100px;
+      background-color: #479bd6;
+      margin-bottom: 4em;
+      box-shadow: 0 2px 3px #2c6eb3 inset;
+    }
+    header .container img{
+      width: 100%;
+    }
+    .container .content-box .hr-top{
+      margin: 1em 0 3em 0;
+      position: relative;
+      border-color: #ddd;
+      border: none;
+      border-top: 1px solid #ddd;
+    }
+    .container .content-box .hr-top:before {
+      content: '登陆';
+      position: absolute;
+      left: 50%;
+      margin-left: -1.5em;
+      margin-top: -.7em;
+      font-size: 2em;
+      background-color: #fff;
+      padding: 0 .5em;
+  }
+  .container .content-box hr.hr-top:after {
+    content: ' ';
+    position: absolute;
+    height: 200px;
+    width: 1px;
+    border-left: 1px solid #ddd;
+    left: 50%;
+    top: 3em;
+  }
+  .content-box>div {
+    width: 50%;
+    box-sizing: border-box;
+    height: 45vh;
+    float: left;
+    padding: 0 3em;
+  }
+  .content-box .line{
+      border-right: 1px solid #ddd;
+  }
+  .form form input.input-box  {
+      width: 95%;
+      margin-bottom: 2em;
+      padding: .8em;
+      border-radius: 3px;
+      border: 1px solid #ddd;
+  }
+  .form form #foget-pass-text{
+    float: right;
+    color: #41D4F7;
+    margin-top: -1.3em;
+  }
+  .form-button {margin-top: .7em;}
+  .form-button button {
+    width: 100%;
+    padding: .6em 1em;
+    border-radius: 3px;
+    border: 1px solid;
+  }
+  .form-button button:first-child{
+    background-color: #00a7de;
+    margin-right: 6%;
+    border-color: #0d87af;
+    color: #fff;
+  }
+  .form-button button:first-child:hover{
+    background-color: #32c4f5;
+  }
+  .form-button button:nth-child(2){
+    background-color: #fff;
+    border-color: #ddd;
+  }
+  .form-button button:nth-child(2):hover{
+    background-color: #eee;
+  }
+  footer{
+    background-color: #f6f9fa;
+    padding: 2em 0;
+  }
+  footer .foot-list li{margin-right: 1em;}
+  footer .container .foot-link>div{
+    width: 4em;
+    text-align: center;
+    margin-left: 1.5em;
+    cursor: pointer;
+    position: relative;
+  }
+  footer .container .foot-link>div>div{
+    margin-bottom: 1em;
+  }
+  footer .container .foot-link>div:hover .link-img{
+    opacity: 1;
+    visibility: visible;
+  }
+  footer .container .foot-link>div .link-img {
+    width: 130px;
+    height: 130px;
+    border: 1px solid #e3e3e3;
+    position: absolute;
+    top: -145px;
+    left: -35px;
+    opacity: 0;
+    visibility: hidden;
+  }
+  footer .container .foot-link>div .link-img img:first-child{
+    width: 100%;
+    margin-bottom: -6px;
+  }
+  footer .container a{
+    font-size: .9rem;
+    color: #000;
+  }
+  footer .container a:hover, footer .container .foot-link>div:hover a{
+    color: #479bd6;
+  }
+  </style>
+</head>
+<body>
+  <div class="header-top container">
+    <span>南京邮电大学大学生第18届创新杯比赛</span>
+  </div>
+  <header>
+    <div class="container">
+    <img src="/asset/team_index/header.png" alt="">
+    </div>
+  </header>
+  <div class="container">
+    <div class="content-box">
+      <hr class="hr-top"/>
+      <div class="logo">
+        <img src="/asset/team_index/logo.jpg" alt="" style="width: 100%;">
+      </div>
+      <div class="form">
+        <form action="./" method="POST" class="login-form">
+          <input class="input-box" type="text" name="username" placeholder="用户名">
+          <input class="input-box" type="password" name="password" placeholder="密码">
+          <small id="foget-pass-text">忘记密码找顾姨</small><br/>
+          <input type="checkbox" name="remember_me" checked><small>记住我</small>&nbsp;<small style="color: #aaa">不是自己的电脑上不要勾选此项</small>
+          <div class="form-button">
+          {#弱渣后端膜下方前端黑魔法，虽然被我删了个按钮导致没用上#}
+          {#<!-- 这里缩进不要改…… -->#}
+            <button type="submit">
+            登陆</button>
+            {#登陆</button><button>#}
+            {#注册</button>#}
+          </div>
+        </form>
+      </div>
+    </div>
+    <div style="clear: both;"></div>
+  </div>
+  <footer>
+    <div class="container">
+      <div class="foot-list">
+        <p style="color: #bbb;font-size: .9rem;">传送门</p>
+        <br/>
+        <ul style="padding-left: 0;">
+          <li><a href="">友情链接</a></li>
+          <li><a href="">关于我们</a></li>
+        </ul>
+      </div>
+      <div class="foot-link">
+        <div class="link-item">
+          <div class="link-img">
+            <img src="/asset/team_index/weixin.jpg" alt="">
+            <img src="/asset/team_index/wx-arrow.png" alt="">
+          </div>
+          <div>
+            <i class="iconfont" style="color: #585e68;">&#xe601;</i>
+          </div>
+          <a href="">腾讯群</a>
+        </div>
+        <div class="link-item">
+          <div class="link-img">
+            <img src="/asset/team_index/weixin.jpg" alt="">
+            <img src="/asset/team_index/wx-arrow.png" alt="">
+          </div>
+          <div>
+            <i class="iconfont" style="color: #f96774;">&#xe602;</i>
+          </div>
+          <a href="">新浪微博</a>
+        </div>
+        <div class="link-item">
+          <div class="link-img">
+            <img src="/asset/team_index/weixin.jpg" alt="">
+            <img src="/asset/team_index/wx-arrow.png" alt="">
+          </div>
+          <div>
+            <i class="iconfont" style="color: #6cc775;">&#xe600;</i>
+          </div>
+          <a href="">官方微信</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+  {#弱渣后端表示只会用 jQuery #}
+  <!-- jQuery 2.2.3 -->
+  <script src="/asset/plugins/jQuery/jquery-2.2.3.min.js"></script>
+  <script src="/asset/plugins/jQuery-form/jquery.form.min.js"></script>
+  <script>
+    $(function () {
+      $('.login-form').submit(function (event) {
+        event.preventDefault();
+        //TODO:前端验证表单
+        $(this).find('button').addClass("disabled").prop("disabled", true);
+        var that = this;
+        $(this).ajaxSubmit(function (resp) {
+          if (resp.status == "success") {
+            window.location.href='../news/'
+          } else if (resp.status == "error") {
+            alert("登陆失败，" + JSON.stringify(resp.data));
+          } else {
+            alert("未知错误");
+          }
+          $(that).find('button').removeClass("disabled").prop("disabled", false);
+        });
+        return false;
+      });
+    });
+
+  </script>
+</body>
+</html>

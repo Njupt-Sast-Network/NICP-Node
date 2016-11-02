@@ -9,16 +9,14 @@ const spawn = require('child-process-promise').spawn;
 // Login
 let login = require('koa-router')();
 login.get('*/', function *(next) {
-    yield this.render('login', {
-        title: this.cfg.siteName + "队伍登陆",
-        name: this.cfg.siteName + "队伍登陆",
-    });
+    yield this.render('team/index/homePage');
 });
 
 login.post('*/', function *(next) {
     let username = this.request.fields.username.toString();
     let password = this.request.fields.password.toString();
-    let rememberMe = (this.request.fields.remember_me.toString() === 'on');
+    console.log(this.request.fields);
+    let rememberMe = (this.request.fields.remember_me && this.request.fields.remember_me.toString() === 'on');
     let userInfo = yield this.db.Team.findOne({
         where: {
             username: username,
