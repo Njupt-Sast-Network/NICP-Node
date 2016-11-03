@@ -18,7 +18,7 @@ login.get('*/', function *(next) {
 login.post('*/', function *(next) {
     let username = this.request.fields.username.toString();
     let password = this.request.fields.password.toString();
-    let rememberMe = (this.request.fields.remember_me.toString() === 'on');
+    let rememberMe = (this.request.fields.remember_me && this.request.fields.remember_me.toString() === 'on');
     let userInfo = yield this.db.Judger.findOne({
         where: {
             username: username,
