@@ -1,20 +1,25 @@
 FROM node:boron
 MAINTAINER Wxy
 
-# Install app dependencies
-RUN apt-get update && apt-get install -y python3-pip pdftk
 
-RUN useradd -ms /bin/bash nicp_node
-USER nicp_node
+
+# Install app dependencies
+RUN apt-get update && apt-get install -y python3-pip pdftk \
+    && mkdir -p /usr/src/app
 
 # Create app directory
-RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
 # Bundle app source
 COPY . /usr/src/app
 
-RUN pip3 install -r requirement.txt && npm install
+RUN useradd -ms /bin/bash nicp_node \
+    && chown nicp_node:nicp_node -r /usr/src/app \
+    && pip3 install -r requirement.txt
+
+USER nicp_node
+
+RUN npm install
 
 EXPOSE 3000
 CMD [ "npm", "start" ]
