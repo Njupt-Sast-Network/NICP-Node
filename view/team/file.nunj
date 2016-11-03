@@ -61,9 +61,9 @@
             var that = this;
             $(this).ajaxSubmit(function (resp) {
                 if (resp.status == "success") {
-                    alert("保存成功");
+                    alert("上传成功");
                 } else if (resp.status == "error") {
-                    alert("保存失败，相关信息：" + JSON.stringify(resp.data));
+                    alert("上传失败，相关信息：" + JSON.stringify(resp.data));
                 } else {
                     alert("未知错误");
                 }

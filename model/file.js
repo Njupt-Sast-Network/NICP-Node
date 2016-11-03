@@ -29,5 +29,12 @@ var File = sequelize.define('file', {
         type: Sequelize.INTEGER,
         allowNull: false,
     }
-}, {});
+}, {
+    indexes: [
+        {
+            unique: true,
+            fields: ['fileName']
+        },
+    ]
+});
 module.exports = File;

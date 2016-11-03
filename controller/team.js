@@ -15,7 +15,6 @@ login.get('*/', function *(next) {
 login.post('*/', function *(next) {
     let username = this.request.fields.username.toString();
     let password = this.request.fields.password.toString();
-    console.log(this.request.fields);
     let rememberMe = (this.request.fields.remember_me && this.request.fields.remember_me.toString() === 'on');
     let userInfo = yield this.db.Team.findOne({
         where: {
@@ -27,14 +26,14 @@ login.post('*/', function *(next) {
         this.session.id = userInfo.id;
         this.session.name = userInfo.username;
         this.session.role = Roles.team;
-        if(rememberMe){
-            this.session.cookie.maxage=7*24*60*60*1000;//一周
-        }else{
-            this.session.cookie.maxage=null;//关闭浏览器马上失效
+        if (rememberMe) {
+            this.session.cookie.maxage = 7 * 24 * 60 * 60 * 1000;//一周
+        } else {
+            this.session.cookie.maxage = null;//关闭浏览器马上失效
         }
-        this.body={status:"success"};
+        this.body = {status: "success"};
     } else {
-        this.body={status:"error",data:"用户名或密码错误"};
+        this.body = {status: "error", data: "用户名或密码错误"};
     }
 });
 
@@ -44,8 +43,8 @@ let team = require('koa-router')();
 //     yield this.render('team/news');
 // });
 team.get('*/password/', function *(next) {
-    yield this.render('team/password',{
-        username:this.session.name,
+    yield this.render('team/password', {
+        username: this.session.name,
     });
 });
 
@@ -73,7 +72,7 @@ team.get('*/news/', function *(next) {
         }
     });
     yield this.render('team/news', {
-        username:this.session.name,
+        username: this.session.name,
         title: "通知公告",
         name: "通知公告",
         newsList: newsList
@@ -86,7 +85,7 @@ team.get('*/news/', function *(next) {
 team.get('*/info/', function *(next) {
     let infoData = yield this.db.Team.findById(this.session.id);
     yield this.render('team/info', {
-        username:this.session.name,
+        username: this.session.name,
         jsonModel: this.jsonModel,
         firstAuthorData: infoData.firstAuthor,
         otherAuthorData: infoData.otherAuthors,
@@ -137,7 +136,7 @@ team.post('*/info/teacher/:id/', function *(next) {
 team.get('*/project/', function *(next) {
     let infoData = yield this.db.Team.findById(this.session.id);
     yield this.render('team/project', {
-        username:this.session.name,
+        username: this.session.name,
         jsonModel: this.jsonModel,
         projectData: infoData.project,
     });
@@ -156,25 +155,31 @@ team.post('*/project/', function *(next) {
 });
 
 team.get('*/file/', function *(next) {
-    yield this.render('team/file',{
-        username:this.session.name,
+    yield this.render('team/file', {
+        username: this.session.name,
     });
 });
 
 team.post('*/file/upload/report/', function *(next) {
-    if ("file" in this.request.fields) {
+    let file = this.request.fields.file;
+    console.log(path.extname(file[0].name));
+    if (file &&
+        file[0] &&
+        'name' in file[0] &&
+        path.extname(file[0].name) === '.pdf'
+    ) {
         let fileName = this.session.id.toString() + "_report.pdf";
         let filePath = path.join("./team/", fileName);
         let absoluteFilePath = path.join(this.cfg.uploadPath, filePath);
 
-        yield fs.copy(this.request.fields.file[0].path,
+        yield fs.copy(file[0].path,
             absoluteFilePath,
             {clobber: true}
         );
-        yield this.db.File.create({
+        yield this.db.File.upsert({
             fileName: fileName,
             savePath: filePath,
-            size: this.request.fields.file[0].size,
+            size: file[0].size,
             uploaderRole: Roles.team,
             uploaderId: this.session.id,
             role: Roles.team,
@@ -190,7 +195,7 @@ team.post('*/file/upload/report/', function *(next) {
             {capture: ['stdout', 'stderr']}
         );
         let cuttedFileStat = yield fs.stat(absoluteCuttedFilePath);
-        yield this.db.File.create({
+        yield this.db.File.upsert({
             fileName: cuttedFileName,
             savePath: cuttedFilePath,
             size: cuttedFileStat.size,
@@ -200,17 +205,22 @@ team.post('*/file/upload/report/', function *(next) {
         });
         this.body = {status: "success"};
     } else {
-        this.body = {status: "error", data: "未发现文件"};
+        this.body = {status: "error", data: "请上传有效的 pdf"};
     }
 });
 team.post('*/file/upload/:name/', function *(next) {
     const fileNameList = ['brief', 'report', 'rfp'];
     if (fileNameList.indexOf(this.params.name) == -1) {
-        this.body={status: "error", data: "不存在该类文件"};
+        this.body = {status: "error", data: "不存在该类文件"};
         return;
     }
 
-    if ("file" in this.request.fields) {
+    let file = this.request.fields.file;
+    if (file &&
+        file[0] &&
+        'name' in file[0] &&
+        path.extname(file[0].name) === '.pdf'
+    ) {
         let fileName = this.session.id.toString() + "_" + this.params.name + ".pdf";
         let filePath = path.join("./team/", fileName);
         let absoluteFilePath = path.join(this.cfg.uploadPath, filePath);
@@ -220,7 +230,7 @@ team.post('*/file/upload/:name/', function *(next) {
             absoluteFilePath,
             {clobber: true}
         );
-        yield this.db.File.create({
+        yield this.db.File.upsert({
             fileName: fileName,
             savePath: filePath,
             size: this.request.fields.file[0].size,
@@ -230,7 +240,7 @@ team.post('*/file/upload/:name/', function *(next) {
         });
         this.body = {status: "success"};
     } else {
-        this.body = {status: "error", data: "未发现文件"};
+        this.body = {status: "error", data: "请上传有效的 pdf"};
     }
 });
 
