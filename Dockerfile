@@ -14,7 +14,7 @@ WORKDIR /usr/src/app
 COPY . /usr/src/app
 
 RUN useradd -ms /bin/bash nicp_node \
-    && chown nicp_node:nicp_node -r /usr/src/app \
+    && chown nicp_node:nicp_node -R /usr/src/app \
     && pip3 install -r requirement.txt
 
 USER nicp_node
