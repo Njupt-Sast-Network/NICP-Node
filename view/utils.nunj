@@ -1,3 +1,4 @@
+{% set  NICP_FE_SALT = "NICP_FE_SALT_VVxETKJy7bjDtLa83ECG" %}
 {% macro head(title) %}
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -468,4 +469,107 @@
         </table>
     </div>
     <!-- /.box-body -->
+{% endmacro %}
+{% macro loginJS() %}
+    <script src="/asset/plugins/jQuery-form/jquery.form.min.js"></script>
+    <script src="/asset/cryptojs/sha512.js"></script>
+    <script>
+        $(function () {
+            $('.login-form').submit(function (event) {
+                event.preventDefault();
+                //TODO:前端验证表单
+                $(this).find('button').addClass("disabled").prop("disabled", true);
+                var that = this;
+                var password = $(this).find('#password').val().toString();
+                var hash1 = CryptoJS.SHA512(password.toString());
+                var hash2 = CryptoJS.SHA512(hash1.toString() + "{{ NICP_FE_SALT }}").toString();
+                $(this).find('#password').val(hash2);
+                $(this).ajaxSubmit(function (resp) {
+                    if (resp.status == "success") {
+                        window.location.href='../news/'
+                    } else if (resp.status == "error") {
+                        alert("登陆失败，" + JSON.stringify(resp.data));
+                    } else {
+                        alert("未知错误");
+                    }
+                    $(that).find('#password').val("");
+                    $(that).find('button').removeClass("disabled").prop("disabled", false);
+                });
+                return false;
+            });
+        });
+    </script>
+{% endmacro %}
+{% macro useraddJS() %}
+    <script src="/asset/plugins/jQuery-form/jquery.form.min.js"></script>
+    <script src="/asset/cryptojs/sha512.js"></script>
+    <script>
+        $(function () {
+            $('.user-add-form').submit(function (event) {
+                event.preventDefault();
+                //TODO:前端验证表单
+                $(this).find('button').addClass("disabled").prop("disabled", true);
+                var that = this;
+                var password = $(this).find('#password').val().toString();
+                var hash1 = CryptoJS.SHA512(password.toString());
+                var hash2 = CryptoJS.SHA512(hash1.toString()+ "{{ NICP_FE_SALT }}" ).toString();
+                $(this).find('#password').val(hash2);
+                $(this).ajaxSubmit(function (resp) {
+                    if (resp.status == "success") {
+                        alert("用户添加成功");
+                        window.location.href='../'
+                    } else if (resp.status == "error") {
+                        alert("用户添加失败，" + JSON.stringify(resp.data));
+                    } else {
+                        alert("未知错误");
+                    }
+                    $(that).find('#password').val("");
+                    $(that).find('button').removeClass("disabled").prop("disabled", false);
+                });
+                return false;
+            });
+        });
+    </script>
+{% endmacro %}
+{% macro changepassJS() %}
+    <script src="/asset/plugins/jQuery-form/jquery.form.min.js"></script>
+    <script src="/asset/cryptojs/sha512.js"></script>
+    <script>
+        function passwordHash(password) {
+            var hash1 = CryptoJS.SHA512(password.toString());
+            var hash2 = CryptoJS.SHA512(hash1.toString()+ "{{ NICP_FE_SALT }}" ).toString();
+            return hash2;
+        }
+        function preparePassword(that,selector) {
+            var new_hash = $(that).find(selector).val().toString();
+            $(that).find(selector).val(passwordHash(new_hash));
+        }
+
+
+        $('.change-password-form').submit(function (event) {
+            event.preventDefault();
+            //TODO:前端验证表单
+            $(this).find('button').addClass("disabled").prop("disabled", true);
+            var that = this;
+            preparePassword(that,'#new_password');
+            preparePassword(that,'#old_password');
+            preparePassword(that,'#again_password');
+
+            $(this).ajaxSubmit(function (resp) {
+                if (resp.status == "success") {
+                    alert("修改成功");
+                } else if (resp.status == "error") {
+                    alert("修改失败，相关信息：" + JSON.stringify(resp.data));
+                } else {
+                    alert("未知错误");
+                }
+                $(that).find('#new_password').val("");
+                $(that).find('#old_password').val("");
+                $(that).find('#again_password').val("");
+
+                $(that).find('button').removeClass("disabled").prop("disabled", false);
+            });
+            return false;
+        });
+    </script>
 {% endmacro %}

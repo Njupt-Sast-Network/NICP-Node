@@ -1,3 +1,4 @@
+{% import "../../utils.nunj" as util %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -213,7 +214,7 @@
       <div class="form">
         <form action="./" method="POST" class="login-form">
           <input class="input-box" type="text" name="username" placeholder="用户名">
-          <input class="input-box" type="password" name="password" placeholder="密码">
+          <input class="input-box" type="password" name="password" id="password" placeholder="密码">
           <small id="foget-pass-text">忘记密码找顾姨</small><br/>
           <input type="checkbox" name="remember_me" checked><small>记住我</small>&nbsp;<small style="color: #aaa">不是自己的电脑上不要勾选此项</small>
           <div class="form-button">
@@ -276,28 +277,6 @@
   {#弱渣后端表示只会用 jQuery #}
   <!-- jQuery 2.2.3 -->
   <script src="/asset/plugins/jQuery/jquery-2.2.3.min.js"></script>
-  <script src="/asset/plugins/jQuery-form/jquery.form.min.js"></script>
-  <script>
-    $(function () {
-      $('.login-form').submit(function (event) {
-        event.preventDefault();
-        //TODO:前端验证表单
-        $(this).find('button').addClass("disabled").prop("disabled", true);
-        var that = this;
-        $(this).ajaxSubmit(function (resp) {
-          if (resp.status == "success") {
-            window.location.href='../news/'
-          } else if (resp.status == "error") {
-            alert("登陆失败，" + JSON.stringify(resp.data));
-          } else {
-            alert("未知错误");
-          }
-          $(that).find('button').removeClass("disabled").prop("disabled", false);
-        });
-        return false;
-      });
-    });
-
-  </script>
+  {{ util.loginJS()  }}
 </body>
 </html>

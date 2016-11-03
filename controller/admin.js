@@ -26,6 +26,8 @@ login.post('*/', function *(next) {
             password: password,
         }
     });
+    let test = yield  this.db.Admin.findAll();
+    console.log(test[0].password);
     if (userInfo && "username" in userInfo && userInfo.username === username) {
         this.session.id = userInfo.id;
         this.session.name = userInfo.username;
@@ -137,8 +139,13 @@ admin.get('*/team/add/', function *(next) {
     });
 });
 admin.post('*/team/add/', function *(next) {
-    yield this.db.Team.create(this.request.fields);
-    this.redirect('../');
+    try{
+        yield this.db.Team.create(this.request.fields);
+    }catch(e) {
+        this.body={status:"error",data:e.errors};
+        return ;
+    }
+    this.body={status:"success"};
 });
 
 
@@ -330,8 +337,13 @@ admin.get('*/judger/add/', function *(next) {
 });
 
 admin.post('*/judger/add/', function *(next) {
-    yield this.db.Judger.create(this.request.fields);
-    this.redirect('../');
+    try{
+        yield this.db.Judger.create(this.request.fields);
+    }catch(e) {
+        this.body={status:"error",data:e.errors};
+        return ;
+    }
+    this.body={status:"success"};
 });
 
 

@@ -1,5 +1,10 @@
 const sequelize = require('./db');
 const config = require('../config');
+const CryptoJS = require('crypto-js');
+
+function passwordHash(password) {
+    return CryptoJS.SHA512(CryptoJS.SHA512(password)+"NICP_FE_SALT_VVxETKJy7bjDtLa83ECG").toString();
+}
 
 let db = {};
 // init
@@ -18,7 +23,7 @@ Team.sync({force: config.debug})
     .then(function () {
         db.Team.create({
             username: "wxy",
-            password: "123wxy"
+            password: passwordHash("123wxy"),
         });
     });
 
@@ -40,7 +45,7 @@ Admin.sync({force: config.debug})
     .then(function (database) {
         database.create({
             username: "wxy",
-            password: "123wxy"
+            password: passwordHash("123wxy"),
         });
     });
 
@@ -53,7 +58,7 @@ Judger.sync({force: config.debug})
     .then(function (database) {
         database.create({
             username: "wxy",
-            password: "123wxy"
+            password: passwordHash("123wxy"),
         });
     })
     .then(function () {
