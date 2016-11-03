@@ -143,7 +143,7 @@
     <footer class="main-footer">
         <!-- To the right -->
         <div class="pull-right hidden-xs">
-            Hello,World!
+            <a href="https://github.com/Njupt-Sast-Network/NICP-Node/issues" >发现了BUG</a>
         </div>
         <!-- Default to the left -->
         <strong>Copyright &copy; 2016 <a href="http://sast.njupt.edu.cn">SAST</a>.</strong> All rights reserved.
