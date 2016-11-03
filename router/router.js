@@ -17,6 +17,9 @@ router.use(views(path.join(__dirname, '..', 'view'), {
 router.use(session());
 
 //路由
+router.get('/',function *() {
+    this.redirect('/team/login/');
+});
 router.post("/logout", logout);
 
 router.all("/team/login/*", team.login.routes(), team.login.allowedMethods());

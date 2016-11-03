@@ -13,12 +13,12 @@
         <a href="/"><b>{{ name }}</b></a>
     </div>
     <div class="login-box-body">
-        <p class="login-box-msg">Sign in to start your session</p>
+        <p class="login-box-msg">请登录进入管理界面</p>
 
         <form action="./" method="post" class="login-form">
             <div class="form-group has-feedback">
                 <input type="text" name="username" class="form-control" placeholder="Username">
-                <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                <span class="glyphicon glyphicon-user form-control-feedback"></span>
             </div>
             <div class="form-group has-feedback">
                 <input id="password" type="password" name="password" class="form-control" placeholder="Password">
@@ -28,19 +28,19 @@
                 <div class="col-xs-8">
                     <div class="checkbox icheck">
                         <label>
-                            <input type="checkbox" name="remember_me"> Remember Me
+                            <input type="checkbox" name="remember_me"> 记住我
                         </label>
                     </div>
                 </div>
                 <!-- /.col -->
                 <div class="col-xs-4">
-                    <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
+                    <button type="submit" class="btn btn-primary btn-block btn-flat">登录</button>
                 </div>
                 <!-- /.col -->
             </div>
         </form>
 
-        <a href="#">I forgot my password</a><br>
+        <a href="#">忘记密码找顾姨</a><br>
         {#<a href="register.html" class="text-center">Register a new membership</a>#}
 
     </div>
