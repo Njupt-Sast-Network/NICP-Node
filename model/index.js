@@ -21,32 +21,38 @@ Judger.belongsToMany(Team, {through: Judgement});
 db.Team = Team;
 Team.sync({force: config.debug})
     .then(function () {
-        db.Team.create({
-            username: "wxy",
-            password: passwordHash("123wxy"),
-        });
+        if(config.debug){
+            db.Team.create({
+                username: "wxy",
+                password: passwordHash("123wxy"),
+            });
+        }
     });
 
 
 db.News = News;
 News.sync({force: config.debug})
     .then(function () {
-        db.News.create({
-            title: "test123123",
-            content: "testtesttest",
-            author: "wxy",
-            role: 1,
-        });
+        if(config.debug) {
+            db.News.create({
+                title: "test123123",
+                content: "testtesttest",
+                author: "wxy",
+                role: 1,
+            });
+        }
     });
 
 
 db.Admin = Admin;
 Admin.sync({force: config.debug})
     .then(function (database) {
-        database.create({
-            username: "wxy",
-            password: passwordHash("123wxy"),
-        });
+        if(config.debug) {
+            database.create({
+                username: "wxy",
+                password: passwordHash("123wxy"),
+            });
+        }
     });
 
 
@@ -56,10 +62,12 @@ File.sync({force: config.debug});
 db.Judger = Judger;
 Judger.sync({force: config.debug})
     .then(function (database) {
-        database.create({
-            username: "wxy",
-            password: passwordHash("123wxy"),
-        });
+        if(config.debug) {
+            database.create({
+                username: "wxy",
+                password: passwordHash("123wxy"),
+            });
+        }
     })
     .then(function () {
         Judgement.sync({force: config.debug});

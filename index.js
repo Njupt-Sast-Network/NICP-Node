@@ -20,8 +20,9 @@ const config = require('./config');
 app.keys = config.keys;
 app.context.cfg = config;
 
-
-app.use(logger());
+if (config.debug){
+    app.use(logger());
+}
 app.use(serve('asset'));
 app.use(body());
 app.use(router.routes());
