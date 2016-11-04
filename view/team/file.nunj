@@ -43,8 +43,8 @@
             {{ upload_box("研究报告","./upload/report/","./download/report.pdf/","file","研究报告") }}
             {{ upload_box("作品简介书","./upload/brief/","./download/brief.pdf/","file","作品简介书") }}
             <!-- /.box-footer-->
+        </section>
     </div>
-    </section>
     <!-- /.content -->
 </div>
 <!-- /.content-wrapper -->

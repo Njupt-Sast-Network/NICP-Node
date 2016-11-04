@@ -15,7 +15,7 @@
                 <div class="box-header with-border">
                     <h3 class="box-title">文件上传</h3>
                 </div>
-                <form role="form" method="post" action="./" class="form-horizontal" enctype='multipart/form-data'>
+                <form role="form" method="post" action="./" class="form-horizontal file-upload-form" enctype='multipart/form-data'>
                     <div class="box-body">
                         <div class="form-group">
                             <label class="col-sm-4 control-label">文件名称</label>
@@ -87,5 +87,29 @@
     {{ util.footer() }}
 </div>
 {{ util.js() }}
+<script src="/asset/plugins/jQuery-form/jquery.form.min.js"></script>
+<script>
+    $(function () {
+        $('.file-upload-form').submit(function (event) {
+            event.preventDefault();
+            //TODO:前端验证表单
+            $(this).find('button').addClass("disabled").prop("disabled", true);
+            var that = this;
+            $(this).ajaxSubmit(function (resp) {
+                if (resp.status == "success") {
+                    alert("上传成功");
+                    window.location.href='../';
+                } else if (resp.status == "error") {
+                    alert("上传失败，相关信息：" + JSON.stringify(resp.data));
+                } else {
+                    alert("未知错误");
+                }
+                $(that).find('button').removeClass("disabled").prop("disabled", false);
+            });
+            return false;
+        });
+    });
+
+</script>
 </body>
 </html>
