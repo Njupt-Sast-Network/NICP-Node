@@ -3,7 +3,7 @@
  */
 const path = require('path');
 module.exports = {
-    debug: process.env.NICP_DEBUG ? process.env.NICP_DEBUG : true,
+    debug: process.env.NICP_DEBUG ? true : false,
     siteName: "“创新杯”",
     uploadPath: process.env.NICP_UPLOAD_PATH ? process.env.NICP_UPLOAD_PATH : path.resolve(__dirname, "./upload/"),
     keys: [Math.random().toString(36).substr(2), Math.random().toString(36).substr(2)],
