@@ -49,8 +49,8 @@ Admin.sync({force: config.debug})
     .then(function (database) {
         if(config.debug) {
             database.create({
-                username: "wxy",
-                password: passwordHash("123wxy"),
+                username: config.rootUserName,
+                password: passwordHash(config.rootUserPassword),
             });
         }
     });
