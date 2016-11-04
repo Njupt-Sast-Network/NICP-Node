@@ -34,16 +34,7 @@
         width: 960px;
       }
 
-      .header-top{min-height: 2.1em;height: 1vw;}
-      .header-top span{
-        padding: .8em 1em;
-        background: #e45c6e;
-        margin-top: -7px;
-        position: absolute;
-        border-radius: 6px;
-        color: #fff;
-        box-shadow: 0 1px #564a4a;
-      }
+      .header-top{display:none;}
       footer .foot-list{
         width: 60%;
         border-right: 1px solid #eee;
