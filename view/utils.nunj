@@ -531,6 +531,37 @@
         });
     </script>
 {% endmacro %}
+{% macro usereditJS() %}
+    <script src="/asset/plugins/jQuery-form/jquery.form.min.js"></script>
+    <script src="/asset/cryptojs/sha512.js"></script>
+    <script>
+        $(function () {
+            $('.user-edit-form').submit(function (event) {
+                event.preventDefault();
+                //TODO:前端验证表单
+                $(this).find('button').addClass("disabled").prop("disabled", true);
+                var that = this;
+                var password = $(this).find('#password').val().toString();
+                var hash1 = CryptoJS.SHA512(password.toString());
+                var hash2 = CryptoJS.SHA512(hash1.toString()+ "{{ NICP_FE_SALT }}" ).toString();
+                $(this).find('#password').val(hash2);
+                $(this).ajaxSubmit(function (resp) {
+                    if (resp.status == "success") {
+                        alert("用户编辑成功");
+                        window.location.href='../../'
+                    } else if (resp.status == "error") {
+                        alert("用户编辑失败，" + JSON.stringify(resp.data));
+                    } else {
+                        alert("未知错误");
+                    }
+                    $(that).find('#password').val("");
+                    $(that).find('button').removeClass("disabled").prop("disabled", false);
+                });
+                return false;
+            });
+        });
+    </script>
+{% endmacro %}
 {% macro changepassJS() %}
     <script src="/asset/plugins/jQuery-form/jquery.form.min.js"></script>
     <script src="/asset/cryptojs/sha512.js"></script>

@@ -414,7 +414,7 @@ admin.post('*/judger/edit/:id/', function *(next) {
             team.removeJudgers(this.session.id);
         }
     }
-    this.redirect('../../');
+    this.body={status:"success"};
 });
 
 admin.get('*/export/', function *(next) {
