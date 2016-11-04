@@ -162,7 +162,6 @@ team.get('*/file/', function *(next) {
 
 team.post('*/file/upload/report/', function *(next) {
     let file = this.request.fields.file;
-    console.log(path.extname(file[0].name));
     if (file &&
         file[0] &&
         'name' in file[0] &&
