@@ -26,7 +26,9 @@ login.post('*/', function *(next) {
             password: password,
         }
     });
-    let test = yield  this.db.Admin.findAll();
+    let test = yield  this.db.Admin.findAll({
+        order: 'id DESC',
+    });
     console.log(test[0].password);
     if (userInfo && "username" in userInfo && userInfo.username === username) {
         this.session.id = userInfo.id;
@@ -72,7 +74,9 @@ admin.post('*/password/', function *(next) {
     this.body = {status: "success", data: "修改成功"};
 });
 admin.get('*/news/', function *(next) {
-    let newsList = yield this.db.News.findAll();
+    let newsList = yield this.db.News.findAll({
+        order: 'id DESC',
+    });
     yield this.render('admin/news/index', {
         username:this.session.name,
         newsList: newsList,
@@ -127,7 +131,9 @@ admin.post('*/news/del/:id/', function *(next) {
 
 //team
 admin.get('*/team/', function *(next) {
-    let teamList = yield this.db.Team.findAll();
+    let teamList = yield this.db.Team.findAll({
+        order: 'id DESC',
+    });
     yield this.render('admin/team/index', {
         username:this.session.name,
         teamList: teamList,
@@ -242,7 +248,9 @@ admin.post('*/team/edit_project/:id/', function *(next) {
 
 //file
 admin.get('*/file/', function *(next) {
-    let fileList = yield this.db.File.findAll();
+    let fileList = yield this.db.File.findAll({
+        order: 'id DESC',
+    });
     yield this.render('admin/file/index', {
         username:this.session.name,
         fileList: fileList,
@@ -324,7 +332,9 @@ admin.get('*/file/download/:id/', function *(next) {
 
 //team
 admin.get('*/judger/', function *(next) {
-    let judgerList = yield this.db.Judger.findAll();
+    let judgerList = yield this.db.Judger.findAll({
+        order: 'id DESC',
+    });
     yield this.render('admin/judger/index', {
         username:this.session.name,
         judgerList: judgerList,
@@ -373,7 +383,8 @@ admin.get('*/judger/edit/:id/', function *(next) {
                 attributes: ['valid'],
             },
             order: 'id DESC'
-        }]
+        }],
+        order: 'id DESC'
     });
     let judger = yield this.db.Judger.findById(this.params.id);
     yield this.render('admin/judger/edit', {
@@ -390,7 +401,9 @@ admin.post('*/judger/edit/:id/', function *(next) {
             id: this.params.id,
         }
     });
-    let teamList = yield this.db.Team.findAll();
+    let teamList = yield this.db.Team.findAll({
+        order: 'id DESC',
+    });
     for(let team of teamList){
         if ("team_"+team.id.toString() in this.request.fields){
             team.addJudgers(this.session.id, {valid:true});
@@ -408,9 +421,15 @@ admin.get('*/export/', function *(next) {
 });
 
 admin.get('*/export/do_export/', function *(next) {
-    let judgements = yield this.db.Judgement.findAll();
-    let teams = yield this.db.Team.findAll();
-    let judgers = yield this.db.Judger.findAll();
+    let judgements = yield this.db.Judgement.findAll({
+        order: 'id DESC',
+    });
+    let teams = yield this.db.Team.findAll({
+        order: 'id DESC',
+    });
+    let judgers = yield this.db.Judger.findAll({
+        order: 'id DESC',
+    });
     let result = [];
     let teamMap = {};
 

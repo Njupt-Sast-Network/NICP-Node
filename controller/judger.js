@@ -68,7 +68,8 @@ judger.get('*/news/', function *(next) {
     let newsList = yield this.db.News.findAll({
         where: {
             role: Roles.judger,
-        }
+        },
+        order: 'id DESC',
     });
     yield this.render('judger/news', {
         username:this.session.name,

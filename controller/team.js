@@ -69,7 +69,8 @@ team.get('*/news/', function *(next) {
     let newsList = yield this.db.News.findAll({
         where: {
             role: Roles.team,
-        }
+        },
+        order: 'id DESC',
     });
     yield this.render('team/news', {
         username: this.session.name,
