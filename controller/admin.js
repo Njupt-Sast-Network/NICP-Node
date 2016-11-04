@@ -424,9 +424,7 @@ admin.get('*/export/', function *(next) {
 });
 
 admin.get('*/export/do_export/', function *(next) {
-    let judgements = yield this.db.Judgement.findAll({
-        order: 'id ASC',
-    });
+    let judgements = yield this.db.Judgement.findAll();
     let teams = yield this.db.Team.findAll({
         order: 'id ASC',
     });
