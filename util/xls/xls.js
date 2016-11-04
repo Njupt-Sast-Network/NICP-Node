@@ -25,7 +25,10 @@ function ReadXLS(filePath) {
         'python3 util/xls/xlsrd.py' + ' \'' + filePath + '\'',
         {
             maxBuffer: 1024 * 1024 * 200,// 200mb
-            encoding: "utf8"
+            encoding: "utf8",
+            env:{
+                PYTHONIOENCODING:"utf-8"
+            }
         }, (err, stdout, stderr) => {
             let result = JSON.parse(stdout);
 
@@ -75,7 +78,10 @@ function WriteXLS(filePath, data, is_list = false) {
         xlswtPath + ' \'' + filePath + '\'',
         {
             maxBuffer: 1024 * 1024 * 200,// 200mb
-            encoding: "utf8"
+            encoding: "utf8",
+            env:{
+                PYTHONIOENCODING:"utf-8"
+            },
         }, (err, stdout, stderr) => {
             if (err != null) {
                 deferred.reject(err.toString());
