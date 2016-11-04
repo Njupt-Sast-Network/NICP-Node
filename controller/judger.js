@@ -69,7 +69,7 @@ judger.get('*/news/', function *(next) {
         where: {
             role: Roles.judger,
         },
-        order: 'id DESC',
+        order: 'id ASC',
     });
     yield this.render('judger/news', {
         username:this.session.name,

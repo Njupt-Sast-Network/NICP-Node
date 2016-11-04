@@ -70,7 +70,7 @@ team.get('*/news/', function *(next) {
         where: {
             role: Roles.team,
         },
-        order: 'id DESC',
+        order: 'id ASC',
     });
     yield this.render('team/news', {
         username: this.session.name,
