@@ -382,6 +382,9 @@ admin.get('*/judger/edit/:id/', function *(next) {
             through: {
                 attributes: ['valid'],
             },
+            where:{
+                id:this.params.id,
+            },
             order: 'id ASC',
         }],
         order: 'id ASC',
