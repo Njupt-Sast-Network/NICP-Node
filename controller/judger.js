@@ -86,10 +86,13 @@ judger.get('*/rate/', function *(next) {
     let teamList = yield this.db.Team.findAll({
         include: [{
             model: this.db.Judger,
-            required: false,
+            required: true,
             where: {id: this.session.id},
             through: {
-                attributes: ['rate'],
+                attributes: ['rate','valid'],
+                where:{
+                    valid:true,
+                }
             },
             order: 'id DESC'
         }]

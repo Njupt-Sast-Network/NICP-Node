@@ -331,6 +331,7 @@ admin.get('*/judger/', function *(next) {
     });
 });
 admin.get('*/judger/add/', function *(next) {
+
     yield this.render('admin/judger/add',{
         username:this.session.name,
     });
@@ -364,18 +365,39 @@ admin.post('*/judger/del/:id/', function *(next) {
 });
 
 admin.get('*/judger/edit/:id/', function *(next) {
+    let teamList = yield this.db.Team.findAll({
+        include: [{
+            model: this.db.Judger,
+            required: false,
+            through: {
+                attributes: ['valid'],
+            },
+            order: 'id DESC'
+        }]
+    });
     let judger = yield this.db.Judger.findById(this.params.id);
     yield this.render('admin/judger/edit', {
         username:this.session.name,
         judger: judger,
+        teamList:teamList,
+        projectCategoryMap:this.jsonModel.project.project_category.inclusion.within,
     });
 });
 admin.post('*/judger/edit/:id/', function *(next) {
+    console.log(this.request.fields);
     yield this.db.Judger.update(this.request.fields, {
         where: {
             id: this.params.id,
         }
     });
+    let teamList = yield this.db.Team.findAll();
+    for(let team of teamList){
+        if ("team_"+team.id.toString() in this.request.fields){
+            team.addJudgers(this.session.id, {valid:true});
+        }else{
+            team.removeJudgers(this.session.id);
+        }
+    }
     this.redirect('../../');
 });
 

@@ -7,7 +7,10 @@ var sequelize = require('./db');
 var Judgement = sequelize.define('judgement', {
     rate: {
         type: Sequelize.INTEGER,
-        allowNull: false,
     },
+    valid:{
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+    }
 });
 module.exports = Judgement;
