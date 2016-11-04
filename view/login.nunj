@@ -40,7 +40,7 @@
             </div>
         </form>
 
-        <a href="#">忘记密码找顾姨</a><br>
+        <a href="#">忘记密码请找管理员</a><br>
         {#<a href="register.html" class="text-center">Register a new membership</a>#}
 
     </div>

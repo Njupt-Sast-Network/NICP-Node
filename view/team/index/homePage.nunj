@@ -197,9 +197,9 @@
   </style>
 </head>
 <body>
-  <div class="header-top container">
-    <span>南京邮电大学大学生第18届创新杯比赛</span>
-  </div>
+  {#<div class="header-top container">#}
+    {#<span>南京邮电大学大学生第18届创新杯比赛</span>#}
+  {#</div>#}
   <header>
     <div class="container">
     <img src="/asset/team_index/header.png" alt="">
@@ -215,7 +215,7 @@
         <form action="./" method="POST" class="login-form">
           <input class="input-box" type="text" name="username" placeholder="用户名">
           <input class="input-box" type="password" name="password" id="password" placeholder="密码">
-          <small id="foget-pass-text">忘记密码找顾姨</small><br/>
+          <small id="foget-pass-text">忘记密码请找管理员</small><br/>
           <input type="checkbox" name="remember_me" checked><small>记住我</small>&nbsp;<small style="color: #aaa">不是自己的电脑上不要勾选此项</small>
           <div class="form-button">
           {#弱渣后端膜下方前端黑魔法，虽然被我删了个按钮导致没用上#}
@@ -236,14 +236,15 @@
         <p style="color: #bbb;font-size: .9rem;">传送门</p>
         <br/>
         <ul style="padding-left: 0;">
-          <li><a href="">友情链接</a></li>
-          <li><a href="">关于我们</a></li>
+          <li><a href="http://www.njupt.edu.cn">南京邮电大学</a></li>
+          <li><a href="http://youth.njupt.edu.cn">南京邮电大学校团委</a></li>
+          <li><a href="http://sast.njupt.edu.cn">南京邮电大学校科协</a></li>
         </ul>
       </div>
       <div class="foot-link">
         <div class="link-item">
           <div class="link-img">
-            <img src="/asset/team_index/weixin.jpg" alt="">
+            <img src="/asset/team_index/qq.png" alt="">
             <img src="/asset/team_index/wx-arrow.png" alt="">
           </div>
           <div>
@@ -253,7 +254,7 @@
         </div>
         <div class="link-item">
           <div class="link-img">
-            <img src="/asset/team_index/weixin.jpg" alt="">
+            <img src="/asset/team_index/sina.png" alt="">
             <img src="/asset/team_index/wx-arrow.png" alt="">
           </div>
           <div>
