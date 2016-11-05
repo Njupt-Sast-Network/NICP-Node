@@ -22,4 +22,4 @@ USER nicp_node
 RUN npm install
 
 EXPOSE 3000
-CMD [ "pm2-docker", "start" ]
+CMD [ "pm2-docker", "start" , "index.js" ]
