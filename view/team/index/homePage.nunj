@@ -188,9 +188,9 @@
   </style>
 </head>
 <body>
-  {#<div class="header-top container">#}
-    {#<span>南京邮电大学大学生第18届创新杯比赛</span>#}
-  {#</div>#}
+  <div class="header-top container">
+    <span>南京邮电大学大学生第18届创新杯比赛</span>
+  </div>
   <header>
     <div class="container">
     <img src="/asset/team_index/header.png" alt="">
