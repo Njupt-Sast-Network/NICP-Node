@@ -576,6 +576,7 @@
                     async:false,
                 });
             }
+            alert("批量添加完成");
         });
     </script>
 {% endmacro %}
