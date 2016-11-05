@@ -409,9 +409,9 @@ admin.post('*/judger/edit/:id/', function *(next) {
     });
     for(let team of teamList){
         if ("team_"+team.id.toString() in this.request.fields){
-            team.addJudgers(this.session.id, {valid:true});
+            team.addJudgers(this.params.id, {valid:true});
         }else{
-            team.removeJudgers(this.session.id);
+            team.removeJudgers(this.params.id);
         }
     }
     this.body={status:"success"};
