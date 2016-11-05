@@ -5,7 +5,7 @@ MAINTAINER Wxy
 
 # Install app dependencies
 RUN apt-get update && apt-get install -y python3-pip pdftk \
-    && mkdir -p /usr/src/app
+    && mkdir -p /usr/src/app && npm install pm2 -g
 
 # Create app directory
 WORKDIR /usr/src/app
@@ -19,7 +19,7 @@ RUN useradd -ms /bin/bash nicp_node \
 
 USER nicp_node
 
-RUN npm install pm2 -g && npm install
+RUN npm install
 
 EXPOSE 3000
 CMD [ "pm2-docker", "start" ]
