@@ -1,0 +1,5 @@
+apps:
+  - name	 : 'nicp'
+    script   : 'index.js'
+    exec_mode: 'fork'
+    instances: 1

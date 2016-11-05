@@ -19,7 +19,7 @@ RUN useradd -ms /bin/bash nicp_node \
 
 USER nicp_node
 
-RUN npm install
+RUN npm install pm2 -g && npm install
 
 EXPOSE 3000
-CMD [ "npm", "start" ]
+CMD [ "pm2-docker", "start" ]
