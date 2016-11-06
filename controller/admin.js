@@ -26,10 +26,6 @@ login.post('*/', function *(next) {
             password: password,
         }
     });
-    let test = yield  this.db.Admin.findAll({
-        order: 'id ASC',
-    });
-    console.log(test[0].password);
     if (userInfo && "username" in userInfo && userInfo.username === username) {
         this.session.id = userInfo.id;
         this.session.name = userInfo.username;
@@ -47,9 +43,7 @@ login.post('*/', function *(next) {
 
 //Admin
 let admin = require('koa-router')();
-// admin.get('*/', function *(next) {
-//     yield this.render('team/news');
-// });
+
 admin.get('*/password/', function *(next) {
     yield this.render('admin/password',{
         username:this.session.name,
