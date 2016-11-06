@@ -222,7 +222,7 @@
                         <!-- textarea -->
                         <div class="form-group">
                             <label class="col-sm-4 control-label">{{ field.title }}</label>
-                            <textarea class="col-sm-5 form-control" name="{{ id }}" rows="30"
+                            <textarea class="col-sm-5 form-control" style="margin: 0px 49.9479px; width: 1149px; height: 581px;" name="{{ id }}" rows="30"
                                       maxlength={{ field.length.maximum }}
                                       placeholder="{{ field.placeHolder }}">{{ data[id] }}</textarea>
                         </div>
