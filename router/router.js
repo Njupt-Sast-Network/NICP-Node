@@ -5,6 +5,7 @@ const path = require('path');
 const team = require('../controller/team');
 const admin = require('../controller/admin');
 const judger = require('../controller/judger');
+const everyone = require('../controller/everyone');
 const {Roles, verifyAuth, logout} = require('./auth');
 const config = require('../config');
 //模版
@@ -30,6 +31,9 @@ router.all("/admin/*", verifyAuth(Roles.admin), admin.routes(), admin.allowedMet
 
 router.all("/judger/login/*", judger.login.routes(), judger.login.allowedMethods());
 router.all("/judger/*", verifyAuth(Roles.judger), judger.routes(), judger.allowedMethods());
+
+router.all("/everyone/*",everyone.routes(),everyone.allowedMethods());
+
 
 module.exports = router;
 
