@@ -46,9 +46,10 @@
         </section>
     </div>
     <!-- /.content -->
+    {{ util.footer() }}
 </div>
 <!-- /.content-wrapper -->
-{{ util.footer() }}
+
 
 {{ util.js() }}
 <script src="/asset/plugins/jQuery-form/jquery.form.min.js"></script>
