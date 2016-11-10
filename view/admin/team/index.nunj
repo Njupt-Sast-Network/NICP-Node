@@ -26,6 +26,10 @@
                             <th>序号</th>
                             <th>用户名</th>
                             <th>第一作者学号</th>
+                            <th>申报书</th>
+                            <th>研究报告</th>
+                            <th>研究报告_切</th>
+                            <th>作品简介书</th>
                             <th>操作</th>
                         </tr>
                         {% for team in teamList %}
@@ -33,6 +37,10 @@
                                 <td>{{ team.id }}</td>
                                 <td>{{ team.username }}</td>
                                 <td>{{ team.firstAuthorId }}</td>
+                                <td>{{  "已上传" if (fileNameList.indexOf(team.id.toString()+"_rfp.pdf")!=-1) }}</td>
+                                <td>{{  "已上传" if (fileNameList.indexOf(team.id.toString()+"_report.pdf")!=-1) }}</td>
+                                <td>{{  "已上传" if (fileNameList.indexOf(team.id.toString()+"_report_cutted.pdf")!=-1) }}</td>
+                                <td>{{  "已上传" if (fileNameList.indexOf(team.id.toString()+"_brief.pdf")!=-1) }}</td>
                                 <td>
                                     <div class="btn-group">
                                         <a type="button" class="btn btn-warning btn-sm" href="edit/{{ team.id }}/">编辑队伍信息</a>

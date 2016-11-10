@@ -128,9 +128,18 @@ admin.get('*/team/', function *(next) {
     let teamList = yield this.db.Team.findAll({
         order: 'id ASC',
     });
+    let fileList = yield this.db.File.findAll({
+        order: 'id ASC',
+    });
+    let fileNameList=[];
+    Array.from(fileList).forEach(function (file) {
+        fileNameList.push(file.fileName)
+    });
+    console.log(fileNameList);
     yield this.render('admin/team/index', {
         username:this.session.name,
         teamList: teamList,
+        fileNameList:fileNameList,
     });
 });
 admin.get('*/team/add/', function *(next) {
