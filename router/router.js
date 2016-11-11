@@ -23,8 +23,11 @@ router.get('/',function *() {
 });
 router.post("/logout", logout);
 
-router.all("/team/login/*", team.login.routes(), team.login.allowedMethods());
-router.all("/team/*", verifyAuth(Roles.team), team.routes(), team.allowedMethods());
+if(!config.disableTeam){
+    router.all("/team/login/*", team.login.routes(), team.login.allowedMethods());
+    router.all("/team/*", verifyAuth(Roles.team), team.routes(), team.allowedMethods());
+}
+
 
 router.all("/admin/login/*", admin.login.routes(), admin.login.allowedMethods());
 router.all("/admin/*", verifyAuth(Roles.admin), admin.routes(), admin.allowedMethods());

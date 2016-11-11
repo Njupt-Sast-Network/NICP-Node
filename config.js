@@ -16,5 +16,6 @@ module.exports = {
         name: process.env.NICP_DB_NAME ? process.env.NICP_DB_NAME : 'nicp',
         user: process.env.NICP_DB_USER ? process.env.NICP_DB_USER : 'nicp',
         password: process.env.NICP_DB_PASSWORD ? process.env.NICP_DB_PASSWORD : 'nicp',
-    }
+    },
+    disableTeam: process.env.NICP_DISABLE_TEAM ? true : false,
 };
