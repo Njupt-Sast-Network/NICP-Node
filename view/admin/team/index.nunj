@@ -25,6 +25,7 @@
                         <tr>
                             <th>序号</th>
                             <th>用户名</th>
+                            <th>作品名称</th>
                             <th>第一作者学号</th>
                             <th>申报书</th>
                             <th>研究报告</th>
@@ -36,6 +37,7 @@
                             <tr>
                                 <td>{{ team.id }}</td>
                                 <td>{{ team.username }}</td>
+                                <td>{{ team.project.name }}</td>
                                 <td>{{ team.firstAuthorId }}</td>
                                 <td>{{  "已上传" if (fileNameList.indexOf(team.id.toString()+"_rfp.pdf")!=-1) }}</td>
                                 <td>{{  "已上传" if (fileNameList.indexOf(team.id.toString()+"_report.pdf")!=-1) }}</td>
