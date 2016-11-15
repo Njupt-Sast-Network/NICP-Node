@@ -138,6 +138,7 @@ admin.get('*/team/', function *(next) {
     yield this.render('admin/team/index', {
         username:this.session.name,
         teamList: teamList,
+        projectModel: this.jsonModel.project,
         fileNameList:fileNameList,
     });
 });
