@@ -39,7 +39,7 @@
                                 <td>{{ team.id }}</td>
                                 <td>{{ team.username }}</td>
                                 <td>{{ team.project.name }}</td>
-                                <td>{{ projectModel.project_category.inclusion.within[team.project.project_category] }}</td>
+                                <td>{{ team.project.subject_category }}</td>
                                 <td>{{ team.firstAuthorId }}</td>
                                 <td>{{  "已上传" if (fileNameList.indexOf(team.id.toString()+"_rfp.pdf")!=-1) }}</td>
                                 <td>{{  "已上传" if (fileNameList.indexOf(team.id.toString()+"_report.pdf")!=-1) }}</td>
