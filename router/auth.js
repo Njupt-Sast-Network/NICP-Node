@@ -33,7 +33,19 @@ function verifyAuth(need_role) {
 
 function *logout(next) {
     yield this.regenerateSession();
-    this.redirect('/');
+    switch(this.params.role){
+        case 'admin':
+            this.redirect('/admin/login');
+            break;
+        case 'team':
+            this.redirect('/team/login');
+            break;
+        case 'judger':
+            this.redirect('/judger/login');
+            break;
+        default:
+            this.redirect('/');
+    }
 }
 
 exports.Roles = Roles;

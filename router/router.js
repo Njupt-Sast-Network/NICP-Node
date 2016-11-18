@@ -21,7 +21,7 @@ router.use(session());
 router.get('/',function *() {
     this.redirect('/team/login/');
 });
-router.post("/logout", logout);
+router.post("/logout/:role/", logout);
 
 if(!config.disableTeam){
     router.all("/team/login/*", team.login.routes(), team.login.allowedMethods());

@@ -1,6 +1,6 @@
 {% import "../utils.nunj" as util %}
 {% macro header(no,username) %}
-    {{ util.header(username,"/asset/logos/njupt.jpg","评委老师") }}
+    {{ util.header(username,"/asset/logos/njupt.jpg","评委老师","judger") }}
     {{ util.sidebar(
     [
     {

@@ -23,7 +23,7 @@
 {% endmacro %}
 
 
-{% macro header(name,image_url,description) %}
+{% macro header(name,image_url,description,role='team') %}
     <!-- Main Header -->
     <header class="main-header">
 
@@ -71,9 +71,8 @@
                                 {#<a href="#" class="btn btn-default btn-flat">修改密码</a>#}
                                 {#</div>#}
                                 <div class="pull-right">
-                                    <form method="POST" action="/logout">
-                                        <button href="/logout" class="btn btn-default btn-flat">退出账号</
-                                        >
+                                    <form method="POST" action="/logout/{{ role }}/">
+                                        <button href="/logout" class="btn btn-default btn-flat">退出账号</button>
                                     </form>
 
                                 </div>
