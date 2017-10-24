@@ -3,182 +3,183 @@
  */
 let Roles = require("../router/auth").Roles;
 // Login
-let login = require('koa-router')();
+let Router = require('koa-router');
+let login = new Router();
 const fs = require('fs-promise');
 const path = require('path');
 const xls = require('../util/xls/xls');
 const moment = require('moment');
 
-login.get('*/', function *(next) {
-    yield this.render('login', {
-        title: this.cfg.siteName + "管理员登陆",
-        name: this.cfg.siteName + "管理员登陆",
+login.get('*/', async (ctx, next) => {
+    await ctx.render('login', {
+        title: ctx.cfg.siteName + "管理员登陆",
+        name: ctx.cfg.siteName + "管理员登陆",
     });
 });
 
-login.post('*/', function *(next) {
-    let username = this.request.fields.username.toString();
-    let password = this.request.fields.password.toString();
-    let rememberMe = (this.request.fields.remember_me && this.request.fields.remember_me.toString() === 'on');
-    let userInfo = yield this.db.Admin.findOne({
+login.post('*/', async (ctx, next) => {
+    let username = ctx.request.fields.username.toString();
+    let password = ctx.request.fields.password.toString();
+    let rememberMe = (ctx.request.fields.remember_me && ctx.request.fields.remember_me.toString() === 'on');
+    let userInfo = await ctx.db.Admin.findOne({
         where: {
             username: username,
             password: password,
         }
     });
     if (userInfo && "username" in userInfo && userInfo.username === username) {
-        this.session.id = userInfo.id;
-        this.session.name = userInfo.username;
-        this.session.role = Roles.admin;
+        ctx.session.id = userInfo.id;
+        ctx.session.name = userInfo.username;
+        ctx.session.role = Roles.admin;
         if(rememberMe){
-            this.session.cookie.maxage=7*24*60*60*1000;//一周
+            ctx.session.cookie.maxage=7*24*60*60*1000;//一周
         }else{
-            this.session.cookie.maxage=null;//关闭浏览器马上失效
+            ctx.session.cookie.maxage=null;//关闭浏览器马上失效
         }
-        this.body={status:"success"};
+        ctx.body={status:"success"};
     } else {
-        this.body={status:"error",data:"用户名或密码错误"};
+        ctx.body={status:"error",data:"用户名或密码错误"};
     }
 });
 
 //Admin
-let admin = require('koa-router')();
+let admin = new Router();
 
-admin.get('*/password/', function *(next) {
-    yield this.render('admin/password',{
-        username:this.session.name,
+admin.get('*/password/', async (ctx, next) => {
+    await ctx.render('admin/password',{
+        username:ctx.session.name,
     });
 });
 
-admin.post('*/password/', function *(next) {
-    let oldPassword = this.request.fields.old_password.toString();
-    let newPassword = this.request.fields.new_password.toString();
-    if (newPassword != this.request.fields.again_password.toString()) {
-        this.body = {status: "error", data: "两次新密码不符"};
+admin.post('*/password/', async (ctx, next) => {
+    let oldPassword = ctx.request.fields.old_password.toString();
+    let newPassword = ctx.request.fields.new_password.toString();
+    if (newPassword !== ctx.request.fields.again_password.toString()) {
+        ctx.body = {status: "error", data: "两次新密码不符"};
         return;
     }
-    let userInfo = yield this.db.Admin.findById(this.session.id);
-    if (userInfo.password != oldPassword) {
-        this.body = {status: "error", data: "旧密码错误"};
+    let userInfo = await ctx.db.Admin.findById(ctx.session.id);
+    if (userInfo.password !== oldPassword) {
+        ctx.body = {status: "error", data: "旧密码错误"};
         return;
     }
 
     userInfo.set('password', newPassword);
     userInfo.save();
-    this.body = {status: "success", data: "修改成功"};
+    ctx.body = {status: "success", data: "修改成功"};
 });
-admin.get('*/news/', function *(next) {
-    let newsList = yield this.db.News.findAll({
-        order: 'id ASC',
+admin.get('*/news/', async (ctx, next) => {
+    let newsList = await ctx.db.News.findAll({
+        order: [['id','ASC']],
     });
-    yield this.render('admin/news/index', {
-        username:this.session.name,
+    await ctx.render('admin/news/index', {
+        username:ctx.session.name,
         newsList: newsList,
         roles: Roles,
     });
 });
-admin.get('*/news/add/', function *(next) {
-    yield this.render('admin/news/add', {
-        username:this.session.name,
+admin.get('*/news/add/', async (ctx, next) => {
+    await ctx.render('admin/news/add', {
+        username:ctx.session.name,
         roles: Roles,
     });
 });
-admin.post('*/news/add/', function *(next) {
-    yield this.db.News.create(this.request.fields);
-    this.redirect('../');
+admin.post('*/news/add/', async (ctx, next) => {
+    await ctx.db.News.create(ctx.request.fields);
+    ctx.redirect('../');
 });
 
-admin.get('*/news/edit/:id/', function *(next) {
-    let news = yield this.db.News.findById(this.params.id);
-    yield this.render('admin/news/edit', {
-        username:this.session.name,
+admin.get('*/news/edit/:id/', async (ctx, next) => {
+    let news = await ctx.db.News.findById(ctx.params.id);
+    await ctx.render('admin/news/edit', {
+        username:ctx.session.name,
         news: news,
         roles: Roles,
     });
 });
 
-admin.post('*/news/edit/:id/', function *(next) {
-    yield this.db.News.update(this.request.fields, {
+admin.post('*/news/edit/:id/', async (ctx, next) => {
+    await ctx.db.News.update(ctx.request.fields, {
         where: {
-            id: this.params.id,
+            id: ctx.params.id,
         }
     });
-    this.redirect('../../');
+    ctx.redirect('../../');
 });
 
-admin.get('*/news/del/:id/', function *(next) {
-    let news = yield this.db.News.findById(this.params.id);
-    yield this.render('admin/news/del', {
-        username:this.session.name,
+admin.get('*/news/del/:id/', async (ctx, next) => {
+    let news = await ctx.db.News.findById(ctx.params.id);
+    await ctx.render('admin/news/del', {
+        username:ctx.session.name,
         news: news,
         roles: Roles,
     });
 });
-admin.post('*/news/del/:id/', function *(next) {
-    yield this.db.News.destroy({
+admin.post('*/news/del/:id/', async (ctx, next) => {
+    await ctx.db.News.destroy({
         where: {
-            id: this.params.id,
+            id: ctx.params.id,
         }
     });
-    this.redirect('../../');
+    ctx.redirect('../../');
 });
 
 //team
-admin.get('*/team/', function *(next) {
-    let teamList = yield this.db.Team.findAll({
-        order: 'id ASC',
+admin.get('*/team/', async (ctx, next) => {
+    let teamList = await ctx.db.Team.findAll({
+        order: [['id','ASC']],
     });
-    let fileList = yield this.db.File.findAll({
-        order: 'id ASC',
+    let fileList = await ctx.db.File.findAll({
+        order: [['id','ASC']],
     });
     let fileNameList=[];
     Array.from(fileList).forEach(function (file) {
         fileNameList.push(file.fileName)
     });
-    yield this.render('admin/team/index', {
-        username:this.session.name,
+    await ctx.render('admin/team/index', {
+        username:ctx.session.name,
         teamList: teamList,
-        projectModel: this.jsonModel.project,
+        projectModel: ctx.jsonModel.project,
         fileNameList:fileNameList,
     });
 });
-admin.get('*/team/add/', function *(next) {
-    yield this.render('admin/team/add',{
-        username:this.session.name,
+admin.get('*/team/add/', async (ctx, next) => {
+    await ctx.render('admin/team/add',{
+        username:ctx.session.name,
     });
 });
-admin.post('*/team/add/', function *(next) {
+admin.post('*/team/add/', async (ctx, next) => {
     try{
-        yield this.db.Team.create(this.request.fields);
+        await ctx.db.Team.create(ctx.request.fields);
     }catch(e) {
-        this.body={status:"error",data:e.errors};
+        ctx.body={status:"error",data:e.errors};
         return ;
     }
-    this.body={status:"success"};
+    ctx.body={status:"success"};
 });
 
 
-admin.get('*/team/del/:id/', function *(next) {
-    let team = yield this.db.Team.findById(this.params.id);
-    yield this.render('admin/team/del', {
-        username:this.session.name,
+admin.get('*/team/del/:id/', async (ctx, next) => {
+    let team = await ctx.db.Team.findById(ctx.params.id);
+    await ctx.render('admin/team/del', {
+        username:ctx.session.name,
         team: team,
     });
 });
-admin.post('*/team/del/:id/', function *(next) {
-    yield this.db.Team.destroy({
+admin.post('*/team/del/:id/', async (ctx, next) => {
+    await ctx.db.Team.destroy({
         where: {
-            id: this.params.id,
+            id: ctx.params.id,
         }
     });
-    this.redirect('../../');
+    ctx.redirect('../../');
 });
 
-admin.get('*/team/edit/:team_id/', function *(next) {
-    let team = yield this.db.Team.findById(this.params.team_id);
-    yield this.render('admin/team/edit', {
-        username:this.session.name,
-        jsonModel: this.jsonModel,
+admin.get('*/team/edit/:team_id/', async (ctx, next) => {
+    let team = await ctx.db.Team.findById(ctx.params.team_id);
+    await ctx.render('admin/team/edit', {
+        username:ctx.session.name,
+        jsonModel: ctx.jsonModel,
         firstAuthorData: team.firstAuthor,
         otherAuthorData: team.otherAuthors,
         teacherData: team.teachers,
@@ -186,146 +187,146 @@ admin.get('*/team/edit/:team_id/', function *(next) {
     });
 });
 
-admin.post('*/team/edit/:team_id/first_author/', function *(next) {
-    let infoData = yield this.db.Team.findById(this.params.team_id);
-    let result = this.jsonModel.validate(this.request.fields, this.jsonModel.first_author);
+admin.post('*/team/edit/:team_id/first_author/', async (ctx, next) => {
+    let infoData = await ctx.db.Team.findById(ctx.params.team_id);
+    let result = ctx.jsonModel.validate(ctx.request.fields, ctx.jsonModel.first_author);
     if (result === undefined) {
-        infoData.set("firstAuthor", this.request.fields);
-        infoData.set("firstAuthorId", this.request.fields.studentID);
-        yield infoData.save();
-        this.body = {status: "success"};
+        infoData.set("firstAuthor", ctx.request.fields);
+        infoData.set("firstAuthorId", ctx.request.fields.studentID);
+        await infoData.save();
+        ctx.body = {status: "success"};
     } else {
-        this.body = {status: "error", data: result};
+        ctx.body = {status: "error", data: result};
     }
 
 });
-admin.post('*/team/edit/:team_id/other_author/:id/', function *(next) {
-    let infoData = yield this.db.Team.findById(this.params.team_id);
-    let result = this.jsonModel.validate(this.request.fields, this.jsonModel.other_author);
+admin.post('*/team/edit/:team_id/other_author/:id/', async (ctx, next) => {
+    let infoData = await ctx.db.Team.findById(ctx.params.team_id);
+    let result = ctx.jsonModel.validate(ctx.request.fields, ctx.jsonModel.other_author);
     if (result === undefined) {
         let otherAuthorsData = infoData.otherAuthors;
-        otherAuthorsData[this.params.id] = this.request.fields;
+        otherAuthorsData[ctx.params.id] = ctx.request.fields;
         infoData.set("otherAuthors", otherAuthorsData);
-        yield infoData.save();
-        this.body = {status: "success"};
+        await infoData.save();
+        ctx.body = {status: "success"};
     } else {
-        this.body = {status: "error", data: result};
+        ctx.body = {status: "error", data: result};
     }
 
 });
-admin.post('*/team/edit/:team_id/teacher/:id/', function *(next) {
-    let infoData = yield this.db.Team.findById(this.params.team_id);
-    let result = this.jsonModel.validate(this.request.fields, this.jsonModel.teacher);
+admin.post('*/team/edit/:team_id/teacher/:id/', async (ctx, next) => {
+    let infoData = await ctx.db.Team.findById(ctx.params.team_id);
+    let result = ctx.jsonModel.validate(ctx.request.fields, ctx.jsonModel.teacher);
     if (result === undefined) {
         let teacherData = infoData.teachers;
-        teacherData[this.params.id] = this.request.fields;
+        teacherData[ctx.params.id] = ctx.request.fields;
         infoData.set("teachers", teacherData);
-        yield infoData.save();
-        this.body = {status: "success"};
+        await infoData.save();
+        ctx.body = {status: "success"};
     } else {
-        this.body = {status: "error", data: result};
+        ctx.body = {status: "error", data: result};
     }
 
 });
 
-admin.get('*/team/edit_project/:id/', function *(next) {
-    let infoData = yield this.db.Team.findById(this.params.id);
-    yield this.render('admin/team/edit_project', {
-        username:this.session.name,
-        jsonModel: this.jsonModel,
+admin.get('*/team/edit_project/:id/', async (ctx, next) => {
+    let infoData = await ctx.db.Team.findById(ctx.params.id);
+    await ctx.render('admin/team/edit_project', {
+        username:ctx.session.name,
+        jsonModel: ctx.jsonModel,
         projectData: infoData.project,
     });
 });
-admin.post('*/team/edit_project/:id/', function *(next) {
-    let infoData = yield this.db.Team.findById(this.params.id);
-    let result = this.jsonModel.validate(this.request.fields, this.jsonModel.project);
+admin.post('*/team/edit_project/:id/', async (ctx, next) => {
+    let infoData = await ctx.db.Team.findById(ctx.params.id);
+    let result = ctx.jsonModel.validate(ctx.request.fields, ctx.jsonModel.project);
     if (result === undefined) {
-        infoData.set("project", this.request.fields);
-        yield infoData.save();
-        this.body = {status: "success"};
+        infoData.set("project", ctx.request.fields);
+        await infoData.save();
+        ctx.body = {status: "success"};
     } else {
-        this.body = {status: "error", data: result};
+        ctx.body = {status: "error", data: result};
     }
 
 });
 
 //file
-admin.get('*/file/', function *(next) {
-    let fileList = yield this.db.File.findAll({
-        order: 'id ASC',
+admin.get('*/file/', async (ctx, next) => {
+    let fileList = await ctx.db.File.findAll({
+        order: [['id','ASC']],
     });
-    yield this.render('admin/file/index', {
-        username:this.session.name,
+    await ctx.render('admin/file/index', {
+        username:ctx.session.name,
         fileList: fileList,
     });
 });
-admin.get('*/file/add/', function *(next) {
-    yield this.render('admin/file/add', {
-        username:this.session.name,
+admin.get('*/file/add/', async (ctx, next) => {
+    await ctx.render('admin/file/add', {
+        username:ctx.session.name,
         roles: Roles
     });
 });
-admin.post('*/file/add/', function *(next) {
-    if ("file" in this.request.fields) {
-        let fileName = this.request.fields.fileName;
-        let filePath = path.join("./", this.request.fields.savePath);
-        let absoluteFilePath = path.join(this.cfg.uploadPath, filePath);
+admin.post('*/file/add/', async (ctx, next) => {
+    if ("file" in ctx.request.fields) {
+        let fileName = ctx.request.fields.fileName;
+        let filePath = path.join("./", ctx.request.fields.savePath);
+        let absoluteFilePath = path.join(ctx.cfg.uploadPath, filePath);
 
-        yield fs.copy(this.request.fields.file[0].path,
+        await fs.copy(ctx.request.fields.file[0].path,
             absoluteFilePath,
             {clobber: true}
         );
 
-        yield this.db.File.create({
+        await ctx.db.File.create({
             fileName: fileName,
             savePath: filePath,
-            size: this.request.fields.file[0].size,
+            size: ctx.request.fields.file[0].size,
             uploaderRole: Roles.admin,
-            uploaderId: this.session.id,
-            role: this.request.fields.role,
+            uploaderId: ctx.session.id,
+            role: ctx.request.fields.role,
         });
-        this.body = {status: "success"};
+        ctx.body = {status: "success"};
     } else {
-        this.body = {status: "error", data: "未发现文件"};
+        ctx.body = {status: "error", data: "未发现文件"};
     }
 });
 
-admin.get('*/file/del/:id/', function *(next) {
-    let fileInfo = yield this.db.File.findById(this.params.id);
-    yield this.render('admin/file/del', {
-        username:this.session.name,
+admin.get('*/file/del/:id/', async (ctx, next) => {
+    let fileInfo = await ctx.db.File.findById(ctx.params.id);
+    await ctx.render('admin/file/del', {
+        username:ctx.session.name,
         file: fileInfo
     });
 });
-admin.post('*/file/del/:id/', function *(next) {
-    let fileInfo = yield this.db.File.findById(this.params.id);
-    let filePath = path.resolve(this.cfg.uploadPath, fileInfo.savePath);
-    let newFilePath = path.join(this.cfg.uploadPath, "/deleted/", fileInfo.fileName);
-    yield fs.rename(filePath, newFilePath);
-    yield this.db.File.destroy({
+admin.post('*/file/del/:id/', async (ctx, next) => {
+    let fileInfo = await ctx.db.File.findById(ctx.params.id);
+    let filePath = path.resolve(ctx.cfg.uploadPath, fileInfo.savePath);
+    let newFilePath = path.join(ctx.cfg.uploadPath, "/deleted/", fileInfo.fileName);
+    await fs.rename(filePath, newFilePath);
+    await ctx.db.File.destroy({
         where: {
-            id: this.params.id,
+            id: ctx.params.id,
         }
     });
-    this.redirect('../../');
+    ctx.redirect('../../');
 });
 
-admin.get('*/file/download/:id/', function *(next) {
-    let fileInfo = yield this.db.File.findById(this.params.id);
+admin.get('*/file/download/:id/', async (ctx, next) => {
+    let fileInfo = await ctx.db.File.findById(ctx.params.id);
     try {
-        let filePath = path.resolve(this.cfg.uploadPath, fileInfo.savePath);
-        let fd = yield fs.open(filePath, 'r');
-        this.response.attachment(fileInfo.fileName);
-        this.body = yield fs.readFile(fd);
+        let filePath = path.resolve(ctx.cfg.uploadPath, fileInfo.savePath);
+        let fd = await fs.open(filePath, 'r');
+        ctx.response.attachment(fileInfo.fileName);
+        ctx.body = await fs.readFile(fd);
     } catch (err) {
-        if (err.code == 'ENOENT') {
-            yield this.render('fail', {
+        if (err.code === 'ENOENT') {
+            await ctx.render('fail', {
                 title: "文件不存在",
                 message: "该文件不存在"
             });
         } else {
             console.error(err);
-            yield this.render('fail', {
+            await ctx.render('fail', {
                 title: "未知错误",
                 message: "请通知管理人员"
             });
@@ -334,105 +335,106 @@ admin.get('*/file/download/:id/', function *(next) {
 });
 
 //team
-admin.get('*/judger/', function *(next) {
-    let judgerList = yield this.db.Judger.findAll({
-        order: 'id ASC',
+admin.get('*/judger/', async (ctx, next) => {
+    let judgerList = await ctx.db.Judger.findAll({
+        order: [['id','ASC']],
     });
-    yield this.render('admin/judger/index', {
-        username:this.session.name,
+    await ctx.render('admin/judger/index', {
+        username:ctx.session.name,
         judgerList: judgerList,
     });
 });
-admin.get('*/judger/add/', function *(next) {
+admin.get('*/judger/add/', async (ctx, next) => {
 
-    yield this.render('admin/judger/add',{
-        username:this.session.name,
+    await ctx.render('admin/judger/add',{
+        username:ctx.session.name,
     });
 });
 
-admin.post('*/judger/add/', function *(next) {
+admin.post('*/judger/add/', async (ctx, next) => {
     try{
-        yield this.db.Judger.create(this.request.fields);
+        await ctx.db.Judger.create(ctx.request.fields);
     }catch(e) {
-        this.body={status:"error",data:e.errors};
+        ctx.body={status:"error",data:e.errors};
         return ;
     }
-    this.body={status:"success"};
+    ctx.body={status:"success"};
 });
 
 
-admin.get('*/judger/del/:id/', function *(next) {
-    let judger = yield this.db.Judger.findById(this.params.id);
-    yield this.render('admin/judger/del', {
-        username:this.session.name,
+admin.get('*/judger/del/:id/', async (ctx, next) => {
+    let judger = await ctx.db.Judger.findById(ctx.params.id);
+    await ctx.render('admin/judger/del', {
+        username:ctx.session.name,
         judger: judger,
     });
 });
-admin.post('*/judger/del/:id/', function *(next) {
-    yield this.db.Judger.destroy({
+admin.post('*/judger/del/:id/', async (ctx, next) => {
+    await ctx.db.Judger.destroy({
         where: {
-            id: this.params.id,
+            id: ctx.params.id,
         }
     });
-    this.redirect('../../');
+    ctx.redirect('../../');
 });
 
-admin.get('*/judger/edit/:id/', function *(next) {
-    let teamList = yield this.db.Team.findAll({
+admin.get('*/judger/edit/:id/', async (ctx, next) => {
+    let teamList = await ctx.db.Team.findAll({
         include: [{
-            model: this.db.Judger,
+            model: ctx.db.Judger,
             required: false,
             through: {
                 attributes: ['valid'],
             },
             where:{
-                id:this.params.id,
+                id:ctx.params.id,
             },
-            order: 'id ASC',
+            order: [['id','ASC']],
         }],
-        order: 'id ASC',
+        order: [['id','ASC']],
     });
-    let judger = yield this.db.Judger.findById(this.params.id);
-    yield this.render('admin/judger/edit', {
-        username:this.session.name,
+    let judger = await ctx.db.Judger.findById(ctx.params.id);
+    await ctx.render('admin/judger/edit', {
+        username:ctx.session.name,
         judger: judger,
         teamList:teamList,
-        projectCategoryMap:this.jsonModel.project.project_category.inclusion.within,
+        projectCategoryMap:ctx.jsonModel.project.project_category.inclusion.within,
     });
 });
-admin.post('*/judger/edit/:id/', function *(next) {
-    console.log(this.request.fields);
-    yield this.db.Judger.update(this.request.fields, {
+admin.post('*/judger/edit/:id/', async (ctx, next) => {
+    console.log(ctx.request.fields);
+    await ctx.db.Judger.update(ctx.request.fields, {
         where: {
-            id: this.params.id,
+            id: ctx.params.id,
         }
     });
-    let teamList = yield this.db.Team.findAll({
-        order: 'id ASC',
+    let teamList = await ctx.db.Team.findAll({
+        order: [['id','ASC']],
     });
     for(let team of teamList){
-        if ("team_"+team.id.toString() in this.request.fields){
-            team.addJudgers(this.params.id, {valid:true});
+        if ("team_"+team.id.toString() in ctx.request.fields){
+            team.addJudgers(ctx.params.id, {valid:true});
         }else{
-            team.removeJudgers(this.params.id);
+            team.removeJudgers(ctx.params.id);
         }
     }
-    this.body={status:"success"};
+
+    ctx.body={status:"success"};
 });
 
-admin.get('*/export/', function *(next) {
-    yield this.render('admin/export/index',{
-        username:this.session.name,
+admin.get('*/export/', async (ctx, next) => {
+    await ctx.render('admin/export/index',{
+        username:ctx.session.name,
     });
 });
 
-admin.get('*/export/do_export/', function *(next) {
-    let judgements = yield this.db.Judgement.findAll();
-    let teams = yield this.db.Team.findAll({
-        order: 'id ASC',
+admin.get('*/export/do_export/', async (ctx, next) => {
+    let judgements = await ctx.db.Judgement.findAll();
+    let teams = await ctx.db.Team.findAll({
+        order: [['id','ASC']],
     });
-    let judgers = yield this.db.Judger.findAll({
-        order: 'id ASC',
+    let judgers = await ctx.db.Judger.findAll({
+        order: [['id','ASC']],
     });
     let result = [];
     let teamMap = {};
@@ -469,20 +471,20 @@ admin.get('*/export/do_export/', function *(next) {
     }
     let fileName = "export_" + Date.now().toString() + ".xls";
     let filePath = path.join("export", fileName);
-    let absoluteFilePath = path.resolve(this.cfg.uploadPath, filePath);
+    let absoluteFilePath = path.resolve(ctx.cfg.uploadPath, filePath);
 
-    yield xls.writeXLS(absoluteFilePath, result, true);
-    let fileStat = yield fs.stat(absoluteFilePath);
+    await xls.writeXLS(absoluteFilePath, result, true);
+    let fileStat = await fs.stat(absoluteFilePath);
 
-    let fileInfo = yield this.db.File.create({
+    let fileInfo = await ctx.db.File.create({
         fileName: fileName,
         savePath: filePath,
-        uploaderId: this.session.id,
+        uploaderId: ctx.session.id,
         uploaderRole: Roles.admin,
         role: Roles.admin,
         size: fileStat.size,
     });
-    this.redirect("/admin/file/download/" + fileInfo.id.toString() + "/");
+    ctx.redirect("/admin/file/download/" + fileInfo.id.toString() + "/");
 });
 
 admin.login = login;

@@ -3,7 +3,7 @@
  */
 const path = require('path');
 module.exports = {
-    debug: process.env.NICP_DEBUG ? true : false,
+    debug: !!process.env.NICP_DEBUG,
     siteName: "“创新杯”",
     uploadPath: process.env.NICP_UPLOAD_PATH ? process.env.NICP_UPLOAD_PATH : path.resolve(__dirname, "./upload/"),
     keys: [Math.random().toString(36).substr(2), Math.random().toString(36).substr(2)],
@@ -17,5 +17,5 @@ module.exports = {
         user: process.env.NICP_DB_USER ? process.env.NICP_DB_USER : 'nicp',
         password: process.env.NICP_DB_PASSWORD ? process.env.NICP_DB_PASSWORD : 'nicp',
     },
-    disableTeam: process.env.NICP_DISABLE_TEAM ? true : false,
+    disableTeam: process.env.NICP_DISABLE_TEAM,
 };

@@ -1,11 +1,6 @@
 const sequelize = require('./db');
 const config = require('../config');
-const CryptoJS = require('crypto-js');
-
-function passwordHash(password) {
-    return CryptoJS.SHA512(CryptoJS.SHA512(password)+"NICP_FE_SALT_VVxETKJy7bjDtLa83ECG").toString();
-}
-
+const {passwordHash} = require('../util/crypto');
 let db = {};
 // init
 const Team = require("./team");
@@ -18,63 +13,12 @@ const Judgement = require("./judgement");
 Team.belongsToMany(Judger, {through: Judgement});
 Judger.belongsToMany(Team, {through: Judgement});
 
+db._sequelize = sequelize;
 db.Team = Team;
-Team.sync({force: config.debug})
-    .then(function () {
-        if(config.debug){
-            db.Team.create({
-                username: "wxy",
-                password: passwordHash("123wxy"),
-            });
-        }
-    });
-
-
 db.News = News;
-News.sync({force: config.debug})
-    .then(function () {
-        if(config.debug) {
-            db.News.create({
-                title: "test123123",
-                content: "testtesttest",
-                author: "wxy",
-                role: 1,
-            });
-        }
-    });
-
-
 db.Admin = Admin;
-Admin.sync({force: config.debug})
-    .then(function (database) {
-        if(config.debug) {
-            database.create({
-                username: config.rootUserName,
-                password: passwordHash(config.rootUserPassword),
-            });
-        }
-    });
-
-
 db.File = File;
-File.sync({force: config.debug});
-
 db.Judger = Judger;
-Judger.sync({force: config.debug})
-    .then(function (database) {
-        if(config.debug) {
-            database.create({
-                username: "wxy",
-                password: passwordHash("123wxy"),
-            });
-        }
-    })
-    .then(function () {
-        Judgement.sync({force: config.debug});
-    });
-
 db.Judgement = Judgement;
-
-
 module.exports = db;
 

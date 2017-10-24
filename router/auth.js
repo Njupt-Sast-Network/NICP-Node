@@ -10,20 +10,20 @@ const Roles = {
 };
 
 function verifyAuth(need_role) {
-    return function *(next) {
-        let role = this.session.role;
+    return async (ctx, next) => {
+        let role = ctx.session.role;
         if (role === need_role) {
-            yield next;
+            await next();
         } else {
             switch (need_role){
                 case Roles.team:
-                    this.redirect('/team/login/');
+                    ctx.redirect('/team/login/');
                     break;
                 case Roles.judger:
-                    this.redirect('/judger/login/');
+                    ctx.redirect('/judger/login/');
                     break;
                 case Roles.admin:
-                    this.redirect('/admin/login/');
+                    ctx.redirect('/admin/login/');
                     break;
             }
 
@@ -31,20 +31,20 @@ function verifyAuth(need_role) {
     }
 }
 
-function *logout(next) {
-    yield this.regenerateSession();
-    switch(this.params.role){
+async function logout(ctx,next) {
+    await ctx.regenerateSession();
+    switch(ctx.params.role){
         case 'admin':
-            this.redirect('/admin/login');
+            ctx.redirect('/admin/login');
             break;
         case 'team':
-            this.redirect('/team/login');
+            ctx.redirect('/team/login');
             break;
         case 'judger':
-            this.redirect('/judger/login');
+            ctx.redirect('/judger/login');
             break;
         default:
-            this.redirect('/');
+            ctx.redirect('/');
     }
 }
 

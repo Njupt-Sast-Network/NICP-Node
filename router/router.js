@@ -1,4 +1,7 @@
-let router = require('koa-router')();
+let Router = require('koa-router');
+let router = new Router();
+const convert = require('koa-convert');
+
 const session = require('koa-generic-session');
 const views = require('koa-view');
 const path = require('path');
@@ -8,18 +11,21 @@ const judger = require('../controller/judger');
 const everyone = require('../controller/everyone');
 const {Roles, verifyAuth, logout} = require('./auth');
 const config = require('../config');
+
+
 //模版
-router.use(views(path.join(__dirname, '..', 'view'), {
+router.use(convert(views(path.join(__dirname, '..', 'view'), {
     noCache: config.debug,
     ext: "nunj",
-}));
+})));
+
 
 //session
-router.use(session());
+router.use(convert(session()));
 
 //路由
-router.get('/',function *() {
-    this.redirect('/team/login/');
+router.get('/',async (ctx, next) =>  {
+    ctx.redirect('/team/login/');
 });
 router.post("/logout/:role/", logout);
 

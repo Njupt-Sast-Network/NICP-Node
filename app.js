@@ -1,5 +1,6 @@
+const convert = require('koa-convert');
 const koa = require('koa');
-const app = koa();
+const app = new koa();
 const router = require("./router/router.js");
 const serve = require('koa-serve');
 
@@ -21,10 +22,10 @@ app.keys = config.keys;
 app.context.cfg = config;
 
 if (config.debug){
-    app.use(logger());
+    app.use(convert(logger()));
 }
-app.use(serve('asset'));
-app.use(body());
+app.use(convert(serve('asset')));
+app.use(convert(body()));
 app.use(router.routes());
 app.use(router.allowedMethods());
 

@@ -20,6 +20,7 @@ RUN useradd -ms /bin/bash nicp_node \
 USER nicp_node
 
 RUN npm install
+RUN node db_init.js
 
 EXPOSE 3000
 CMD [ "pm2-docker", "start" , "index.js" ]

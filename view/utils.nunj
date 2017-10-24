@@ -91,7 +91,7 @@
         <!-- sidebar: style can be found in sidebar.less -->
         <section class="sidebar">
             <!-- Sidebar Menu -->
-            <ul class="sidebar-menu">
+            <ul class="sidebar-menu" data-widget="tree">
                 {% for menu in menus %}
                     <li class="header">{{ menu.header }}</li>
                     {% for item in menu.items %}
@@ -160,11 +160,11 @@
     <!-- REQUIRED JS SCRIPTS -->
 
     <!-- jQuery 2.2.3 -->
-    <script src="/asset/plugins/jQuery/jquery-2.2.3.min.js"></script>
+    <script src="/asset/plugins/jQuery/jquery-3.2.1.min.js"></script>
     <!-- Bootstrap 3.3.6 -->
     <script src="/asset/bootstrap/js/bootstrap.min.js"></script>
     <!-- AdminLTE App -->
-    <script src="/asset/AdminLTE/js/app.min.js"></script>
+    <script src="/asset/AdminLTE/js/adminlte.min.js"></script>
 
     <!-- Optionally, you can add Slimscroll and FastClick plugins.
          Both of these plugins are recommended to enhance the
