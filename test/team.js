@@ -1,6 +1,7 @@
 /**
  * Created by wxy on 2016/11/11.
  */
+
 const request = require("supertest");
 const chai = require('chai');
 const {passwordHash} = require('../util/crypto');
@@ -13,10 +14,8 @@ describe('Team', function () {
     });
     after(function(done) {
         mock.close(function () {
-            app.context.db._sequelize.close();
             done();
         });
-
     });
 
     describe('index', function () {

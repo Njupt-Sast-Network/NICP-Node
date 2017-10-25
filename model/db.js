@@ -8,6 +8,7 @@ module.exports = new Sequelize(config.db.name, config.db.user, config.db.passwor
     host: config.db.host,
     port: config.db.port,
     dialect: 'postgres',
+    logging: config.debug ? console.log:false,
     pool: {
         max: 10,
         min: 0,

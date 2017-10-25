@@ -34,7 +34,7 @@
   },
   "scripts": {
     "start": "node index.js",
-    "test": "mocha"
+    "test": "mocha --exit ./test"
   },
   "author": "",
   "license": "ISC"

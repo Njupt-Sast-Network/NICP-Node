@@ -9,8 +9,8 @@ const Admin = require("./model/admin");
 const File = require("./model/file");
 const Judger = require("./model/judger");
 const Judgement = require("./model/judgement");
-Team.belongsToMany(Judger, {through: Judgement});
-Judger.belongsToMany(Team, {through: Judgement});
+
+
 
 db._sequelize = sequelize;
 db.Team = Team;
@@ -22,6 +22,8 @@ db.Judgement = Judgement;
 module.exports = db;
 
 async function db_init() {
+    Team.belongsToMany(Judger, {through: Judgement});
+    Judger.belongsToMany(Team, {through: Judgement});
     await Team.sync({force: true})
         .then(function () {
             db.Team.create({
@@ -31,11 +33,19 @@ async function db_init() {
         });
     await News.sync({force:true})
         .then(function () {
-            db.News.create({
+            return db.News.create({
                 title: "test123123",
                 content: "testtesttest",
                 author: "wxy",
                 role: 1,
+            });
+        })
+        .then(function () {
+            return db.News.create({
+                title: "test123123",
+                content: "testtesttest",
+                author: "wxy",
+                role: 2,
             });
         });
     await Admin.sync({force: true})
@@ -52,13 +62,22 @@ async function db_init() {
                 username: "wxy",
                 password: passwordHash("123wxy"),
             });
-        })
-        .then(function () {
-            return Judgement.sync({force: true});
-        })
-        .then(function () {
-            return sequelize.close();
         });
 
+    await Judgement.sync({force: true});
+
+    let teamList = await Team.findAll({
+        order: [['id','ASC']],
+    });
+    let judgers = await Judger.findAll();
+
+    //console.log(judgers[0].id);
+    //console.log(teamList[0].addJudgers);
+    await teamList[0].addJudger(judgers[0], { through: { valid:true}});
+    sequelize.close();
 }
-db_init();
+db_init().then(function () {
+
+},function (err) {
+    console.log(err);
+});
