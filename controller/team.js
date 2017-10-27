@@ -41,9 +41,6 @@ login.post('*/', async (ctx, next) => {
 
 //Team
 let team = new Router();
-// team.get('*/', async (ctx, next) => {
-//     await ctx.render('team/news');
-// });
 team.get('*/password/', async (ctx, next) => {
     await ctx.render('team/password', {
         username: ctx.session.name,
@@ -294,5 +291,11 @@ team.get('*/file/download/:name', async (ctx, next) => {
     }
 
 });
+
+// 接收未匹配的路由，务必放在最后
+team.all('*/', async (ctx, next) => {
+    await ctx.redirect("./news/")
+});
+
 team.login = login;
 module.exports = team;

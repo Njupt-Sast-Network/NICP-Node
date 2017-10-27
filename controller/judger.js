@@ -173,5 +173,10 @@ judger.get('*/rate/download/:id/', async (ctx, next) => {
 
 });
 
+// 接收未匹配的路由，务必放在最后
+judger.all('*/', async (ctx, next) => {
+    await ctx.redirect("./news/")
+});
+
 judger.login = login;
 module.exports = judger;
