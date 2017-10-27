@@ -36,7 +36,7 @@
     {{ main.header(3,username) }}
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
-        {{ util.content_header("项目信息","请认真填写",["队伍管理","项目信息"]) }}
+        {{ util.content_header("文件上传","请认真填写",["队伍管理","文件上传"]) }}
         <!-- Main content -->
         <section class="content">
             {{ upload_box("申报书","./upload/rfp/","./download/rfp.pdf/","file","申报书") }}

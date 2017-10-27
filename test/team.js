@@ -302,7 +302,7 @@ describe('Team', function () {
         it('/file/ should show files', function (done) {
             agent.get('/team/file/')
                 .expect(200)
-                .expect(/项目信息/)
+                .expect(/文件上传/)
                 .expect(/申报书上传/)
                 .expect(/作品简介书上传/)
                 .end(done);
