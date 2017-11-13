@@ -34,21 +34,23 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="team" class="col-sm-4 control-label">勾选队伍参赛</label>
+                            <label for="team" class="col-sm-4 control-label">勾选由该老师评审的队伍</label>
                             {% for team in teamList %}
-                                <input title="team" name="team_{{ team.id }}"
-                                        {{ "checked" if team.judgers[0].judgement.valid }}
-                                       type="checkbox"/>队伍编号{{ team.id }}
-                                {{ projectCategoryMap[team.project.project_category] if team.project.project_category else "未填" }}
+                                <div>
+                                    <input title="team" name="team_{{ team.id }}"
+                                            {{ "checked" if team.judgers[0].judgement.valid }}
+                                           type="checkbox"/>队伍编号{{ team.id }}
+                                    {{ projectCategoryMap[team.project.project_category] if team.project.project_category else "未填" }}
+                                </div>
                             {% endfor %}
                         </div>
-                        <div class="form-group">
-                            <label for="team" class="col-sm-4 control-label">评审的队伍</label>
-                            <div class="col-sm-5">
-                                <input type="text" class="form-control"
-                                       id="judge_team_list" placeholder="请用,分隔">
-                            </div>
-                        </div>
+                        {#<div class="form-group">#}
+                            {#<label for="team" class="col-sm-4 control-label">评审的队伍</label>#}
+                            {#<div class="col-sm-5">#}
+                                {#<input type="text" class="form-control"#}
+                                       {#id="judge_team_list" placeholder="请用,分隔">#}
+                            {#</div>#}
+                        {#</div>#}
                         <div class="box-footer">
                             <button type="submit" class="btn btn-primary pull-right">提交</button>
                         </div>

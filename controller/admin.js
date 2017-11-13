@@ -402,7 +402,7 @@ admin.get('*/judger/edit/:id/', async (ctx, next) => {
     });
 });
 admin.post('*/judger/edit/:id/', async (ctx, next) => {
-    console.log(ctx.request.fields);
+    //console.log(ctx.request.fields);
     await ctx.db.Judger.update(ctx.request.fields, {
         where: {
             id: ctx.params.id,
@@ -413,7 +413,7 @@ admin.post('*/judger/edit/:id/', async (ctx, next) => {
     });
     for(let team of teamList){
         if ("team_"+team.id.toString() in ctx.request.fields){
-            team.addJudgers(ctx.params.id, {valid:true});
+            team.addJudgers(ctx.params.id, {through:{valid:true}});
         }else{
             team.removeJudgers(ctx.params.id);
         }
