@@ -178,6 +178,7 @@ admin.post('*/team/del/:id/', async (ctx, next) => {
 admin.get('*/team/edit/:team_id/', async (ctx, next) => {
     let team = await ctx.db.Team.findById(ctx.params.team_id);
     await ctx.render('admin/team/edit', {
+        secretId:team.secretId,
         username:ctx.session.name,
         jsonModel: ctx.jsonModel,
         firstAuthorData: team.firstAuthor,
@@ -227,6 +228,13 @@ admin.post('*/team/edit/:team_id/teacher/:id/', async (ctx, next) => {
         ctx.body = {status: "error", data: result};
     }
 
+});
+
+admin.post('*/team/edit/:team_id/secret_id/', async (ctx, next) => {
+    let infoData = await ctx.db.Team.findById(ctx.params.team_id);
+    infoData.set("secretId", ctx.request.fields.secret_id);
+    await infoData.save();
+    ctx.body = {status: "success"};
 });
 
 admin.get('*/team/edit_project/:id/', async (ctx, next) => {

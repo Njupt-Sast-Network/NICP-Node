@@ -13,6 +13,9 @@ var Team = sequelize.define('team', {
         type: Sequelize.STRING,
         allowNull: false,
     },
+    secretId:{
+        type: Sequelize.STRING,
+    },
     firstAuthorId: {
         type: Sequelize.STRING,
     },
