@@ -23,7 +23,7 @@
                             <label for="username" class="col-sm-4 control-label">用户名</label>
                             <div class="col-sm-5">
                                 <input type="text" value="{{ judger.username }}" name="username" class="form-control"
-                                       id="title" placeholder="用户名">
+                                       id="title" placeholder="用户名" disabled="disabled">
                             </div>
                         </div>
                         <div class="form-group">
