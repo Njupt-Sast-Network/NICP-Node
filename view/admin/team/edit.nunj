@@ -23,8 +23,8 @@
                             <label class="col-sm-4 control-label">保密编号</label>
                             <div class="col-sm-5">
                                 <input type="text" name="secret_id"
-                                       class="form-control" maxlength="5"
-                                       size="5"
+                                       class="form-control" maxlength="7"
+                                       size="7"
                                        value="{{ secretId }}"
                                 >
                             </div>
