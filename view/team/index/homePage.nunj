@@ -186,6 +186,19 @@
   footer .container a:hover, footer .container .foot-link>div:hover a{
     color: #479bd6;
   }
+  .welcome{
+    text-align: center;
+    height: 100%;
+  }
+  .welcome div{
+    color: #5B9AD1;
+    font-size: 3rem;
+    font-weight: 700;
+  }
+  .welcome p{
+    color: #bbb;
+    font-size: 1.4rem;
+  }
   </style>
 </head>
 <body>
@@ -204,20 +217,22 @@
         <img src="/asset/team_index/logo.jpg" alt="" style="width: 100%;">
       </div>
       <div class="form">
-        <form action="./" method="POST" class="login-form">
+        {# <form action="./" method="POST" class="login-form">
           <input class="input-box" type="text" name="username" placeholder="用户名">
           <input class="input-box" type="password" name="password" id="password" placeholder="密码">
           <small id="foget-pass-text">忘记密码请找管理员</small><br/>
           <input type="checkbox" name="remember_me" checked><small>记住我</small>&nbsp;<small style="color: #aaa">不是自己的电脑上不要勾选此项</small>
           <div class="form-button">
-          {#弱渣后端膜下方前端黑魔法，虽然被我删了个按钮导致没用上#}
-          {#<!-- 这里缩进不要改…… -->#}
+          <!--弱渣后端膜下方前端黑魔法，虽然被我删了个按钮导致没用上-->
+          <!-- 这里缩进不要改…… -->
             <button type="submit">
             登陆</button>
-            {#登陆</button><button>#}
-            {#注册</button>#}
           </div>
-        </form>
+        </form> #}
+        <div class="welcome">
+          <div>比赛已结束</div>
+          <p>请期待下一届创新杯</p>
+        </div>
       </div>
     </div>
     <div style="clear: both;"></div>
