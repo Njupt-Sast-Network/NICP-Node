@@ -24,7 +24,7 @@
     "pg-hstore": "^2.3.2",
     "pg-native": "^2.2.0",
     "q": "^1.5.1",
-    "sequelize": "^4.17.2",
+    "sequelize": "^4.44.3",
     "validate.js": "^0.12.0"
   },
   "devDependencies": {
