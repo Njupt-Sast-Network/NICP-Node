@@ -24,7 +24,7 @@
                             <th>序号</th>
                             <th>查看项目信息</th>
                             <th>研究报告下载</th>
-                            <th>评分</th>
+                            <th>评分和点评</th>
                         </tr>
                         {% for team in teamList %}
                             <tr>
@@ -34,10 +34,18 @@
                                 </td>
                                 <td>
                                     <form class="input-group input-group-sm rate-form" method="POST"
-                                          action="./save/{{ team.id }}/">
-                                        <input name="rate" type="number" max="10" min="1" step="1"
+                                          action="./save/{{ team.id }}/"
+                                          style="display:flex;">
+                                        <input name="rate" type="number" max="100" min="1" step="1"
                                                value="{{ team.judgers[0].judgement.rate if team.judgers.length>0 }}"
                                                pattern="\d*"
+                                               placeholder="评分"
+                                               style="width: 80px"
+                                               class="form-control">
+                                        <input name="comment" type="text"
+                                                value="{{ team.judgers[0].judgement.comment if team.judgers.length>0 }}"
+                                                style="width:1200px"
+                                                placeholder="点评"
                                                class="form-control">
                                         <span class="input-group-btn">
                                             <button type="submit" class="btn btn-info btn-flat">保存评分</button>

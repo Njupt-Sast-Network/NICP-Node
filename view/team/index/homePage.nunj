@@ -283,6 +283,7 @@
     </div>
   </footer>
   {#弱渣后端表示只会用 jQuery #}
+  {#前端萌新前来膜大神 ORZ #}
   <!-- jQuery 3.2.1 -->
   <script src="/asset/plugins/jQuery/jquery-3.2.1.min.js"></script>
   {{ util.loginJS()  }}
