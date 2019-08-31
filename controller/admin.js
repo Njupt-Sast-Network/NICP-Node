@@ -437,46 +437,76 @@ admin.get('*/export/', async (ctx, next) => {
 });
 
 admin.get('*/export/do_export/', async (ctx, next) => {
-    let judgements = await ctx.db.Judgement.findAll();
-    let teams = await ctx.db.Team.findAll({
+    const judgements = await ctx.db.Judgement.findAll();
+    const teams = await ctx.db.Team.findAll({
         order: [['id','ASC']],
     });
-    let judgers = await ctx.db.Judger.findAll({
+    const judgers = await ctx.db.Judger.findAll({
         order: [['id','ASC']],
     });
-    let result = [];
-    let teamMap = {};
 
-    let i = 1;
-    for (let team of teams) {
-        teamMap[team.id] = i;
-        result.push({
-            x: i,
-            y: 0,
-            value: team.username
-        });
-        i++;
-    }
+    // result用于存放最终的数据
+    const result = [];
 
-    let judgerMap = {};
+    // 评委id与姓名的Map
+    const judgerMapper = new Map(judgers.map((judger,index) => [judger.id, {name:judger.username,index}]));
+    
+    // teamsResult存放各个team的信息
+    const teamsResult = teams.map(team => {
+        return {
+            id: team.id,
+            name: team.project.name,
+            projectCategory: team.project.project_category,
+            subjectCategory: team.project.subject_category,
+            judgements: [],
+            sum: undefined
+        }
+    });
 
-    i = 1;
-    for (let judger of judgers) {
-        judgerMap[judger.id] = i;
-        result.push({
-            x: 0,
-            y: i,
-            value: judger.username
-        });
-        i++;
-    }
-    for (let judgement of judgements) {
-        result.push({
-            x: teamMap[judgement.teamId],
-            y: judgerMap[judgement.judgerId],
-            value: judgement.rate,
-        });
-    }
+    // 将评判信息存放在teamsResult
+    judgements.forEach(judgement => {
+        const { rate, comment, teamId, judgerId } = judgement;
+        const targetId = teamsResult.findIndex(item => item.id === teamId);
+        if (targetId !== -1) {
+            teamsResult[targetId].judgements.push({
+                judgerInfo: judgerMapper.get(judgerId),
+                rate: parseInt(rate),
+                rate_comment: (rate!==null?`评分 ${rate} `:'')+(comment!==null?`评论 ${comment}`:''),
+            })
+        }
+    });
+
+    // 计算各个team的总分
+    teamsResult.forEach(team => {
+        if (team.judgements.length) {
+            team.sum = team.judgements.reduce((sum, current) => sum += current.rate, 0)
+        }
+    });
+    
+    // excel的第一行
+    const headers = ['作品编号', '作品名称', '作品类别', '学科类别', ...judgers.map(judger => judger.username), '总分'];
+    headers.forEach((header, index) => result.push({  x: 0,y: index, value: header }));
+    
+    // 将teamsResult中的信息迁移到result中
+    teamsResult.forEach((team, index) => {
+        const x = index + 1;
+        result.push(
+            { x,y: 0, value: team.id },
+            { x,y: 1, value: team.name },
+            { x, y: 2, value: team.projectCategory },
+            { x, y: 3, value: team.subjectCategory },
+            { x, y: headers.length - 1, value: team.sum }
+        );
+        team.judgements.forEach(judgement => {
+            result.push(
+                { x, y: judgement.judgerInfo.index + 4, value: judgement.rate_comment }
+            )
+        })
+    })
+
+    // 对result中的value是否为null、undefined、NaN
+    result.forEach(resultItem => resultItem.value = resultItem.value === undefined || resultItem.value === null || Number.isNaN(resultItem.value) ? "" : String(resultItem.value));
+    
     let fileName = "export_" + Date.now().toString() + ".xls";
     let filePath = path.join("export", fileName);
     let absoluteFilePath = path.resolve(ctx.cfg.uploadPath, filePath);
