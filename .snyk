@@ -1,0 +1,33 @@
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.13.5
+ignore: {}
+# patches apply the minimum changes required to fix a vulnerability
+patch:
+  'npm:debug:20170905':
+    - koa-router > debug:
+        patched: '2019-09-04T04:37:42.336Z'
+    - koa-serve > debug:
+        patched: '2019-09-04T04:37:42.336Z'
+    - koa-serve > koa-send > debug:
+        patched: '2019-09-04T04:37:42.336Z'
+    - sequelize > retry-as-promised > debug:
+        patched: '2019-09-04T04:37:42.336Z'
+    - koa > debug:
+        patched: '2019-09-04T04:37:42.336Z'
+  SNYK-JS-LODASH-450202:
+    - sequelize > lodash:
+        patched: '2019-09-04T04:37:42.336Z'
+  'npm:lodash:20180130':
+    - koa-serve > lodash:
+        patched: '2019-09-04T04:37:42.336Z'
+  'npm:ms:20170412':
+    - koa > debug > ms:
+        patched: '2019-09-04T04:37:42.336Z'
+    - koa-router > debug > ms:
+        patched: '2019-09-04T04:37:42.336Z'
+    - koa-serve > debug > ms:
+        patched: '2019-09-04T04:37:42.336Z'
+    - koa-serve > koa-send > debug > ms:
+        patched: '2019-09-04T04:37:42.336Z'
+    - sequelize > retry-as-promised > debug > ms:
+        patched: '2019-09-04T04:37:42.336Z'
