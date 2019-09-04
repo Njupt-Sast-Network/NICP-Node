@@ -128,7 +128,7 @@ judger.post('*/rate/save/:id/', async (ctx, next) => {
         return;
     }
     let teamInfo = await ctx.db.Team.findById(ctx.params.id);
-    teamInfo.addJudgers(ctx.session.id, {rate: ctx.request.fields.rate,comment: ctx.request.fields.comment});
+    teamInfo.addJudgers(ctx.session.id, {through: {rate: rate,comment:comment}});
     ctx.body = {status: "success"};
 });
 
