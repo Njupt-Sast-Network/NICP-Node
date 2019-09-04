@@ -11,7 +11,7 @@
         {{ util.content_header("队伍信息管理","所有队伍都这里了",["后台管理","队伍信息管理","编辑队伍信息"]) }}
         <!-- Main content -->
         <section class="content">
-            <div class="box">
+            {# <div class="box">
                 <div class="box-header with-border">
                     <h3 class="box-title">保密编号</h3>
                 </div>
@@ -39,7 +39,7 @@
 
                 </div>
                 <!-- /.box-body -->
-            </div>
+            </div> #}
 
             <!-- Your Page Content Here -->
             {{ util.makeForm("第一作者信息","./first_author/",jsonModel.first_author,firstAuthorData) }}

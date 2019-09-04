@@ -39,7 +39,7 @@
                                 <div>
                                     <input title="team" name="team_{{ team.id }}"
                                             {{ "checked" if team.judgers[0].judgement.valid }}
-                                           type="checkbox"/>队伍保密编号{{ team.secretId }}
+                                           type="checkbox"/>队伍{{ team.username }}
                                     {{ team.project.name }}
                                     {{ projectCategoryMap[team.project.project_category] if team.project.project_category else "未填" }}
                                 </div>

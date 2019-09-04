@@ -121,13 +121,14 @@ judger.get('*/rate/show_project/:id/',async (ctx, next) => {
 
 judger.post('*/rate/save/:id/', async (ctx, next) => {
     let rate = Number.parseInt(ctx.request.fields.rate);
+    let comment = String(ctx.request.fields.comment);
 
-    if (Number.isInteger(rate) === false || rate < 1 || rate > 10) {
-        ctx.body = {status: "error", data: "评分必须是整数并且在1到10之间"};
+    if (Number.isInteger(rate) === false || rate < 1 || rate > 100 || comment.length ===0) {
+        ctx.body = {status: "error", data: "评分必须是整数并且在1到100之间，点评必填"};
         return;
     }
     let teamInfo = await ctx.db.Team.findById(ctx.params.id);
-    teamInfo.addJudgers(ctx.session.id, {through: {rate: rate}});
+    teamInfo.addJudgers(ctx.session.id, {through: {rate: rate,comment:comment}});
     ctx.body = {status: "success"};
 });
 

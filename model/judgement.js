@@ -8,9 +8,12 @@ var Judgement = sequelize.define('judgement', {
     rate: {
         type: Sequelize.INTEGER,
     },
+    comment: {
+        type:Sequelize.STRING,  
+    },
     valid:{
         type: Sequelize.BOOLEAN,
         allowNull: false,
-    }
+    },
 });
 module.exports = Judgement;
