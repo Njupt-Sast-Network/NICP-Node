@@ -1,4 +1,4 @@
-FROM node:latest
+FROM node:carbon
 MAINTAINER Wxy
 
 
@@ -37,7 +37,7 @@ RUN useradd -ms /bin/bash nicp_node \
 
 VOLUME '/var/upload/'
 
-RUN npm install
+RUN npm install --registry=https://registry.npm.taobao.org --disturl=https://npm.taobao.org/dist
 
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
