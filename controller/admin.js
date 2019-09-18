@@ -471,7 +471,8 @@ admin.get('*/export/do_export/', async (ctx, next) => {
             teamsResult[targetId].judgements.push({
                 judgerInfo: judgerMapper.get(judgerId),
                 rate: parseInt(rate),
-                rate_comment: (rate!==null?`评分 ${rate} `:'')+(comment!==null?`评论 ${comment}`:''),
+                comment:comment
+                // rate_comment: (rate!==null?`评分 ${rate} `:'')+(comment!==null?`评论 ${comment}`:''),
             })
         }
     });
@@ -484,7 +485,12 @@ admin.get('*/export/do_export/', async (ctx, next) => {
     });
     
     // excel的第一行
-    const headers = ['作品编号', '作品名称', '作品类别', '学科类别', ...judgers.map(judger => judger.username), '总分'];
+    const headers = ['作品编号', '作品名称', '作品类别', '学科类别'];
+    judgers.forEach((item) => {
+        headers.push(item.username, '');
+    })
+    headers.push('总分');
+    
     headers.forEach((header, index) => result.push({  x: 0,y: index, value: header }));
     
     // 将teamsResult中的信息迁移到result中
@@ -497,9 +503,10 @@ admin.get('*/export/do_export/', async (ctx, next) => {
             { x, y: 3, value: team.subjectCategory },
             { x, y: headers.length - 1, value: team.sum }
         );
-        team.judgements.forEach(judgement => {
+        team.judgements.forEach((judgement,judgementIndex) => {
             result.push(
-                { x, y: judgement.judgerInfo.index + 4, value: judgement.rate_comment }
+                { x, y: judgementIndex*2 + 4, value: judgement.rate },
+                { x, y: judgementIndex*2 + 5, value: judgement.comment }
             )
         })
     })
