@@ -178,6 +178,11 @@
 
         ga('create', 'UA-86917372-1', 'auto');
         ga('send', 'pageview');
+        function selectAll(name,value){
+            document.querySelectorAll(name).forEach(function(item){
+                item.checked = value;
+            })
+        }
     </script>
 {% endmacro %}
 
