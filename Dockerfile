@@ -1,11 +1,15 @@
-FROM node:lts
+FROM node:lts-buster
 MAINTAINER Wxy
 
-
-
-# Install app dependencies
-RUN apt-get update && apt-get install -y python3-pip pdftk \
-    && mkdir -p /usr/src/app && npm install pm2 -g
+# Change the repo registiry of debian and node & Install app dependencies
+RUN mv /etc/apt/sources.list /etc/apt/sources.list.bak  \
+        && echo "deb https://mirrors.tuna.tsinghua.edu.cn/debian/ buster main non-free contrib " > /etc/apt/sources.list \
+        && echo "deb https://mirrors.tuna.tsinghua.edu.cn/debian/ buster-updates main non-free contrib" >> /etc/apt/sources.list \
+        && echo "deb https://mirrors.tuna.tsinghua.edu.cn/debian/ buster-backports main non-free contrib" >> /etc/apt/sources.list \
+        && echo "deb https://mirrors.tuna.tsinghua.edu.cn/debian-security/ buster/updates main non-free contrib" >> /etc/apt/sources.list \
+        && apt-get update && apt-get install -y python3-pip pdftk \
+        && npm install cnpm -g --registry=https://registry.npm.taobao.org \
+        && mkdir -p /usr/src/app && cnpm install pm2 -g
 
 # Create app directory
 WORKDIR /usr/src/app
@@ -13,15 +17,15 @@ WORKDIR /usr/src/app
 # grab gosu for easy step-down from root
 ENV GOSU_VERSION 1.10
 RUN set -x \
-	&& apt-get update && apt-get install -y --no-install-recommends ca-certificates wget && rm -rf /var/lib/apt/lists/* \
-	&& wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$(dpkg --print-architecture)" \
-	&& wget -O /usr/local/bin/gosu.asc "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$(dpkg --print-architecture).asc" \
-	&& export GNUPGHOME="$(mktemp -d)" \
-	&& gpg --keyserver ha.pool.sks-keyservers.net --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4 \
-	&& gpg --batch --verify /usr/local/bin/gosu.asc /usr/local/bin/gosu \
-	&& rm -rf "$GNUPGHOME" /usr/local/bin/gosu.asc \
-	&& chmod +x /usr/local/bin/gosu \
-	&& gosu nobody true
+        && apt-get update && apt-get install -y --no-install-recommends ca-certificates wget && rm -rf /var/lib/apt/lists/* \
+        && wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$(dpkg --print-architecture)" \
+        && wget -O /usr/local/bin/gosu.asc "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$(dpkg --print-architecture).asc" \
+        && export GNUPGHOME="$(mktemp -d)" \
+        && gpg --keyserver ha.pool.sks-keyservers.net --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4 \
+        && gpg --batch --verify /usr/local/bin/gosu.asc /usr/local/bin/gosu \
+        && rm -rf "$GNUPGHOME" /usr/local/bin/gosu.asc \
+        && chmod +x /usr/local/bin/gosu \
+        && gosu nobody true
 
 # Bundle app source
 COPY . /usr/src/app
@@ -36,8 +40,9 @@ RUN useradd -ms /bin/bash nicp_node \
     && chmod +x "/docker-entrypoint.sh"
 
 VOLUME '/var/upload/'
-RUN npm install -g cnpm --registry=https://registry.npm.taobao.org --disturl=https://npm.taobao.org/dist\
-		&& cnpm install --registry=https://registry.npm.taobao.org --disturl=https://npm.taobao.org/dist
+
+RUN cnpm install 
+
 
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
