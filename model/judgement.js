@@ -9,7 +9,7 @@ var Judgement = sequelize.define('judgement', {
         type: Sequelize.INTEGER,
     },
     comment: {
-        type:Sequelize.STRING,  
+        type:Sequelize.TEXT,
     },
     valid:{
         type: Sequelize.BOOLEAN,
