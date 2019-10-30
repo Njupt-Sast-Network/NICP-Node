@@ -249,7 +249,7 @@
         </ul>
       </div>
       <div class="foot-link">
-        <div class="link-item">
+        {# <div class="link-item">
           <div class="link-img">
             <img src="/asset/team_index/qq.jpg" alt="">
             <img src="/asset/team_index/wx-arrow.png" alt="">
@@ -258,7 +258,7 @@
             <i class="iconfont" style="color: #585e68;">&#xe601;</i>
           </div>
           <a href="">腾讯群</a>
-        </div>
+        </div> #}
         <div class="link-item">
           <div class="link-img">
             <img src="/asset/team_index/sina.png" alt="">
@@ -269,7 +269,7 @@
           </div>
           <a href="">新浪微博</a>
         </div>
-        <div class="link-item">
+        {# <div class="link-item">
           <div class="link-img">
             <img src="/asset/team_index/weixin.jpg" alt="">
             <img src="/asset/team_index/wx-arrow.png" alt="">
@@ -278,7 +278,7 @@
             <i class="iconfont" style="color: #6cc775;">&#xe600;</i>
           </div>
           <a href="">官方微信</a>
-        </div>
+        </div> #}
       </div>
     </div>
   </footer>
