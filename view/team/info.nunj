@@ -17,7 +17,6 @@
         <!-- Main content -->
         <section class="content">
             <!-- Your Page Content Here -->
-            
             {{ util.makeForm("第一作者信息","./first_author/",jsonModel.first_author,firstAuthorData) }}
             {{ util.makeForm("第二作者信息","./other_author/0/",jsonModel.other_author,otherAuthorData[0]) }}
             {{ util.makeForm("第三作者信息","./other_author/1/",jsonModel.other_author,otherAuthorData[1]) }}
@@ -28,7 +27,6 @@
             {{ util.makeForm("第八作者信息","./other_author/6/",jsonModel.other_author,otherAuthorData[6]) }}
             {{ util.makeForm("第一指导老师信息","./teacher/0/",jsonModel.teacher,teacherData[0]) }}
             {{ util.makeForm("第二指导老师信息","./teacher/1/",jsonModel.teacher,teacherData[1]) }}
-
         </section>
         <!-- /.content -->
     </div>

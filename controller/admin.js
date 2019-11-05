@@ -503,10 +503,10 @@ admin.get('*/export/do_export/', async (ctx, next) => {
             { x, y: 3, value: team.subjectCategory },
             { x, y: headers.length - 1, value: team.sum }
         );
-        team.judgements.forEach((judgement,judgementIndex) => {
+        team.judgements.forEach((judgement, judgementIndex) => {
             result.push(
-                { x, y: judgementIndex*2 + 4, value: judgement.rate },
-                { x, y: judgementIndex*2 + 5, value: judgement.comment }
+                { x, y: judgementIndex * 2 + 4, value: judgement.rate },
+                { x, y: judgementIndex * 2 + 5, value: judgement.comment }
             )
         })
     })

@@ -17,7 +17,7 @@
 ```
 sudo docker run --name nicp_2019 -e TZ="Asia/Shanghai" -e NICP_UPLOAD_PATH=/var/upload/  -v /var/nicp/upload2019:/var/upload --link nicp_pg:pg -p 3335:3000 -d wxy/nicp:2019
 ```
-if ddl have gone, function over 'team' should be disable:
+if ddl have gone, function over 'team' should be disabled:
 ```
 # start nicp without 'team' module to be functional
 sudo docker run --name nicp_2019 -e TZ="Asia/Shanghai" -e NICP_UPLOAD_PATH=/var/upload/ -e NICP_DISABLE_TEAM=1 -e NICP_DB_NAME=nicp -e NICP_DB_USER=nicp -e NICP_DB_PASSWORD=nicp -v /var/nicp/upload2019:/var/upload --link nicp_pg:pg -p 3335:3000 -d wxy/nicp:2019

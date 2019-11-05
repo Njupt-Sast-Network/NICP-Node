@@ -10,7 +10,7 @@ RUN apt-get update && apt-get install -y python3-pip pdftk \
 # Create app directory
 WORKDIR /usr/src/app
 
-# grab gosu for easy step-down from root
+# Grab gosu for easy step-down from root
 ENV GOSU_VERSION 1.10
 RUN set -x \
 	&& apt-get update && apt-get install -y --no-install-recommends ca-certificates wget && rm -rf /var/lib/apt/lists/* \

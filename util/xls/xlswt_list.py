@@ -33,7 +33,7 @@ style.borders = borders
 for i,data in enumerate(datas):
     if data['x']==0:
         rows += 1
-        judgerDict[data['y']]=data['value']
+        judgerDict[data['y']] = data['value']
 
 judger = (rows - 5) // 2
 
