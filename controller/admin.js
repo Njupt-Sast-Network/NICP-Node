@@ -445,18 +445,32 @@ admin.get('*/export/do_export/', async (ctx, next) => {
     const judgers = await ctx.db.Judger.findAll({
         order: [['id','ASC']],
     });
+    
+    //excel表头的一部分
     const header = ["作品编号", "作品名称", "作品类别","学科类别"];
+    
+    //生成excel的数据部分
     const result = teams.map(team => {
-        const judgement = judgements.filter(x => x.teamId === team.id);
         const judgementResult = [];
-        for (const item of judgement) {
-            judgementResult.push(item.rate, item.comment);
+        let total = 0;
+        for (const judger of judgers) {
+            const judgement = judgements.find(x => (x.teamId === team.id && x.judgerId === judger.id));
+            if (judgement !== undefined) {
+                total += judgement.rate;
+                judgementResult.push(judgement.rate, judgement.comment);
+            }
+            else {
+                judgementResult.push("", "");
+            }
         }
-        return [team.id, team.project.name, team.project.subject_category, team.project.project_category, ...judgementResult];
+        return [team.id, team.project.name, team.project.subject_category, team.project.project_category, ...judgementResult,total];
     })
+
+    // 生成excel的表头的评委部分
     for (const judger of judgers) {
         header.push(judger.username, "");
     }
+    header.push("总分");
     result.unshift(header);
     const data = xlsx.build([{ name: "sheet1", data: result }], {
         "!merges":judgers.map((item, index) => ({ 's': { 'c': 4 + index*2, 'r': 0 }, 'e': { 'c': 5 + index*2, 'r': 0 } }))
