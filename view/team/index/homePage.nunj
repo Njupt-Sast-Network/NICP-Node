@@ -217,7 +217,7 @@
         <img src="/asset/team_index/logo.jpg" alt="" style="width: 100%;">
       </div>
       <div class="form">
-        {# <form action="./" method="POST" class="login-form">
+        <form action="./" method="POST" class="login-form">
           <input class="input-box" type="text" name="username" placeholder="用户名">
           <input class="input-box" type="password" name="password" id="password" placeholder="密码">
           <small id="foget-pass-text">忘记密码请找管理员</small><br/>
@@ -228,11 +228,11 @@
             <button type="submit">
             登陆</button>
           </div>
-        </form> #}
-        <div class="welcome">
+        </form>
+        {# <div class="welcome">
           <div>比赛已结束</div>
           <p>请期待下一届创新杯</p>
-        </div>
+        </div> #}
       </div>
     </div>
     <div style="clear: both;"></div>
@@ -249,7 +249,7 @@
         </ul>
       </div>
       <div class="foot-link">
-        <div class="link-item">
+        {# <div class="link-item">
           <div class="link-img">
             <img src="/asset/team_index/qq.jpg" alt="">
             <img src="/asset/team_index/wx-arrow.png" alt="">
@@ -258,7 +258,7 @@
             <i class="iconfont" style="color: #585e68;">&#xe601;</i>
           </div>
           <a href="">腾讯群</a>
-        </div>
+        </div> #}
         <div class="link-item">
           <div class="link-img">
             <img src="/asset/team_index/sina.png" alt="">
@@ -269,7 +269,7 @@
           </div>
           <a href="">新浪微博</a>
         </div>
-        <div class="link-item">
+        {# <div class="link-item">
           <div class="link-img">
             <img src="/asset/team_index/weixin.jpg" alt="">
             <img src="/asset/team_index/wx-arrow.png" alt="">
@@ -278,7 +278,7 @@
             <i class="iconfont" style="color: #6cc775;">&#xe600;</i>
           </div>
           <a href="">官方微信</a>
-        </div>
+        </div> #}
       </div>
     </div>
   </footer>

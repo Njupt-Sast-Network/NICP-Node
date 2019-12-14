@@ -34,17 +34,35 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="team" class="col-sm-4 control-label">勾选由该老师评审的队伍</label>
-                            {% for team in teamList %}
+                            <label for="team" class="col-sm-4 control-label">一键勾选</label>
+                            <div class="col-sm-5">
                                 <div>
-                                    <input title="team" name="team_{{ team.id }}"
-                                            {{ "checked" if team.judgers[0].judgement.valid }}
-                                           type="checkbox"/>队伍{{ team.username }}
-                                    {{ team.project.name }}
-                                    {{ projectCategoryMap[team.project.project_category] if team.project.project_category else "未填" }}
+                                    <div class="btn btn-default btn-sm" style="margin:0.5rem;" onclick="selectAll('.自然科学类学术论文',true)">自然科学类学术论文</div>
+                                    <div class="btn btn-default btn-sm" style="margin:0.5rem;" onclick="selectAll('.哲学社会科学类社会调查报告和学术论文',true)">哲学社会科学类社会调查报告和学术论文</div>
+                                    <div class="btn btn-default btn-sm" style="margin:0.5rem;" onclick="selectAll('.科技发明制作A类',true)">科技发明制作A类</div>
+                                    <div class="btn btn-default btn-sm" style="margin:0.5rem;" onclick="selectAll('.科技发明制作B类',true)">科技发明制作B类</div>
+                                    <div class="btn btn-default btn-sm" style="margin:0.5rem;" onclick="selectAll('.option',false)">清空</div>
+                                </div>                        
+                            </div>                        
+                        </div>                        
+                        <div class="form-group">
+                            <label for="team" class="col-sm-4 control-label">手动勾选由该老师评审的队伍</label>
+                            <div class="col-sm-5">
+                                <div style="display:flex;flex-direction:column;align-items:flex-start">
+                                {% for team in teamList %}
+                                    <div>
+                                        <input title="team" name="team_{{ team.id }}"
+                                                class="option {{projectCategoryMap[team.project.project_category] if team.project.project_category}}"
+                                                {{ "checked" if team.judgers[0].judgement.valid }}
+                                            type="checkbox"/>队伍{{ team.username }}
+                                        {{ team.project.name }}
+                                        {{ projectCategoryMap[team.project.project_category] if team.project.project_category else "未填" }}
+                                    </div>
+                                {% endfor %}
                                 </div>
-                            {% endfor %}
+                            </div>
                         </div>
+                        
                         {#<div class="form-group">#}
                             {#<label for="team" class="col-sm-4 control-label">评审的队伍</label>#}
                             {#<div class="col-sm-5">#}

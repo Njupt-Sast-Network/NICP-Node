@@ -9,6 +9,7 @@ const fs = require('fs-promise');
 const path = require('path');
 const xls = require('../util/xls/xls');
 const moment = require('moment');
+const xlsx = require('node-xlsx').default;
 
 login.get('*/', async (ctx, next) => {
     await ctx.render('login', {
@@ -444,76 +445,41 @@ admin.get('*/export/do_export/', async (ctx, next) => {
     const judgers = await ctx.db.Judger.findAll({
         order: [['id','ASC']],
     });
-
-    // result用于存放最终的数据
-    const result = [];
-
-    // 评委id与姓名的Map
-    const judgerMapper = new Map(judgers.map((judger,index) => [judger.id, {name:judger.username,index}]));
     
-    // teamsResult存放各个team的信息
-    const teamsResult = teams.map(team => {
-        return {
-            id: team.id,
-            name: team.project.name,
-            projectCategory: team.project.project_category,
-            subjectCategory: team.project.subject_category,
-            judgements: [],
-            sum: undefined
-        }
-    });
-
-    // 将评判信息存放在teamsResult
-    judgements.forEach(judgement => {
-        const { rate, comment, teamId, judgerId } = judgement;
-        const targetId = teamsResult.findIndex(item => item.id === teamId);
-        if (targetId !== -1) {
-            teamsResult[targetId].judgements.push({
-                judgerInfo: judgerMapper.get(judgerId),
-                rate: parseInt(rate),
-                rate_comment: (rate!==null?`评分 ${rate} `:'')+(comment!==null?`评论 ${comment}`:''),
-            })
-        }
-    });
-
-    // 计算各个team的总分
-    teamsResult.forEach(team => {
-        if (team.judgements.length) {
-            team.sum = team.judgements.reduce((sum, current) => sum += current.rate, 0)
-        }
-    });
+    //excel表头的一部分
+    const header = ["作品编号", "作品名称", "作品类别","学科类别"];
     
-    // excel的第一行
-    const headers = ['作品编号', '作品名称', '作品类别', '学科类别', ...judgers.map(judger => judger.username), '总分'];
-    headers.forEach((header, index) => result.push({  x: 0,y: index, value: header }));
-    
-    // 将teamsResult中的信息迁移到result中
-    teamsResult.forEach((team, index) => {
-        const x = index + 1;
-        result.push(
-            { x,y: 0, value: team.id },
-            { x,y: 1, value: team.name },
-            { x, y: 2, value: team.projectCategory },
-            { x, y: 3, value: team.subjectCategory },
-            { x, y: headers.length - 1, value: team.sum }
-        );
-        team.judgements.forEach(judgement => {
-            result.push(
-                { x, y: judgement.judgerInfo.index + 4, value: judgement.rate_comment }
-            )
-        })
+    //生成excel的数据部分
+    const result = teams.map(team => {
+        const judgementResult = [];
+        let total = 0;
+        for (const judger of judgers) {
+            const judgement = judgements.find(x => (x.teamId === team.id && x.judgerId === judger.id));
+            if (judgement !== undefined) {
+                total += judgement.rate;
+                judgementResult.push(judgement.rate, judgement.comment);
+            }
+            else {
+                judgementResult.push("", "");
+            }
+        }
+        return [team.id, team.project.name, team.project.subject_category, team.project.project_category, ...judgementResult,total];
     })
 
-    // 对result中的value是否为null、undefined、NaN
-    result.forEach(resultItem => resultItem.value = resultItem.value === undefined || resultItem.value === null || Number.isNaN(resultItem.value) ? "" : String(resultItem.value));
-    
-    let fileName = "export_" + Date.now().toString() + ".xls";
+    // 生成excel的表头的评委部分
+    for (const judger of judgers) {
+        header.push(judger.username, "");
+    }
+    header.push("总分");
+    result.unshift(header);
+    const data = xlsx.build([{ name: "sheet1", data: result }], {
+        "!merges":judgers.map((item, index) => ({ 's': { 'c': 4 + index*2, 'r': 0 }, 'e': { 'c': 5 + index*2, 'r': 0 } }))
+    });
+    let fileName = "export_" + Date.now().toString() + ".xlsx";
     let filePath = path.join("export", fileName);
     let absoluteFilePath = path.resolve(ctx.cfg.uploadPath, filePath);
-
-    await xls.writeXLS(absoluteFilePath, result, true);
+    fs.writeFileSync(absoluteFilePath, data);
     let fileStat = await fs.stat(absoluteFilePath);
-
     let fileInfo = await ctx.db.File.create({
         fileName: fileName,
         savePath: filePath,

@@ -92,7 +92,7 @@ judger.get('*/rate/', async (ctx, next) => {
             required: true,
             where: {id: ctx.session.id},
             through: {
-                attributes: ['rate','valid'],
+                attributes: ['rate','valid','comment'],
                 where:{
                     valid:true,
                 }
