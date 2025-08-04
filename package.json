@@ -7,7 +7,7 @@
     "child-process-promise": "^2.2.1",
     "crypto-js": "^3.1.8",
     "fs-promise": "^2.0.3",
-    "koa": "^2.2.0",
+    "koa": "^3.0.1",
     "koa-better-body": "^3.0.4",
     "koa-bodyparser": "^4.2.0",
     "koa-convert": "^1.2.0",
